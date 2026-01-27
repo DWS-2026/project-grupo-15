@@ -3,7 +3,7 @@
 ## 👥 Miembros del Equipo
 | Nombre y Apellidos | Correo URJC | Usuario GitHub |
 |:--- |:--- |:--- |
-| [Manuel García Muñoz] | [m.garciamu.2024]@alumnos.urjc.es | [User1] |
+| Manuel García Muñoz | m.garciamu.2024@alumnos.urjc.es | manugrmz |
 | [Nombre 2] | [email2]@alumnos.urjc.es | [User2] |
 | [Nombre 3] | [email3]@alumnos.urjc.es | [User3] |
 | [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
