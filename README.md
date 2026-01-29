@@ -6,7 +6,7 @@
 | Manuel García Muñoz | m.garciamu.2024@alumnos.urjc.es | manugrmz |
 | Daniel Puga Blanco | d.puga.2024@alumnos.urjc.es | D_Puga |
 | Genshen Lin | g.lin.2024@alumnos.urjc.es | gln16 |
-| [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
+| Héctor Bonilla Labraca | h.bonilla.2024@alumnos.urjc.es | hectorbn |
 
 ---
 
