@@ -5,7 +5,7 @@
 |:--- |:--- |:--- |
 | Manuel García Muñoz | m.garciamu.2024@alumnos.urjc.es | manugrmz |
 | Daniel Puga Blanco | d.puga.2024@alumnos.urjc.es | D_Puga |
-| [Nombre 3] | [email3]@alumnos.urjc.es | [User3] |
+| Genshen Lin | g.lin.2024@alumnos.urjc.es | gln16 |
 | [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
 
 ---
