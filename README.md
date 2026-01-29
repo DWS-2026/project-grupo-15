@@ -13,43 +13,46 @@
 ## 🎭 **Preparación: Definición del Proyecto**
 
 ### **Descripción del Tema**
-[Escribe aquí una descripción breve y concisa de qué trata tu aplicación, el sector al que pertenece y qué valor aporta al usuario].
+La aplicación es un sistema web para la gestión de un gimnasio. Permite a los usuarios registrarse, consultar clases disponibles, reservar actividades y gestionar su perfil personal.
+El sector al que pertenece es el fitness y bienestar, y aporta valor al usuario facilitando la organización de sus entrenamientos, la reserva de clases y el acceso a información relevante del gimnasio.
+Para los administradores, la aplicación ofrece herramientas para gestionar usuarios, clases y actividades de forma centralizada.
 
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
 
-1. **[Entidad 1]**: [Ej: Usuario]
-2. **[Entidad 2]**: [Ej: Producto]
-3. **[Entidad 3]**: [Ej: Pedido]
-4. **[Entidad 4]**: [Ej: Categoría]
+1. **[Entidad 1]**: Usuario
+2. **[Entidad 2]**: Clase
+3. **[Entidad 3]**: Actividad/Servicio
+4. **[Entidad 4]**: Reserva
 
 **Relaciones entre entidades:**
-- [Ej: Usuario - Pedido: Un usuario puede tener múltiples pedidos (1:N)]
-- [Ej: Pedido - Producto: Un pedido puede contener múltiples productos y un producto puede estar en múltiples pedidos (N:M)]
-- [Ej: Producto - Categoría: Un producto pertenece a una categoría (N:1)]
-- [Descripción de otras relaciones relevantes]
+- Usuario-Reserva: un usuario puede tener múltiples reservas. RELACIÓN 1:N.
+- Clase-Reserva: una clase puede tener múltiples reservas, pero cada reserva tiene una única clase. RELACIÓN 1:N.
+- Actividad-Reserva: una actividad puede tener múltiples reservas. RELACIÓN 1:N.
+- Usuario-Clase: un usuario puede apuntarse a muchas clases y una clase puede tener muchos usuarios. RELACIÓN N:M.
+- Usuario-Actividad: RELACION N:M.
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
 * **Usuario Anónimo**: 
-  - Permisos: [Ej: Visualización de catálogo, búsqueda de productos, registro]
+  - Permisos: Ver la página principal, consultar listado de clases, consultar el listado de actividades, acceder el formulario de registro, acceder al login.
   - No es dueño de ninguna entidad
 
 * **Usuario Registrado**: 
-  - Permisos: [Ej: Gestión de perfil, realizar pedidos, crear valoraciones]
-  - Es dueño de: [Ej: Sus propios Pedidos, su Perfil de Usuario, sus Valoraciones]
+  - Permisos: Iniciar y cerrar sesión, editar su perfil, ver el detalle de clases y actividades, reservar clases y actividades, cancelar sus propias actividades.
+  - Es dueño de: su perfil y reservas.
 
 * **Administrador**: 
-  - Permisos: [Ej: Gestión completa de productos (CRUD), visualización de estadísticas, moderación de contenido]
-  - Es dueño de: [Ej: Productos, Categorías, puede gestionar todos los Pedidos y Usuarios]
+  - Permisos: Gestionar todos los usuarios, crear, editar y eliminar clases y actividades, ver todas las reservas, y modificar datos generales del gimnasio.
+  - Es dueño de: todas las clases, reservas, actividades, y usuarios(a nivel gestión).
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
 
-- **[Entidad con imágenes 1]**: [Ej: Usuario - Una imagen de avatar por usuario]
-- **[Entidad con imágenes 2]**: [Ej: Producto - Múltiples imágenes por producto (galería)]
-- **[Entidad con imágenes 3]**: [Ej: Categoría - Una imagen representativa por categoría]
+- **[Entidad con imágenes 1]**: Usuario--> Una imagen de perfil(avatar).
+- **[Entidad con imágenes 2]**: Clase--> Una imagen representativa de la clase(por ejemplo de yoga, zumba..).
+- **[Entidad con imágenes 3]**: Actividad/Servicio--> Imagen ilustrativa del servicio(nutrición, fisitoterapia...).
 
 ---
 
