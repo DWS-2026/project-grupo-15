@@ -23,7 +23,7 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 1. **[Entidad 1]**: Usuario
 2. **[Entidad 2]**: Clase
 3. **[Entidad 3]**: Actividad/Servicio
-4. **[Entidad 4]**: Reserva
+4. **[Entidad 4]**: Review
 
 **Relaciones entre entidades:**
 - Usuario-Reserva: un usuario puede tener múltiples reservas. RELACIÓN 1:N.
@@ -41,11 +41,11 @@ Describir los permisos de cada tipo de usuario e indicar de qué entidades es du
 
 * **Usuario Registrado**: 
   - Permisos: Iniciar y cerrar sesión, editar su perfil, ver el detalle de clases y actividades, reservar clases y actividades, cancelar sus propias actividades.
-  - Es dueño de: su perfil y reservas.
+  - Es dueño de: su perfil y sus reviews.
 
 * **Administrador**: 
   - Permisos: Gestionar todos los usuarios, crear, editar y eliminar clases y actividades, ver todas las reservas, y modificar datos generales del gimnasio.
-  - Es dueño de: todas las clases, reservas, actividades, y usuarios(a nivel gestión).
+  - Es dueño de: todas las clases, reviews, actividades, y usuarios(a nivel gestión).
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
