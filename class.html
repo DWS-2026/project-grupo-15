@@ -45,7 +45,8 @@
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
+        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5"
+            style="min-height: 400px">
             <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">Nuestras Clases</h4>
             <div class="d-inline-flex">
                 <p class="m-0 text-white"><a class="text-white" href="">Inicio</a></p>
@@ -56,36 +57,41 @@
     </div>
     <!-- Page Header End -->
 
-    <!-- Class Timetable Start -->
+    <!-- Horario de Clases Start -->
     <div class="container gym-feature py-5">
         <div class="d-flex flex-column text-center mb-5">
-            <h4 class="text-primary display-4 font-weight-bold">Horario de las Clases</h4>
+            <h4 class="text-primary font-weight-bold">Horario de Clases</h4>
+            <h4 class="display-4 font-weight-bold">Horarios y Actividades</h4>
         </div>
+
         <div class="tab-class">
             <ul class="nav nav-pills justify-content-center mb-4">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="pill" href="#class-all">Horario Completo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-spinning">Spinning</a>
+                    <a class="nav-link active" data-toggle="pill" href="#class-all">Todas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="pill" href="#class-crossfit">Crossfit</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-bodypump">BodyPump</a>
+                    <a class="nav-link" data-toggle="pill" href="#class-bodypump">Body Pump</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#class-spinning">Spinning</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="pill" href="#class-zumba">Zumba</a>
                 </li>
             </ul>
+
             <div class="tab-content">
+
+                <!-- TODAS -->
                 <div id="class-all" class="container tab-pane p-0 active">
                     <div class="table-responsive">
                         <table class="table table-bordered table-lg m-0">
                             <thead class="bg-secondary text-white text-center">
                                 <tr>
-                                    <th>Hora</th>
+                                    <th>Horario</th>
                                     <th>Lunes</th>
                                     <th>Martes</th>
                                     <th>Miércoles</th>
@@ -97,115 +103,85 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
+                                    <td>
+                                        <h5>Spinning</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
+                                    <td>
+                                        <h5>Crossfit</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
-                                    <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <td>
+                                        <h5>Body Pump</h5>Instructor
+                                    </td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
+                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
                                     <td></td>
+                                    <td>
+                                        <h5>Body Pump</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
+                                    <td>
+                                        <h5>Spinning</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="class-spinning" class="container tab-pane fade p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Hora</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Spinning</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5> </td>
-                                    <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Spinning</h5></td>
+                                    <td>
+                                        <h5>Crossfit</h5>Instructor
+                                    </td>
+                                    <td>
+                                        <h5>Zumba</h5>Instructor
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
+                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
+                                    <td>
+                                        <h5>Crossfit</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td  class="align-middle"><h5>BodyPump</h5></td>
+                                    <td>
+                                        <h5>Body Pump</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
+                                    <td>
+                                        <h5>Zumba</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td  class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td> 
+                                    <td>
+                                        <h5>Crossfit</h5>Instructor
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
+                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
                                     <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
+                                    <td>
+                                        <h5>Spinning</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Spinning</h5></td>
+                                    <td>
+                                        <h5>Zumba</h5>Instructor
+                                    </td>
                                     <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                    <td class="align-middle"><h5>CrossFit</h5></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
+                                    <td>
+                                        <h5>Body Pump</h5>Instructor
+                                    </td>
                                     <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- CROSSFIT -->
                 <div id="class-crossfit" class="container tab-pane fade p-0">
                     <div class="table-responsive">
                         <table class="table table-bordered table-lg m-0">
                             <thead class="bg-secondary text-white text-center">
                                 <tr>
-                                    <th>Hora</th>
+                                    <th>Horario</th>
                                     <th>Lunes</th>
                                     <th>Martes</th>
                                     <th>Miércoles</th>
@@ -217,55 +193,55 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Crossfit</h5></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5> </td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Crossfit</h5>
+                                    </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
                                     <td></td>
-                                    <td  class="align-middle"><h5>BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td  class="bg-primary align-middle"><h5 class="text-white">Crossfit</h5></td>
-                                    <td></td> 
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">CrossFit</h5></td>
+                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
                                     <td></td>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Crossfit</h5></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                    <td ></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Crossfit</h5>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Crossfit</h5>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Crossfit</h5>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- BODY PUMP -->
                 <div id="class-bodypump" class="container tab-pane fade p-0">
                     <div class="table-responsive">
                         <table class="table table-bordered table-lg m-0">
                             <thead class="bg-secondary text-white text-center">
                                 <tr>
-                                    <th>Hora</th>
+                                    <th>Horario</th>
                                     <th>Lunes</th>
                                     <th>Martes</th>
                                     <th>Miércoles</th>
@@ -277,55 +253,126 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5> </td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td  class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td> 
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                    <td class="align-middle"><h5>Zumba</h5></td>
-                                    <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Body Pump</h5>
+                                    </td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                    <td class="align-middle"><h5>CrossFit</h5></td>
+                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Body Pump</h5>
+                                    </td>
                                     <td></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
                                     <td></td>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">BodyPump</h5></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Body Pump</h5>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Body Pump</h5>
+                                    </td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- SPINNING -->
+                <div id="class-spinning" class="container tab-pane fade p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-lg m-0">
+                            <thead class="bg-secondary text-white text-center">
+                                <tr>
+                                    <th>Horario</th>
+                                    <th>Lunes</th>
+                                    <th>Martes</th>
+                                    <th>Miércoles</th>
+                                    <th>Jueves</th>
+                                    <th>Viernes</th>
+                                    <th>Sábado</th>
+                                    <th>Domingo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Spinning</h5>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Spinning</h5>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Spinning</h5>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ZUMBA -->
                 <div id="class-zumba" class="container tab-pane fade p-0">
                     <div class="table-responsive">
                         <table class="table table-bordered table-lg m-0">
                             <thead class="bg-secondary text-white text-center">
                                 <tr>
-                                    <th>Hora</th>
+                                    <th>Horario</th>
                                     <th>Lunes</th>
                                     <th>Martes</th>
                                     <th>Miércoles</th>
@@ -337,54 +384,51 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">6.00am - 8.00am</th>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Zumba</h5></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Zumba</h5>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">10.00am - 12.00am</th>
+                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
                                     <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
                                     <td></td>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Zumba</h5></td>
                                     <td></td>
-                                    <td  class="align-middle"><h5>Crossfit</h5></td>
-                                    <td></td> 
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">5.00pm - 7.00pm</th>
-                                    <td class="bg-primary align-middle"><h5 class="text-white">Zumba</h5></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
-                                    <td></td>
-                                    <td class="align-middle"><h5>Spinning</h5></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Zumba</h5>
+                                    </td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <th class="bg-secondary text-white align-middle">7.00pm - 9.00pm</th>
-                                    <td class="align-middle"><h5>CrossFit</h5></td>
+                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
                                     <td></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>Crossfit</h5></td>
+                                    <td></td>
+                                    <td class="bg-primary text-white">
+                                        <h5 class="text-white">Zumba</h5>
+                                    </td>
                                     <td></td>
                                     <td></td>
-                                    <td class="align-middle"><h5>BodyPump</h5></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- Class Timetable End -->
-    
+    <!-- Horario de Clases End -->
+
 
     <!-- Footer Start -->
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
