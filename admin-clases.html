@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Clases | Panel Admin TITANGYM</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <link href="img/favicon.ico" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-white">
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
+            <div class="text-center mb-5">
+                <h2 class="text-primary font-weight-bold">TITANGYM</h2>
+                <p class="text-white-50">Panel de Administración</p>
+            </div>
+
+            <ul class="nav flex-column px-3">
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-dashboard.html">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Panel Principal
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-usuarios.html">
+                        <i class="fas fa-users mr-2"></i> Usuarios
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white active" href="admin-clases.html">
+                        <i class="fas fa-dumbbell mr-2"></i> Clases
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white active" href="admin-servicios.html">
+                        <i class="fas fa-plus-circle mr-2"></i> Servicios Extra
+                    </a>
+                </li>
+
+                <li class="nav-item mt-5">
+                    <a class="nav-link text-danger" href="login.html">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="display-4 font-weight-bold">Clases</h1>
+                <a href="admin-clase-crear.html" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i> Añadir clase
+                </a>
+            </div>
+
+            <div class="card bg-secondary p-4">
+                <h4 class="mb-4 text-primary">Clases disponibles</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <!-- CROSSFIT -->
+                            <tr>
+                                <td><img src="img/crossfit.jpg" width="80" class="rounded"></td>
+                                <td>CrossFit</td>
+                                <td>Entrenamiento funcional de alta intensidad.</td>
+                                <td>
+                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar CrossFit?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <!-- BODY PUMP -->
+                            <tr>
+                                <td><img src="img/bodypump.jpg" width="80" class="rounded"></td>
+                                <td>Body Pump</td>
+                                <td>Sesión con barras y pesas para tonificar todo el cuerpo.</td>
+                                <td>
+                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Body Pump?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <!-- SPINNING -->
+                            <tr>
+                                <td><img src="img/spinning.jpg" width="80" class="rounded"></td>
+                                <td>Spinning</td>
+                                <td>Entrenamiento cardiovascular intenso en bicicleta estática.</td>
+                                <td>
+                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Spinning?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <!-- ZUMBA -->
+                            <tr>
+                                <td><img src="img/zumba.jpg" width="80" class="rounded"></td>
+                                <td>Zumba</td>
+                                <td>Clase divertida de baile y cardio al ritmo de música latina.</td>
+                                <td>
+                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Zumba?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
