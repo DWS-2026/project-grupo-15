@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>Editar Clase | Panel Admin TITANGYM</title>
+    <title>Añadir Servicio | Panel Admin TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <link href="img/favicon.ico" rel="icon">
@@ -30,19 +30,7 @@
                 </li>
 
                 <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="admin-usuarios.html">
-                        <i class="fas fa-users mr-2"></i> Usuarios
-                    </a>
-                </li>
-
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="admin-clases.html">
-                        <i class="fas fa-dumbbell mr-2"></i> Clases
-                    </a>
-                </li>
-               
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="admin-servicios.html">
+                    <a class="nav-link text-white" href="admin-servicios.html">
                         <i class="fas fa-plus-circle mr-2"></i> Servicios Extra
                     </a>
                 </li>
@@ -65,39 +53,38 @@
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
             <div class="d-flex justify-content-between align-items-center mb-5">
-                <h1 class="display-4 font-weight-bold">Editar Clase</h1>
-                <a href="admin-clases.html" class="btn btn-light">
+                <h1 class="display-4 font-weight-bold">Añadir Servicio</h1>
+                <a href="admin-servicios.html" class="btn btn-light">
                     <i class="fas fa-arrow-left mr-2"></i> Volver
                 </a>
             </div>
 
             <div class="card bg-secondary text-white p-5">
 
-                <h3 class="mb-4 text-primary">Modificar datos</h3>
+                <h3 class="mb-4 text-primary">Datos del servicio</h3>
 
                 <form>
 
                     <div class="form-group mb-3">
                         <label class="font-weight-bold">Título</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" value="CrossFit">
+                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="Ej: Fisioterapia">
                     </div>
 
                     <div class="form-group mb-3">
                         <label class="font-weight-bold">Descripción</label>
-                        <textarea class="form-control bg-dark text-white border-0" rows="4">Entrenamiento funcional de alta intensidad.</textarea>
+                        <textarea class="form-control bg-dark text-white border-0" rows="4" placeholder="Descripción del servicio"></textarea>
                     </div>
 
                     <div class="form-group mb-4">
-                        <label class="font-weight-bold">Imagen actual</label><br>
-                        <img src="img/crossfit.jpg" width="150" class="rounded mb-3">
+                        <label class="font-weight-bold">Imagen</label>
                         <input type="file" class="form-control bg-dark text-white border-0">
                     </div>
 
                     <button type="submit" class="btn btn-primary mr-3">
-                        <i class="fas fa-save mr-2"></i> Guardar cambios
+                        <i class="fas fa-save mr-2"></i> Guardar servicio
                     </button>
 
-                    <a href="admin-clases.html" class="btn btn-light">
+                    <a href="admin-servicios.html" class="btn btn-light">
                         <i class="fas fa-times mr-2"></i> Cancelar
                     </a>
 
