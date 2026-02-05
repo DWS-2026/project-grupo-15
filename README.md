@@ -65,7 +65,7 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 ### **Diagrama de Navegación**
 Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicación:
 
-![Diagrama de Navegación](images/navigation-diagram.png)
+![Diagrama de Navegación](images/diagrama.png)
 
 > [Descripción opcional del flujo de navegación: Ej: "El usuario puede acceder desde la página principal a todas las secciones mediante el menú de navegación. Los usuarios anónimos solo tienen acceso a las páginas públicas, mientras que los registrados pueden acceder a su perfil y panel de usuario."]
 
@@ -194,10 +194,10 @@ Realización de la página del usuario en cuestión, mejora de la página de reg
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1| [Página del perfil del usuario](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Listado de clases que se puede apuntar el usuario](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Listado de servicios que se puede suscribir el usuario](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Actualización página de registro con funciones extra y visuales](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Mejora general en la web, corrigiendo errores, traduciendo ...](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Listado de clases que se puede apuntar el usuario](https://github.com/DWS-2026/dws-2026-project-base/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [clases-listado.html](URL_archivo_2)   |
+|2| [Listado de servicios que se puede suscribir el usuario](https://github.com/DWS-2026/dws-2026-project-base/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [servicios-listado.html](URL_archivo_3)   |
+|3| [Actualización página de registro con funciones extra y visuales](https://github.com/DWS-2026/dws-2026-project-base/commit/c9f8aa50daf24916abfc156e1667c6f2d09ecdbd#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [registro.html](URL_archivo_4)   |
+|4| [Mejora general en la web, corrigiendo errores, traduciendo ...](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
