@@ -80,7 +80,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - []**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -108,17 +108,17 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - [Genshen Lin]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Realización de la página del usuario en cuestión, mejora de la página de registro y labores corrección de errores.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Página del perfil del usuario](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|2| [Listado de clases que se puede apuntar el usuario](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
+|3| [Listado de servicios que se puede suscribir el usuario](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
+|4| [Actualización página de registro con funciones extra y visuales](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|5| [Mejora general en la web, corrigiendo errores, traduciendo ...](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
