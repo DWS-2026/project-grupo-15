@@ -201,17 +201,17 @@ Realización de la página del usuario en cuestión, mejora de la página de reg
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - [Héctor Bonilla]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Encargado de la realización del apartado de reviews del usuario y reviews en general y del apartado de que ofrecemos en el feature y traduxxión.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [ACTUALIZAR PÁGINA QUÉ OFRECEMOS (SERVICIOS Y PRECIOS)](URL_commit_1)  | [feature.html](URL_archivo_1)   |
+|2| [TRADUCIR HEADER Y TEXTOS DE FEATURE A ESPAÑOL](URL_commit_2)  | [feature.html](URL_archivo_2)   |
+|3| [TRADUCIR FOOTER A ESPAÑOL Y ARREGLAR ENLACES](URL_commit_3)  | [feature.html](URL_archivo_3)   |
+|4| [AÑADIR SECCIÓN REVIEWS EN MENÚ DE PERFIL](URL_commit_4)  | [reviews.html](URL_archivo_4)   |
+|5| [CREAR PÁGINA REVIEWS (LISTADO + FORMULARIO)](URL_commit_5)  | [reviews.html](URL_archivo_5)   |
 
 ---
 
