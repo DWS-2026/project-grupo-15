@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>Clases | Panel Admin TITANGYM</title>
+    <title>Reviews | Panel Admin TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <link href="img/favicon.ico" rel="icon">
@@ -71,83 +71,66 @@
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
             <div class="d-flex justify-content-between align-items-center mb-5">
-                <h1 class="display-4 font-weight-bold">Clases</h1>
-                <a href="admin-clase-crear.html" class="btn btn-primary">
-                    <i class="fas fa-plus mr-2"></i> Añadir clase
-                </a>
+                <h1 class="display-4 font-weight-bold">Reviews de Usuarios</h1>
             </div>
 
             <div class="card bg-secondary p-4">
-                <h4 class="mb-4 text-primary">Clases disponibles</h4>
+                <h4 class="mb-4 text-primary">Listado de reviews</h4>
 
                 <div class="table-responsive">
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
-                                <th>Imagen</th>
-                                <th>Título</th>
-                                <th>Descripción</th>
+                                <th>Usuario</th>
+                                <th>Puntuación</th>
+                                <th>Comentario</th>
+                                <th>Fecha</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
 
                         <tbody>
 
-                            <!-- CROSSFIT -->
+                            <!-- REVIEW 1 -->
                             <tr>
-                                <td><img src="img/crossfit.jpg" width="80" class="rounded"></td>
-                                <td>CrossFit</td>
-                                <td>Entrenamiento funcional de alta intensidad.</td>
+                                <td>Manuel García</td>
                                 <td>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar CrossFit?')">
+                                    <span class="text-warning">★★★★☆</span>
+                                </td>
+                                <td>Clases intensas y entrenadores muy profesionales.</td>
+                                <td>12/01/2026</td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
 
-                            <!-- BODY PUMP -->
+                            <!-- REVIEW 2 -->
                             <tr>
-                                <td><img src="img/bodypump.jpg" width="80" class="rounded"></td>
-                                <td>Body Pump</td>
-                                <td>Sesión con barras y pesas para tonificar todo el cuerpo.</td>
+                                <td>Laura Pérez</td>
                                 <td>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Body Pump?')">
+                                    <span class="text-warning">★★★★★</span>
+                                </td>
+                                <td>El ambiente es increíble y las instalaciones están muy limpias.</td>
+                                <td>08/01/2026</td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
 
-                            <!-- SPINNING -->
+                            <!-- REVIEW 3 -->
                             <tr>
-                                <td><img src="img/spinning.jpg" width="80" class="rounded"></td>
-                                <td>Spinning</td>
-                                <td>Entrenamiento cardiovascular intenso en bicicleta estática.</td>
+                                <td>Carlos Ruiz</td>
                                 <td>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Spinning?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    <span class="text-warning">★★★☆☆</span>
                                 </td>
-                            </tr>
-
-                            <!-- ZUMBA -->
-                            <tr>
-                                <td><img src="img/zumba.jpg" width="80" class="rounded"></td>
-                                <td>Zumba</td>
-                                <td>Clase divertida de baile y cardio al ritmo de música latina.</td>
+                                <td>Buen gimnasio, pero las clases de spinning suelen estar llenas.</td>
+                                <td>02/01/2026</td>
                                 <td>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Zumba?')">
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
