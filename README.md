@@ -72,7 +72,9 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Home**
-![Página Principal](images/home-page.png)
+![Página Principal](images/inicio.png)
+
+> [Descripción breve: Ej: "Página de inicio que muestra opción a registrarse o en su defecto a iniciar sesión, podemos ver las múltiples opciones de arriba a al derecha siendo la más destacada la de MI PERFIL en la que si se estuviera iniciado sesión podría ver sus datos personales"]
 
 > [Descripción breve: Ej: "Página de inicio que muestra los productos destacados, categorías principales y un banner promocional. Incluye barra de navegación y acceso a registro/login para usuarios no autenticados."]
 
@@ -87,8 +89,8 @@ Principalmente la realización del panel admin y todas sus funcionalidades, adem
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1| [PANEL ADMIN](https://github.com/DWS-2026/project-grupo-15/commit/df2ecee25a182267b187729edb4dd67e7b3d2cc2)  | [admin.html](https://github.com/DWS-2026/project-grupo-15/blob/main/admin.html)   |
-|2| [LOGIN Y MAS](https://github.com/DWS-2026/project-grupo-15/commit/52ca49ab0c837b58dc52f49f3a9d10c749454fe2)  | [login.html]([URL_archivo_2](https://github.com/DWS-2026/project-grupo-15/blob/main/login.html))   |
-|3| [ADMIN LISTA USUARIOS]([URL_commit_3](https://github.com/DWS-2026/project-grupo-15/commit/1c731c0b4a21cf28c1f12b6ad675684c77cde54d)  | [admin-usuarios.html]([URL_archivo_3](https://github.com/DWS-2026/project-grupo-15/blob/main/admin-usuarios.html))   |
+|2| [LOGIN Y MAS](https://github.com/DWS-2026/project-grupo-15/commit/52ca49ab0c837b58dc52f49f3a9d10c749454fe2)  | [login.html](https://github.com/DWS-2026/project-grupo-15/blob/main/login.html)   |
+|3| [ADMIN LISTA USUARIOS](https://github.com/DWS-2026/project-grupo-15/commit/1c731c0b4a21cf28c1f12b6ad675684c77cde54d)  | [admin-usuarios.html](https://github.com/DWS-2026/project-grupo-15/blob/main/admin-usuarios.html)   |
 |4| [SELECCION PLANTILLA](https://github.com/DWS-2026/project-grupo-15/commit/107028bcec4f13066262b1b0b6fd37b004fbf1aa)  | [index.html](https://github.com/DWS-2026/project-grupo-15/blob/main/index.html)   |
 |5| [CREACION PERFIL USUARIO Y DEMAS](https://github.com/DWS-2026/project-grupo-15/commit/54ab67c3ca03cb19b94bdf204750107fe5ff0830#diff-3985f9cbed74f52f435a1951d84ebda87755c78fd23f513c6211f6b8f6fc9698)  | [perfil.html](https://github.com/DWS-2026/project-grupo-15/blob/main/perfil.html)   |
 
