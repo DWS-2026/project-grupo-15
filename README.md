@@ -80,9 +80,9 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Manuel García Muñoz**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Principalmente la realización del panel admin y todas sus funcionalidades.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
