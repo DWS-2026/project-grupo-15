@@ -147,6 +147,16 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > ["En esta pantalla podemos encontrar los contactos y ubicación en el mapa para ubicar el gimnasio"]
 
+#### **16.Registro/ Registro**
+![Resgistro](images/login.png)
+
+> ["Podemos ver la pantalla de registro con todas sus funcionalidades"]
+
+#### **17.Inicar Sesión/ Iniciar Sesión**
+![Sesión](images/iniciosesion.png)
+
+> ["Inicio de sesión con su usuario y contraseña"]
+
 
 ### **Participación de Miembros en la Práctica 1**
 
