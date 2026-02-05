@@ -86,7 +86,7 @@ Principalmente la realización del panel admin y todas sus funcionalidades, adem
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| PANEL ADMIN(https://github.com/DWS-2026/project-grupo-15/commit/df2ecee25a182267b187729edb4dd67e7b3d2cc2)  | [Archivo1](URL_archivo_1)   |
+|1| [PANEL ADMIN](https://github.com/DWS-2026/project-grupo-15/commit/df2ecee25a182267b187729edb4dd67e7b3d2cc2)  | [Archivo1](URL_archivo_1)   |
 |2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
@@ -107,17 +107,17 @@ Encargado de la creación del login y del registro, además de la modificación 
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - [Genshen Lin]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Realización de la página del usuario en cuestión, mejora de la página de registro y labores corrección de errores.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Página del perfil del usuario](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|2| [Listado de clases que se puede apuntar el usuario](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
+|3| [Listado de servicios que se puede suscribir el usuario](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
+|4| [Actualización página de registro con funciones extra y visuales](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|5| [Mejora general en la web, corrigiendo errores, traduciendo ...](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
