@@ -71,14 +71,82 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Capturas de Pantalla y Descripción de Páginas**
 
-#### **1. Página Principal / Home**
+#### **1. Página Principal / Inicio**
 ![Página Principal](images/inicio.png)
 
-> [Descripción breve: Ej: "Página de inicio que muestra opción a registrarse o en su defecto a iniciar sesión, podemos ver las múltiples opciones de arriba a al derecha siendo la más destacada la de MI PERFIL en la que si se estuviera iniciado sesión podría ver sus datos personales"]
+> ["Página de inicio que muestra opción a registrarse o en su defecto a iniciar sesión, podemos ver las múltiples opciones de arriba a al derecha siendo la más destacada la de MI PERFIL en la que si se estuviera iniciado sesión podría ver sus datos personales"]
 
-> [Descripción breve: Ej: "Página de inicio que muestra los productos destacados, categorías principales y un banner promocional. Incluye barra de navegación y acceso a registro/login para usuarios no autenticados."]
+#### **2.Las clases / Inicio**
+![Nuestras clases](images/imagen2.png)
 
-#### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
+> ["Bajando en el index, encontramos la lista de clases activas que pueden visionar cualquier usuario."]
+
+#### **3.Los servicios / Inicio**
+![Nuestros servicios](images/imagen3.png)
+
+> ["Bajando aún más encontramos los servicios disponibles"]
+
+#### **4.Los servicios(precios) / Precio**
+![Precios servicios](images/imagen4.png)
+
+> ["En QUE OFRECEMOS(feature.html) encontramos los precios disponibles de nuestros servicios activos(actividades no ya que no requieren de otra sucripción)"]
+
+
+#### **5.Perfil inicio/ Perfil**
+![Inicio Perfil](images/perfil.png)
+
+> ["Aquí encontramos en el botón de mi perfil(ya iniciado sesión) los datos de su cuenta pudiendolos editar, además de ver sus clases y servicios en propiedad además de sus reviews"]
+
+#### **6.Perfil Servicios/ Perfil**
+![Servicios suscritos](images/perfil3.png)
+
+> ["Podemos desde aquí suscribirnos a servicios o una vez ya sucritos eliminarlosde suscripción "]
+
+#### **7.Perfil Clases/ Perfil**
+![Clases apuntados](images/perfil3.png)
+
+> ["De igual manera que con los servicios hacemos con las clases "]
+
+#### **8.Perfil Reviews/ Perfil**
+![Reviews del usuario](images/perfil4.png)
+
+> ["Desde aquí podemos ver nuestras reviews hechas y añadir más(solo pueden añadir susuarios registrados) "]
+
+#### **9.Admin Inicio/ Admin**
+![Inicio](images/admin1.png)
+
+> ["Es el inicio de la página del Admin, en su lateral con todas las opciones posibles "]
+
+#### **10.Admin Miembros/ Admin**
+![Miembros](images/admin2.png)
+
+> ["Aquí el admin puede eliminar, editar y ver el perfil de los miembros registrados del gimnasio "]
+
+#### **11.Admin Clases/ Admin**
+![Clases](images/admin3.png)
+
+> ["Aquí puede gestionar las clases disponibles además de añadir más "]
+
+#### **12.Admin Servicios/ Admin**
+![Servicios](images/admin4.png)
+
+> [Descripción breve: Ej: "Aquí puede gestionar los servicios disponibles además de añadir más "]
+
+#### **13.Admin Panel/ Admin**
+![Panel](images/admin5.png)
+
+> ["Aquí puede editar temas más centrados con su perfil y datos del gimnasio como horario, número etc.. "]
+
+#### **14.Admin Panel/ Admin**
+![Reviews](images/admin6.png)
+
+> ["Muestra en esta pantalla las reviews de la gente, pudiendo eliminar en caso de que no sea correcta "]
+
+#### **15.Contacto/ Contacto**
+![Contactos](images/contacto.png)
+
+> ["En esta pantalla podemos encontrar los contactos y ubicación en el mapa para ubicar el gimnasio"]
+
 
 ### **Participación de Miembros en la Práctica 1**
 
