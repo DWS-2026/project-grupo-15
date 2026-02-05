@@ -26,9 +26,9 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 4. **[Entidad 4]**: Review
 
 **Relaciones entre entidades:**
-- Usuario-Reserva: un usuario puede tener múltiples reservas. RELACIÓN 1:N.
-- Clase-Reserva: una clase puede tener múltiples reservas, pero cada reserva tiene una única clase. RELACIÓN 1:N.
-- Actividad-Reserva: una actividad puede tener múltiples reservas. RELACIÓN 1:N.
+- Usuario-Review: un usuario puede tener múltiples reviews. RELACIÓN 1:N.
+- Clase-Review: una clase puede tener múltiples reviews, pero cada review tiene una única clase. RELACIÓN 1:N.
+- Actividad-Review: una actividad puede tener múltiples reviews. RELACIÓN 1:N
 - Usuario-Clase: un usuario puede apuntarse a muchas clases y una clase puede tener muchos usuarios. RELACIÓN N:M.
 - Usuario-Actividad: RELACION N:M.
 
@@ -59,7 +59,7 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 ## 🛠 **Práctica 1: Maquetación de páginas con HTML y CSS**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/4f7Mlke2Ptg)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Diagrama de Navegación**
@@ -201,17 +201,17 @@ Realización de la página del usuario en cuestión, mejora de la página de reg
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - [Héctor Bonilla]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Encargado de la realización del apartado de reviews del usuario y reviews en general y del apartado de que ofrecemos en el feature y traduxxión.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [ACTUALIZAR PÁGINA QUÉ OFRECEMOS (SERVICIOS Y PRECIOS)](URL_commit_1)  | [feature.html](URL_archivo_1)   |
+|2| [TRADUCIR HEADER Y TEXTOS DE FEATURE A ESPAÑOL](URL_commit_2)  | [feature.html](URL_archivo_2)   |
+|3| [TRADUCIR FOOTER A ESPAÑOL Y ARREGLAR ENLACES](URL_commit_3)  | [feature.html](URL_archivo_3)   |
+|4| [AÑADIR SECCIÓN REVIEWS EN MENÚ DE PERFIL](URL_commit_4)  | [reviews.html](URL_archivo_4)   |
+|5| [CREAR PÁGINA REVIEWS (LISTADO + FORMULARIO)](URL_commit_5)  | [reviews.html](URL_archivo_5)   |
 
 ---
 
