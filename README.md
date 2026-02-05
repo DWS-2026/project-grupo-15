@@ -94,17 +94,16 @@ Principalmente la realización del panel admin y todas sus funcionalidades, adem
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - Daniel Puga Blanco**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Encargado de la creación del login y del registro, además de la modificación de la página de clases y de la de contacto, además de pequeñas correcciones en el codigo de otras páginas.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [PÁGINA LOGIN](https://github.com/DWS-2026/project-grupo-15/commit/89a75f14019687a329acdf8a7a3a2a55470d6c44)  | [login.html](URL_archivo_1)   |
+|2| [AÑADIR PÁGINA REGISTRO](https://github.com/DWS-2026/project-grupo-15/commit/8cf1c6a263d9799ec468a2cf1e1060134a48e2b6)  | [registro.html](https://github.com/DWS-2026/project-grupo-15/blob/8cf1c6a263d9799ec468a2cf1e1060134a48e2b6/registro.html)   |
+|3| [PÁGINA CLASES](https://github.com/DWS-2026/project-grupo-15/commit/e34a23f51a17a902e90002fe79c8b65c323a9d4a)  | [class.html](URL_archihttps://github.com/DWS-2026/project-grupo-15/blob/e34a23f51a17a902e90002fe79c8b65c323a9d4a/class.html)   |
+|4| [PÁGINA CONTACTO](https://github.com/DWS-2026/project-grupo-15/commit/ee4ee219ba1f62133cd0b604d263092dc554c58b)  | [contact.hmtl](https://github.com/DWS-2026/project-grupo-15/blob/ee4ee219ba1f62133cd0b604d263092dc554c58b/contact.html)   |
 
 ---
 
