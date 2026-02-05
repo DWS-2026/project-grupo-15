@@ -142,6 +142,11 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > ["Muestra en esta pantalla las reviews de la gente, pudiendo eliminar en caso de que no sea correcta "]
 
+#### **15.Contacto/ Contacto**
+![Contactos](images/contacto.png)
+
+> ["En esta pantalla podemos encontrar los contactos y ubicación en el mapa para ubicar el gimnasio"]
+
 #### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
 
 ### **Participación de Miembros en la Práctica 1**
