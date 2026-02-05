@@ -26,9 +26,9 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 4. **[Entidad 4]**: Review
 
 **Relaciones entre entidades:**
-- Usuario-Reserva: un usuario puede tener múltiples reservas. RELACIÓN 1:N.
-- Clase-Reserva: una clase puede tener múltiples reservas, pero cada reserva tiene una única clase. RELACIÓN 1:N.
-- Actividad-Reserva: una actividad puede tener múltiples reservas. RELACIÓN 1:N.
+- Usuario-Review: un usuario puede tener múltiples reviews. RELACIÓN 1:N.
+- Clase-Review: una clase puede tener múltiples reviews, pero cada review tiene una única clase. RELACIÓN 1:N.
+- Actividad-Review: una actividad puede tener múltiples reviews. RELACIÓN 1:N
 - Usuario-Clase: un usuario puede apuntarse a muchas clases y una clase puede tener muchos usuarios. RELACIÓN N:M.
 - Usuario-Actividad: RELACION N:M.
 
