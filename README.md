@@ -162,10 +162,15 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > ["Después del registro, nos lleva al pago, cuyo monto depende de los extras escogidos"]
 
-#### **18.Pago Éxito/ Pago**
+#### **19.Pago Éxito/ Pago**
 ![Pago](images/pago2.png)
 
 > ["Tras pagar sale la pantalla de éxito y ya tenemos el perfil registrado listo para su uso"]
+
+  #### **20.Reciperación/ Contraseña**
+![Contraseña](images/recu.png)
+
+> ["Pantalla para recuperación de contraseña"]
 
 
 ### **Participación de Miembros en la Práctica 1**
