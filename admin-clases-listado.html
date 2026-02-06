@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Usuarios Clase | Panel Admin TITANGYM</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <link href="img/favicon.ico" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet"> 
+</head>
+
+<body class="bg-dark text-white">
+
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
+            <div class="text-center mb-5">
+                <h2 class="text-primary font-weight-bold">TITANGYM</h2>
+                <p class="text-white-50">Panel Administrador</p>
+            </div>
+
+            <ul class="nav flex-column px-3">
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin.html">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Panel principal
+                    </a>
+                </li>
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-usuarios.html">
+                        <i class="fas fa-users mr-2"></i> Miembros
+                    </a>
+                </li>
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white active" href="admin-clases.html">
+                        <i class="fas fa-dumbbell mr-2"></i> Clases
+                    </a>
+                </li>
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-servicios.html">
+                        <i class="fas fa-plus-circle mr-2"></i> Servicios Extra
+                    </a>
+                </li>
+                 <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-ajustes.html">
+                        <i class="fas fa-cog mr-2"></i> Perfil Admin
+                    </a>
+                </li>
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="admin-reviews.html">
+                        <i class="fas fa-star mr-2"></i> Reviews
+                    </a>
+                </li>
+                <li class="nav-item mt-5">
+                    <a class="nav-link text-danger" href="index.html">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="display-4 font-weight-bold">Gestionar: CrossFit</h1>
+                    <p class="text-white-50">Jueves 18:00 - 19:00</p>
+                </div>
+                <a href="admin-clases.html" class="btn btn-outline-light">
+                    <i class="fas fa-arrow-left mr-2"></i> Volver al listado
+                </a>
+            </div>
+
+            <div class="card bg-secondary p-4 mb-4">
+                <h5 class="text-white mb-3"><i class="fas fa-user-plus text-primary mr-2"></i> Inscribir miembro manualmente</h5>
+                <form class="form-row align-items-center">
+                    <div class="col-sm-8 my-1">
+                        <label class="sr-only" for="inlineFormInputName">Usuario</label>
+                        <select class="form-control bg-dark text-white border-0" id="selectUsuario">
+                            <option selected>Seleccionar usuario...</option>
+                            <option value="1">Laura Martínez (ID: 402)</option>
+                            <option value="2">Pedro Sanchez (ID: 105)</option>
+                            <option value="3">Miguel Angel (ID: 88)</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 my-1">
+                        <button type="button" class="btn btn-primary btn-block">Añadir a la clase</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card bg-secondary p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="text-primary m-0">Asistentes actuales (3/20)</h4>
+                    <span class="badge badge-success p-2">Cupo disponible</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 80px;">Avatar</th>
+                                <th scope="col">Nombre del Miembro</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col" class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>
+                                    <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                </td>
+                                <td class="align-middle">Juan Pérez</td>
+                                <td class="align-middle"><span class="badge badge-success">Confirmado</span></td>
+                                <td class="text-right align-middle">
+                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase" onclick="return confirm('¿Quitar a Juan Pérez de esta clase?')">
+                                        <i class="fas fa-times mr-1"></i> Quitar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <img src="img/team-1.jpg" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                </td>
+                                <td class="align-middle">Maria Garcia</td>
+                                <td class="align-middle"><span class="badge badge-success">Confirmado</span></td>
+                                <td class="text-right align-middle">
+                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase">
+                                        <i class="fas fa-times mr-1"></i> Quitar
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="rounded-circle bg-info d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                        <span class="font-weight-bold">CR</span>
+                                    </div>
+                                </td>
+                                <td class="align-middle">Carlos Ruiz</td>
+                                <td class="align-middle"><span class="badge badge-warning">En espera</span></td>
+                                <td class="text-right align-middle">
+                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase">
+                                        <i class="fas fa-times mr-1"></i> Quitar
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
