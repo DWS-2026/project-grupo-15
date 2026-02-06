@@ -193,11 +193,11 @@ Realización de la página del usuario en cuestión, mejora de la página de reg
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Página del perfil del usuario](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|1| [Listado de clases que se puede apuntar el usuario](https://github.com/DWS-2026/dws-2026-project-base/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [clases-listado.html](URL_archivo_2)   |
-|2| [Listado de servicios que se puede suscribir el usuario](https://github.com/DWS-2026/dws-2026-project-base/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [servicios-listado.html](URL_archivo_3)   |
-|3| [Actualización página de registro con funciones extra y visuales](https://github.com/DWS-2026/dws-2026-project-base/commit/c9f8aa50daf24916abfc156e1667c6f2d09ecdbd#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [registro.html](URL_archivo_4)   |
-|4| [Mejora general en la web, corrigiendo errores, traduciendo ...](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Página de pago] (https://github.com/DWS-2026/project-grupo-15/commit/85ebed01d4cffe71488c1a1d0cc467319818b467)  | [payment.html](https://github.com/DWS-2026/project-grupo-15/blob/main/payment.html)   |
+|2| [Listado de clases que se puede apuntar el usuario](https://github.com/DWS-2026/project-grupo-15/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [clases-listado.html](https://github.com/DWS-2026/project-grupo-15/blob/main/clases-listado.html)   |
+|3| [Listado de servicios que se puede suscribir el usuario](https://github.com/DWS-2026/project-grupo-15/commit/c8770b6731ba45a184b3f18331b94ebd0df0eade#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [servicios-listado.html](https://github.com/DWS-2026/project-grupo-15/blob/main/servicios-listado.html)   |
+|4| [Actualización página de registro con funciones extra y visuales](https://github.com/DWS-2026/project-grupo-15/commit/c9f8aa50daf24916abfc156e1667c6f2d09ecdbd#diff-0573a7817d0b88035347e89a4761625b0e87c6e59fc1b508e687f63c89ccfeb1)  | [registro.html] (https://github.com/DWS-2026/project-grupo-15/blob/main/registro.html)   |
+|5| [Pantalla éxito pago](https://github.com/DWS-2026/project-grupo-15/commit/16c2304b953fdeca10111ee00a95da4bb1b28405#diff-1a9ac281340abc5984f9abaa141069fce1d9348a8883bcdef07325518bb59149)  | [Archivo5](https://github.com/DWS-2026/project-grupo-15/blob/main/successful.html)   |
 
 ---
 
