@@ -157,6 +157,16 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > ["Inicio de sesión con su usuario y contraseña"]
 
+#### **18.Pago Inicio/ Pago**
+![Pago](images/pago.png)
+
+> ["Después del registro, nos lleva al pago, cuyo monto depende de los extras escogidos"]
+
+#### **18.Pago Éxito/ Pago**
+![Pago](images/pago2.png)
+
+> ["Tras pagar sale la pantalla de éxito y ya tenemos el perfil registrado listo para su uso"]
+
 
 ### **Participación de Miembros en la Práctica 1**
 
