@@ -2,59 +2,55 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>Login | TITANGYM</title>
+    <title>Recuperar Contraseña | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Bootstrap + Template CSS -->
     <link href="css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark">
 
-<!-- Login Start -->
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="card bg-secondary text-white p-4" style="max-width: 400px; width: 100%; border-radius: 15px;">
+        
         <div class="text-center mb-4">
             <a href="index.html" class="navbar-brand">
                 <h1 class="display-4 font-weight-bold text-primary">TITANGYM</h1>
             </a>
-            
-            <p class="text-white-50">Entra con tu cuenta</p>
+            <h4 class="font-weight-bold">¿Olvidaste tu contraseña?</h4>
+            <p class="text-white-50 small">Introduce tu email y te enviaremos las instrucciones para restablecerla.</p>
         </div>
 
-        <form>
+        <form onsubmit="alert('¡Correo de recuperación enviado! (Simulación)'); return false;">
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control form-control-lg bg-dark text-white border-0"
-                       placeholder="Introduce tu email" required>
-            </div>
-
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" class="form-control form-control-lg bg-dark text-white border-0"
-                       placeholder="Introduce tu contraseña" required>
+                <label>Email registrado</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-dark border-0 text-primary"><i class="far fa-envelope"></i></span>
+                    </div>
+                    <input type="email" class="form-control form-control-lg bg-dark text-white border-0"
+                           placeholder="ejemplo@correo.com" required>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg btn-block mt-4">
-                Iniciar sesión
+                Enviar enlace
             </button>
         </form>
 
         <div class="text-center mt-4">
-            <a href="recuperar-contraseña.html" class="text-white-50">¿No recuerdas tu contraseña?</a><br>
-            <a href="registro.html" class="text-primary font-weight-bold">Registrarse</a>
+            <span class="text-white-50">¿Ya te acordaste?</span><br>
+            <a href="login.html" class="text-primary font-weight-bold">
+                <i class="fas fa-arrow-left mr-1"></i> Volver al Login
+            </a>
         </div>
     </div>
 </div>
-<!-- Login End -->
 
-<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
