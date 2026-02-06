@@ -59,7 +59,7 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 ## 🛠 **Práctica 1: Maquetación de páginas con HTML y CSS**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://youtu.be/4f7Mlke2Ptg)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/xOCpoDu5FGM)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Diagrama de Navegación**
@@ -199,7 +199,7 @@ Encargado de la creación del login y del registro, además de la modificación 
 |2| [AÑADIR PÁGINA REGISTRO](https://github.com/DWS-2026/project-grupo-15/commit/8cf1c6a263d9799ec468a2cf1e1060134a48e2b6)  | [registro.html](https://github.com/DWS-2026/project-grupo-15/blob/8cf1c6a263d9799ec468a2cf1e1060134a48e2b6/registro.html)   |
 |3| [PÁGINA CLASES](https://github.com/DWS-2026/project-grupo-15/commit/e34a23f51a17a902e90002fe79c8b65c323a9d4a)  | [class.html](https://github.com/DWS-2026/project-grupo-15/blob/e34a23f51a17a902e90002fe79c8b65c323a9d4a/class.html)   |
 |4| [PÁGINA CONTACTO](https://github.com/DWS-2026/project-grupo-15/commit/ee4ee219ba1f62133cd0b604d263092dc554c58b)  | [contact.hmtl](https://github.com/DWS-2026/project-grupo-15/blob/ee4ee219ba1f62133cd0b604d263092dc554c58b/contact.html)   |
-|5| [CORRECIÓN DE ERRORES](https://github.com/DWS-2026/project-grupo-15/commit/31a4f309bde761bbf034516c779dc28933b5ded9)  | [contact.hmtl/class.html/feature.hmtl](https://github.com/DWS-2026/project-grupo-15/blob/ee4ee219ba1f62133cd0b604d263092dc554c58b/contact.html)   |
+|5| [PÁGINA RECUPERACIÓN CONTRASEÑA](https://github.com/DWS-2026/project-grupo-15/commit/9552ed233307217b29165e2f88735d26c23ba6aa)  | [recuperar-contraseña.html](https://github.com/DWS-2026/project-grupo-15/blob/9552ed233307217b29165e2f88735d26c23ba6aa/recuperar-contrase%C3%B1a.html)   |
 ---
 
 #### **Alumno 3 - [Genshen Lin]**
