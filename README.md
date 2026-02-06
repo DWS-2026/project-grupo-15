@@ -204,7 +204,7 @@ Encargado de la creación del login y del registro, además de la modificación 
 
 #### **Alumno 3 - [Genshen Lin]**
 
-Realización de la página del usuario en cuestión, mejora de la página de registro y labores corrección de errores.
+Realización de la página del usuario en cuestión, mejora de la página de registro, pantalla de pago, labores corrección de errores y mejoras.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
