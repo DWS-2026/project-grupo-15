@@ -8,7 +8,6 @@ public class WebController {
 
     @GetMapping("/")
     public String index() {
-        // Esto busca el archivo "index.html" dentro de la carpeta templates
         return "index"; 
     }
     
@@ -17,5 +16,9 @@ public class WebController {
         return "admin-clases";
     }
 
-    // Tendrás que ir añadiendo aquí el resto de páginas poco a poco
+    @GetMapping("/registro")
+    public String register() {
+        return "registro";
+    }
+
 }
