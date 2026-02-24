@@ -3,6 +3,7 @@ package es.codeurjc.proyecto_dws_grupo2.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User { 
 
     @Id
