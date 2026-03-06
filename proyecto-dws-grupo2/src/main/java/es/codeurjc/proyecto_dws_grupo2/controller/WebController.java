@@ -24,7 +24,7 @@ public class WebController {
         listaDeClases.add(new Clase(1, "CrossFit", "Entrenamiento funcional intenso"));
         listaDeClases.add(new Clase(2, "Zumba", "Baile y cardio divertido"));
         listaDeClases.add(new Clase(3, "Body Pump", "Pesas y música"));
-
+ 
         //2. We introduce the list in the Model to send it to the HTML
         model.addAttribute("clases", listaDeClases);
 
