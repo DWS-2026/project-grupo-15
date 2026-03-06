@@ -37,7 +37,7 @@
             </div>
 
             <!-- FORMULARIO -->
-            <form>
+            <form action='/register' method="post">
 
                 <!-- DATOS PERSONALES -->
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">
@@ -47,26 +47,26 @@
                 <div class="form-row">
                     <div class="col-md-6 form-group">
                         <label>Nombre</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="Nombre"
+                        <input type="text" name="name" class="form-control bg-dark text-white border-0" placeholder="Nombre"
                             required>
                     </div>
 
                     <div class="col-md-6 form-group">
                         <label>Apellidos</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="Apellidos"
+                        <input type="text" name="lastName" class="form-control bg-dark text-white border-0" placeholder="Apellidos"
                             required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control bg-dark text-white border-0" placeholder="tu@email.com"
+                    <input type="email" name="email" class="form-control bg-dark text-white border-0" placeholder="tu@email.com"
                         required>
                 </div>
 
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <input type="password" class="form-control bg-dark text-white border-0"
+                    <input type="password" name="password" class="form-control bg-dark text-white border-0"
                         placeholder="Contraseña segura" required>
                 </div>
 
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="extraTrainer">
+                            <input type="checkbox" class="custom-control-input" id="extraFisio" name="extraFisio" value="true">
                             <label class="custom-control-label" for="extraTrainer"></label>
                         </div>
 
@@ -158,7 +158,7 @@
                         </div>
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="extraNutrition">
+                            <input type="checkbox" class="custom-control-input" id="extraNutrition" name="extraNutrition" value="true">
                             <label class="custom-control-label" for="extraNutrition"></label>
                         </div>
 
@@ -188,7 +188,7 @@
                         </div>
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="extraDrinks">
+                            <input type="checkbox" class="custom-control-input" id="extraDrinks" name="extraDrinks" value="true">
                             <label class="custom-control-label" for="extraDrinks"></label>
                         </div>
 
@@ -196,16 +196,14 @@
                 </div>
 
                 <!-- BOTÓN -->
-                <a href="payment.html" class="btn btn-primary btn-lg btn-block font-weight-bold mt-4">
-                    PROCEDER AL PAGO
-                </a>
+                <input type='submit' value='PROCEDER AL PAGO' class="btn btn-primary btn-lg btn-block font-weight-bold mt-4">
 
             </form>
 
             <!-- ENLACE LOGIN -->
             <div class="text-center mt-4">
                 <span class="text-white-50">¿Ya tienes cuenta?</span>
-                <a href="login.html" class="text-primary font-weight-bold ml-1">
+                <a href="/login" class="text-primary font-weight-bold ml-1">
                     Iniciar sesión
                 </a>
             </div>

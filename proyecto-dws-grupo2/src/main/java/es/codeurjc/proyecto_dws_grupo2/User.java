@@ -1,4 +1,4 @@
-package es.codeurjc.proyecto_dws_grupo2.model; 
+package es.codeurjc.proyecto_dws_grupo2; 
 
 import jakarta.persistence.*;
 
