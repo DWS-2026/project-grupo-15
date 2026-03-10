@@ -1,35 +1,28 @@
-package es.codeurjc.proyecto_dws_grupo2.controller; // Asegúrate de que el paquete coincida con tus carpetas
+package es.codeurjc.proyecto_dws_grupo2.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import es.codeurjc.proyecto_dws_grupo2.model.Clase;
+import es.codeurjc.proyecto_dws_grupo2.repository.ClaseRepository;
 
 @Controller
 public class WebController {
 
+    // Inyectamos el repositorio para poder acceder a la base de datos
+    @Autowired
+    private ClaseRepository claseRepository;
+
     @GetMapping("/")
     public String index() {
-        // Esto busca el archivo "index.html" dentro de la carpeta templates
         return "index"; 
     }
     
     @GetMapping("/admin-clases")
     public String adminClases(Model model) {
-
-        //1. We create a "fake" list (simulating a data base)
-        List<Clase> listaDeClases = new ArrayList<>();
-        listaDeClases.add(new Clase(1, "CrossFit", "Entrenamiento funcional intenso"));
-        listaDeClases.add(new Clase(2, "Zumba", "Baile y cardio divertido"));
-        listaDeClases.add(new Clase(3, "Body Pump", "Pesas y música"));
- 
-        //2. We introduce the list in the Model to send it to the HTML
-        model.addAttribute("clases", listaDeClases);
+        // Pedimos TODAS las clases a la base de datos y las enviamos al HTML
+        model.addAttribute("clases", claseRepository.findAll());
 
         return "admin-clases";
     }
-
-    // Tendrás que ir añadiendo aquí el resto de páginas poco a poco
 }
