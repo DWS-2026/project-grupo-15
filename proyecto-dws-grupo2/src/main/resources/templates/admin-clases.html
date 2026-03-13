@@ -90,77 +90,24 @@
                         <tbody>
 
                             <!-- CROSSFIT -->
+                             {{#clases}}
                             <tr>
                                 <td><img src="img/crossfit.jpg" width="80" class="rounded"></td>
-                                <td>CrossFit</td>
-                                <td>Entrenamiento funcional de alta intensidad.</td>
+                                <td>{{name}}</td>
+                                <td>{{description}}</td>
                                 <td>
-                                    <a href="admin-clases-listado.html" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
+                                    <a href="/admin/clases/{{id}}/asistentes" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
                                         <i class="fas fa-users"></i>
                                         </a>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
+                                    <a href="admin/clase/editar/{{id}}" class="btn btn-light btn-sm mr-2">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar CrossFit?')">
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar {{name}}?')">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
-
-                            <!-- BODY PUMP -->
-                            <tr>
-                                <td><img src="img/bodypump.jpg" width="80" class="rounded"></td>
-                                <td>Body Pump</td>
-                                <td>Sesión con barras y pesas para tonificar todo el cuerpo.</td>
-                                <td>
-                                    <a href="admin-clases-listado.html" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
-                                        <i class="fas fa-users"></i>
-                                        </a>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Body Pump?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <!-- SPINNING -->
-                            <tr>
-                                <td><img src="img/spinning.jpg" width="80" class="rounded"></td>
-                                <td>Spinning</td>
-                                <td>Entrenamiento cardiovascular intenso en bicicleta estática.</td>
-                                <td>
-                                    <a href="admin-clases-listado.html" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
-                                        <i class="fas fa-users"></i>
-                                        </a>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Spinning?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <!-- ZUMBA -->
-                            <tr>
-                                <td><img src="img/zumba.jpg" width="80" class="rounded"></td>
-                                <td>Zumba</td>
-                                <td>Clase divertida de baile y cardio al ritmo de música latina.</td>
-                                <td>
-                                    <a href="admin-clases-listado.html" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
-                                        <i class="fas fa-users"></i>
-                                        </a>
-                                    <a href="admin-clase-editar.html" class="btn btn-light btn-sm mr-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar Zumba?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
+                            {{/clases}}
                         </tbody>
                     </table>
                 </div>

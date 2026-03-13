@@ -1,8 +1,11 @@
 package es.codeurjc.proyecto_dws_grupo2; 
 
 import jakarta.persistence.*;
+import java.util.List;       // Añadido
+import java.util.ArrayList;  // Añadido
 
 @Entity
+@Table(name = "users")
 public class User { 
 
     @Id
@@ -17,10 +20,22 @@ public class User {
     private boolean extraNutricion;
     private boolean extraBebidas;
 
-   
+    // --- NUEVO: Relación Muchos a Muchos con Clase ---
+    @ManyToMany
+    private List<Clase> clasesApuntadas = new ArrayList<>();
+    // -------------------------------------------------
+
     public User() { 
     }
     
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -53,7 +68,6 @@ public class User {
         this.password = password;
     }
 
-    // ... añade los getters/setters de los extras si faltan
     public boolean isExtraFisio() {
         return extraFisio;
     }
@@ -76,5 +90,14 @@ public class User {
 
     public void setExtraBebidas(boolean extraBebidas) {
         this.extraBebidas = extraBebidas;
+    }
+
+    // --- NUEVO: Getters y Setters de las clases ---
+    public List<Clase> getClasesApuntadas() {
+        return clasesApuntadas;
+    }
+
+    public void setClasesApuntadas(List<Clase> clasesApuntadas) {
+        this.clasesApuntadas = clasesApuntadas;
     }
 }
