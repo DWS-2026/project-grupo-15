@@ -14,7 +14,6 @@ public class WebController {
     @Autowired
     private UserService userService;
 
-    // Página principal
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("users", userService.getAllUsers()); // opcional
@@ -27,24 +26,28 @@ public class WebController {
         return "admin-clases";
     }
 
-    // Mostrar formulario de registro
     @GetMapping("/registro")
-    public String registerForm(Model model) {
-        model.addAttribute("user", new User());
+    public String registro() {
         return "registro";
     }
 
-    // Guardar usuario en BD
-    @PostMapping("/registro")
-    public String registerUser(User user) {
+    @PostMapping("/pagar")
+    public String registerUser(Model model, User user) {
+      
+        double totalNum = 29.99;
+        if (user.isExtraFisio())
+            totalNum += 39.99;
+        if (user.isExtraNutricion())
+            totalNum += 29.99;
+        if (user.isExtraBebidas())
+            totalNum += 2.99;
+
         userService.saveUser(user);
-        return "redirect:/";
+
+        model.addAttribute("user", user);
+        model.addAttribute("total", String.format("%.2f", totalNum).replace(".", ","));
+
+        return "payment";
     }
 
-    // Borrar usuario (opcional)
-    @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "redirect:/";
-    }
 }
