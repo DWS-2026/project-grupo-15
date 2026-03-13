@@ -1,4 +1,4 @@
-package es.codeurjc.proyecto_dws_grupo2; 
+package es.codeurjc.proyecto_dws_grupo2.model; 
 
 import jakarta.persistence.*;
 import java.util.List;       // Añadido
@@ -20,11 +20,10 @@ public class User {
     private boolean extraNutricion;
     private boolean extraBebidas;
 
-    // --- NUEVO: Relación Muchos a Muchos con Clase ---
+   
     @ManyToMany
     private List<Clase> clasesApuntadas = new ArrayList<>();
-    // -------------------------------------------------
-
+  
     public User() { 
     }
     
@@ -91,8 +90,7 @@ public class User {
     public void setExtraBebidas(boolean extraBebidas) {
         this.extraBebidas = extraBebidas;
     }
-
-    // --- NUEVO: Getters y Setters de las clases ---
+    
     public List<Clase> getClasesApuntadas() {
         return clasesApuntadas;
     }
