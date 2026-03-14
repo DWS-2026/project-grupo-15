@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -31,44 +31,44 @@
             <div class="card bg-dark border-0 mb-4">
                 <div class="card-body p-3">
 
-                    <!-- PLAN SIEMPRE INCLUIDO -->
                     <div class="d-flex justify-content-between mb-2">
                         <span>Plan Titan (Mensual)</span>
                         <span class="font-weight-bold">29,99€</span>
                     </div>
 
-                    <!-- EXTRA FISIO: solo si está contratado -->
-                    <div th:if="${user.extraFisio}" class="d-flex justify-content-between mb-2 text-white-50 small">
+                    {{#user.extraFisio}}
+                    <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Fisioterapia</span>
                         <span>+39,99€</span>
                     </div>
+                    {{/user.extraFisio}}
 
-                    <!-- EXTRA NUTRICION: solo si está contratado -->
-                    <div th:if="${user.extraNutricion}" class="d-flex justify-content-between mb-2 text-white-50 small">
+                    {{#user.extraNutricion}}
+                    <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Nutrición</span>
                         <span>+29,99€</span>
                     </div>
+                    {{/user.extraNutricion}}
 
-                    <!-- EXTRA BEBIDAS: solo si está contratado -->
-                    <div th:if="${user.extraBebidas}" class="d-flex justify-content-between mb-3 text-white-50 small">
+                    {{#user.extraBebidas}}
+                    <div class="d-flex justify-content-between mb-3 text-white-50 small">
                         <span>Bebidas Extra</span>
                         <span>+2,99€</span>
                     </div>
+                    {{/user.extraBebidas}}
 
                     <hr class="border-secondary">
 
-                    <!-- TOTAL CALCULADO EN EL CONTROLLER -->
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="font-weight-bold text-uppercase">Total a pagar</span>
-                        <span class="h4 m-0 font-weight-bold text-primary" th:text="${total} + '€'">
-                        </span>
+                        <span class="h4 m-0 font-weight-bold text-primary">{{total}}€</span>
                     </div>
 
                 </div>
             </div>
 
             <!-- FORMULARIO DE PAGO -->
-            <form>
+            <form action='/pago-exitoso' method="post">
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">Método de Pago</h5>
 
                 <div class="mb-4 text-white-50">
@@ -80,7 +80,7 @@
                 <div class="form-group">
                     <label>Titular de la tarjeta</label>
                     <input type="text" class="form-control bg-dark text-white border-0"
-                        th:placeholder="${user.nombre + ' ' + user.apellidos}" required>
+                        placeholder="{{user.nombre}} {{user.apellidos}}" required>
                 </div>
 
                 <div class="form-group">
@@ -109,10 +109,9 @@
                     </div>
                 </div>
 
-                <!-- BOTÓN CON TOTAL DINÁMICO -->
-                <a href="/successful" class="btn btn-primary btn-lg btn-block font-weight-bold mt-4"
-                    th:text="'PAGAR ' + ${total} + '€'">
-                </a>
+                <button type="submit" class="btn btn-primary btn-lg btn-block font-weight-bold mt-4">
+                    <i class="fas fa-lock mr-2"></i> PAGAR {{total}}€
+                </button>
 
                 <a href="/registro" class="btn btn-outline-light btn-block font-weight-bold mt-2">
                     VOLVER ATRÁS

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class WebController {
@@ -32,8 +33,8 @@ public class WebController {
     }
 
     @PostMapping("/pagar")
-    public String registerUser(Model model, User user) {
-      
+    public String registerUser(Model model, User user, HttpSession session) {
+
         double totalNum = 29.99;
         if (user.isExtraFisio())
             totalNum += 39.99;
@@ -42,12 +43,29 @@ public class WebController {
         if (user.isExtraBebidas())
             totalNum += 2.99;
 
+        session.setAttribute("usuarioLogado", user);
+        session.setAttribute("total", totalNum);
+
+        model.addAttribute("user", user);
+        model.addAttribute("total", totalNum);
+
+        return "payment";
+    }
+
+    @PostMapping("/pago-exitoso")
+    public String procesarPago(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("usuarioLogado");
+
         userService.saveUser(user);
 
         model.addAttribute("user", user);
-        model.addAttribute("total", String.format("%.2f", totalNum).replace(".", ","));
+        return "successful";
+    }
 
-        return "payment";
+    @PostMapping("/perfil")
+    public String perfil(Model model, User user) {
+        model.addAttribute("user", user);
+        return "perfil";
     }
 
 }

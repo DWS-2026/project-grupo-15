@@ -58,20 +58,26 @@
                         <strong>Plan Titan:</strong> 29,99€ / mes
                     </p>
 
+                    {{#user.extraFisio}}
                     <p class="mb-2">
                         <i class="fas fa-spa text-primary mr-2"></i>
                         Fisioterapia
                     </p>
+                    {{/user.extraFisio}}
 
+                    {{#user.extraNutricion}}
                     <p class="mb-2">
                         <i class="fas fa-utensils text-primary mr-2"></i>
                         Nutrición
                     </p>
+                    {{/user.extraNutricion}}
 
+                    {{#user.extraBebidas}}
                     <p class="mb-0">
                         <i class="fas fa-coffee text-primary mr-2"></i>
                         Bebidas Extra
                     </p>
+                    {{/user.extraBebidas}}
 
                 </div>
             </div>
@@ -83,7 +89,7 @@
             </p>
 
             <!-- BOTONES -->
-            <a href="perfil.html" class="btn btn-primary btn-lg btn-block font-weight-bold mb-2">
+            <a href="/perfil" class="btn btn-primary btn-lg btn-block font-weight-bold mb-2">
                 IR A MI PERFIL
             </a>
 
