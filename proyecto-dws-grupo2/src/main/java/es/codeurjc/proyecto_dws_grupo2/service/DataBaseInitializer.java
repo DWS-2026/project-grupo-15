@@ -3,7 +3,7 @@ package es.codeurjc.proyecto_dws_grupo2.service;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; // <-- ESTA LÍNEA ARREGLA EL ERROR
-import es.codeurjc.proyecto_dws_grupo2.model.Clase;
+import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClaseRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
@@ -21,9 +21,9 @@ public class DataBaseInitializer {
     public void init() {
         
         // 1. Creamos y guardamos las Clases
-        Clase crossfit = new Clase("CrossFit", "Entrenamiento funcional intenso");
-        Clase zumba = new Clase("Zumba", "Baile y cardio divertido");
-        Clase bodyPump = new Clase("Body Pump", "Pesas y música");
+        ClassEntity crossfit = new ClassEntity("CrossFit", "Entrenamiento funcional intenso");
+        ClassEntity zumba = new ClassEntity("Zumba", "Baile y cardio divertido");
+        ClassEntity bodyPump = new ClassEntity("Body Pump", "Pesas y música");
 
         claseRepository.save(crossfit);
         claseRepository.save(zumba);

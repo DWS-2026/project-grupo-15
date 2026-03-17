@@ -22,7 +22,7 @@ public class User {
 
    
     @ManyToMany
-    private List<Clase> clasesApuntadas = new ArrayList<>();
+    private List<ClassEntity> clasesApuntadas = new ArrayList<>();
   
     public User() { 
     }
@@ -91,11 +91,11 @@ public class User {
         this.extraBebidas = extraBebidas;
     }
     
-    public List<Clase> getClasesApuntadas() {
+    public List<ClassEntity> getClasesApuntadas() {
         return clasesApuntadas;
     }
 
-    public void setClasesApuntadas(List<Clase> clasesApuntadas) {
+    public void setClasesApuntadas(List<ClassEntity > clasesApuntadas) {
         this.clasesApuntadas = clasesApuntadas;
     }
 }
