@@ -22,12 +22,17 @@ public class RegisterController {
         return "registro";
     }
 
-    @PostMapping("/register")
-    public String processRegister(User user, Model model) {
+     @PostMapping("/register")
+    public String pagar(User user, Model model) {
 
-        userRepository.save(user);
+        double total = 29.99;
+
+        if (user.isExtraPhysio()) total += 39.99;
+        if (user.isExtraNutrition()) total += 29.99;
+        if (user.isExtraDrinks()) total += 2.99;
 
         model.addAttribute("user", user);
+        model.addAttribute("total", total);
 
         return "payment";
     }
