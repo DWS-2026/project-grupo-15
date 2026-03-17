@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <title>Pago | TITANGYM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="img/favicon.ico" rel="icon">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500&display=swap"
-        rel="stylesheet">
+
+    <link href="/img/favicon.ico" rel="icon">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark">
@@ -17,7 +17,6 @@
     <div class="container d-flex align-items-center justify-content-center py-5" style="min-height: 100vh;">
         <div class="card bg-secondary text-white p-4" style="max-width: 600px; width: 100%; border-radius: 15px;">
 
-            <!-- CABECERA -->
             <div class="text-center mb-4">
                 <a href="/" class="navbar-brand">
                     <h1 class="display-4 font-weight-bold text-primary">TITANGYM</h1>
@@ -25,7 +24,6 @@
                 <p class="text-white-50">Revisa y confirma tu pago</p>
             </div>
 
-            <!-- RESUMEN DEL PEDIDO -->
             <h5 class="text-white mb-3 border-bottom border-dark pb-2">Resumen del Pedido</h5>
 
             <div class="card bg-dark border-0 mb-4">
@@ -36,26 +34,26 @@
                         <span class="font-weight-bold">29,99€</span>
                     </div>
 
-                    {{#user.extraFisio}}
+                    {{#user.extraPhysio}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Fisioterapia</span>
                         <span>+39,99€</span>
                     </div>
-                    {{/user.extraFisio}}
+                    {{/user.extraPhysio}}
 
-                    {{#user.extraNutricion}}
+                    {{#user.extraNutrition}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Nutrición</span>
                         <span>+29,99€</span>
                     </div>
-                    {{/user.extraNutricion}}
+                    {{/user.extraNutrition}}
 
-                    {{#user.extraBebidas}}
+                    {{#user.extraDrinks}}
                     <div class="d-flex justify-content-between mb-3 text-white-50 small">
                         <span>Bebidas Extra</span>
                         <span>+2,99€</span>
                     </div>
-                    {{/user.extraBebidas}}
+                    {{/user.extraDrinks}}
 
                     <hr class="border-secondary">
 
@@ -67,8 +65,7 @@
                 </div>
             </div>
 
-            <!-- FORMULARIO DE PAGO -->
-            <form action='/pago-exitoso' method="post">
+            <form action="/pago-exitoso" method="post">
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">Método de Pago</h5>
 
                 <div class="mb-4 text-white-50">
@@ -80,14 +77,14 @@
                 <div class="form-group">
                     <label>Titular de la tarjeta</label>
                     <input type="text" class="form-control bg-dark text-white border-0"
-                        placeholder="{{user.nombre}} {{user.apellidos}}" required>
+                           placeholder="{{user.firstName}} {{user.lastName}}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Número de tarjeta</label>
                     <div class="input-group">
                         <input type="text" class="form-control bg-dark text-white border-0"
-                            placeholder="0000 0000 0000 0000" required>
+                               placeholder="0000 0000 0000 0000" required>
                         <div class="input-group-append">
                             <span class="input-group-text bg-dark border-0 text-primary">
                                 <i class="fas fa-credit-card"></i>
@@ -99,13 +96,11 @@
                 <div class="form-row">
                     <div class="col-md-6 form-group">
                         <label>Fecha de caducidad</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="MM / AA"
-                            required>
+                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="MM / AA" required>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>CVV <i class="fas fa-question-circle text-white-50 ml-1"></i></label>
-                        <input type="password" class="form-control bg-dark text-white border-0" placeholder="123"
-                            maxlength="3" required>
+                        <input type="password" class="form-control bg-dark text-white border-0" placeholder="123" maxlength="3" required>
                     </div>
                 </div>
 
@@ -113,7 +108,7 @@
                     <i class="fas fa-lock mr-2"></i> PAGAR {{total}}€
                 </button>
 
-                <a href="/registro" class="btn btn-outline-light btn-block font-weight-bold mt-2">
+                <a href="/register" class="btn btn-outline-light btn-block font-weight-bold mt-2">
                     VOLVER ATRÁS
                 </a>
             </form>
@@ -127,8 +122,5 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
