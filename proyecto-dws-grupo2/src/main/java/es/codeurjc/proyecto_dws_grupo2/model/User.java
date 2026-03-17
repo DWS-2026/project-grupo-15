@@ -1,8 +1,8 @@
-package es.codeurjc.proyecto_dws_grupo2.model; 
+package es.codeurjc.proyecto_dws_grupo2.model;
 
 import jakarta.persistence.*;
-import java.util.List;       // Añadido
-import java.util.ArrayList;  // Añadido
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -12,90 +12,63 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private String apellidos;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private boolean extraFisio;
-    private boolean extraNutricion;
-    private boolean extraBebidas;
 
-   
+    private boolean extraPhysio;
+    private boolean extraNutrition;
+    private boolean extraDrinks;
+
+    private String profileImageUrl;
+
     @ManyToMany
-    private List<Clase> clasesApuntadas = new ArrayList<>();
-  
-    public User() { 
-    }
-    
-    public Long getId() {
-        return id;
-    }
+    private List<ClassEntity> enrolledClasses = new ArrayList<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToMany
+    private List<Activity> enrolledActivities = new ArrayList<>();
 
-    public String getNombre() {
-        return nombre;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public User() {}
 
-    public String getApellidos() {
-        return apellidos;
-    }
+    // Getters and setters
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public boolean isExtraFisio() {
-        return extraFisio;
-    }
+    public boolean isExtraPhysio() { return extraPhysio; }
+    public void setExtraPhysio(boolean extraPhysio) { this.extraPhysio = extraPhysio; }
 
-    public void setExtraFisio(boolean extraFisio) {
-        this.extraFisio = extraFisio;
-    }
+    public boolean isExtraNutrition() { return extraNutrition; }
+    public void setExtraNutrition(boolean extraNutrition) { this.extraNutrition = extraNutrition; }
 
-    public boolean isExtraNutricion() {
-        return extraNutricion;
-    }
+    public boolean isExtraDrinks() { return extraDrinks; }
+    public void setExtraDrinks(boolean extraDrinks) { this.extraDrinks = extraDrinks; }
 
-    public void setExtraNutricion(boolean extraNutricion) {
-        this.extraNutricion = extraNutricion;
-    }
+    public String getProfileImageUrl() { return profileImageUrl; }
+    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
 
-    public boolean isExtraBebidas() {
-        return extraBebidas;
-    }
+    public List<ClassEntity> getEnrolledClasses() { return enrolledClasses; }
+    public void setEnrolledClasses(List<ClassEntity> enrolledClasses) { this.enrolledClasses = enrolledClasses; }
 
-    public void setExtraBebidas(boolean extraBebidas) {
-        this.extraBebidas = extraBebidas;
-    }
-    
-    public List<Clase> getClasesApuntadas() {
-        return clasesApuntadas;
-    }
+    public List<Activity> getEnrolledActivities() { return enrolledActivities; }
+    public void setEnrolledActivities(List<Activity> enrolledActivities) { this.enrolledActivities = enrolledActivities; }
 
-    public void setClasesApuntadas(List<Clase> clasesApuntadas) {
-        this.clasesApuntadas = clasesApuntadas;
-    }
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 }
