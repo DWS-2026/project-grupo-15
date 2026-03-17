@@ -36,11 +36,11 @@ public class WebController {
     public String registerUser(Model model, User user, HttpSession session) {
 
         double totalNum = 29.99;
-        if (user.isExtraFisio())
+        if (user.isExtraPhysio())
             totalNum += 39.99;
-        if (user.isExtraNutricion())
+        if (user.isExtraNutrition())
             totalNum += 29.99;
-        if (user.isExtraBebidas())
+        if (user.isExtraDrinks())
             totalNum += 2.99;
 
         session.setAttribute("usuarioLogado", user);
