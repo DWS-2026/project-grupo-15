@@ -4,40 +4,41 @@
     <meta charset="utf-8">
     <title>Login | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Bootstrap + Template CSS -->
     <link href="css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark">
 
-<!-- Login Start -->
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="card bg-secondary text-white p-4" style="max-width: 400px; width: 100%; border-radius: 15px;">
         <div class="text-center mb-4">
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <h1 class="display-4 font-weight-bold text-primary">TITANGYM</h1>
             </a>
-            
             <p class="text-white-50">Entra con tu cuenta</p>
         </div>
 
-        <form>
+        <!-- Mensaje de error -->
+        {{#error}}
+        <div class="alert alert-danger text-center" role="alert">
+            {{error}}
+        </div>
+        {{/error}}
+
+        <form action="/login" method="post">
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" class="form-control form-control-lg bg-dark text-white border-0"
+                <input type="email" name="email"
+                       class="form-control form-control-lg bg-dark text-white border-0"
                        placeholder="Introduce tu email" required>
             </div>
 
             <div class="form-group">
                 <label>Contraseña</label>
-                <input type="password" class="form-control form-control-lg bg-dark text-white border-0"
+                <input type="password" name="password"
+                       class="form-control form-control-lg bg-dark text-white border-0"
                        placeholder="Introduce tu contraseña" required>
             </div>
 
@@ -47,16 +48,13 @@
         </form>
 
         <div class="text-center mt-4">
-            <a href="recuperar-contraseña.html" class="text-white-50">¿No recuerdas tu contraseña?</a><br>
-            <a href="registro.html" class="text-primary font-weight-bold">Registrarse</a>
+            <a href="/recuperar-contrasena" class="text-white-50">¿No recuerdas tu contraseña?</a><br>
+            <a href="/registro" class="text-primary font-weight-bold">Registrarse</a>
         </div>
     </div>
 </div>
-<!-- Login End -->
 
-<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

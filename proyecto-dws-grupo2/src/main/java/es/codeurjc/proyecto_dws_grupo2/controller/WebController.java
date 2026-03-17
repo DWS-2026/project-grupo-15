@@ -36,11 +36,11 @@ public class WebController {
     public String registerUser(Model model, User user, HttpSession session) {
 
         double totalNum = 29.99;
-        if (user.isExtraFisio())
+        if (user.isExtraPhysio())
             totalNum += 39.99;
-        if (user.isExtraNutricion())
+        if (user.isExtraNutrition())
             totalNum += 29.99;
-        if (user.isExtraBebidas())
+        if (user.isExtraDrinks())
             totalNum += 2.99;
 
         session.setAttribute("usuarioLogado", user);
@@ -66,6 +66,34 @@ public class WebController {
     public String perfil(Model model, User user) {
         model.addAttribute("user", user);
         return "perfil";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginSubmit(@RequestParam String email,
+            @RequestParam String password,
+            HttpSession session,
+            Model model) {
+
+        User user = userService.findByEmail(email);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            model.addAttribute("error", "Email o contraseña incorrectos");
+            return "login";
+        }
+
+        session.setAttribute("usuarioLogado", user);
+        return "/perfil";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
 }
