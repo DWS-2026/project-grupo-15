@@ -24,6 +24,6 @@
 
             model.addAttribute("user", user);
 
-            return "profile"; // profile.mustache
+            return "perfil"; // profile.mustache
         }
     }

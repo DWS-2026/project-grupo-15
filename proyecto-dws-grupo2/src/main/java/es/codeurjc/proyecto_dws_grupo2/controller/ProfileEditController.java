@@ -21,7 +21,7 @@ public class ProfileEditController {
     public String editProfile(Model model) {
         User user = userRepository.findById(1L).orElse(null);
         model.addAttribute("user", user);
-        return "profile-edit";
+        return "perfil_editar"; // profile_edit.mustache
     }
 
     @PostMapping("/profile/edit")
