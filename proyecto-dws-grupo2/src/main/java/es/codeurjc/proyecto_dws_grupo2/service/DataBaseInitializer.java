@@ -3,7 +3,7 @@ package es.codeurjc.proyecto_dws_grupo2.service;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; // <-- ESTA LÍNEA ARREGLA EL ERROR
-import es.codeurjc.proyecto_dws_grupo2.model.Clase;
+import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClaseRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
@@ -38,7 +38,7 @@ public class DataBaseInitializer {
         user1.setExtraFisio(true);
 
         User admin = new User();
-        admin.setNombre("Laura");
+        admin.setName("Laura");
         admin.setApellidos("Admin");
         admin.setEmail("admin@titangym.com");
         admin.setPassword("admin123");
