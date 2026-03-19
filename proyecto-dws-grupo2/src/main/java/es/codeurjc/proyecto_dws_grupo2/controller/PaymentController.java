@@ -5,28 +5,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
+import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PaymentController {
 
-    @PostMapping("/pagar")
-    public String pagar(User user, Model model) {
+    private final UserRepository userRepository;
 
-        double total = 29.99;
-
-        if (user.isExtraPhysio()) total += 39.99;
-        if (user.isExtraNutrition()) total += 29.99;
-        if (user.isExtraDrinks()) total += 2.99;
-
-        model.addAttribute("user", user);
-        model.addAttribute("total", total);
-
-        return "payment";
+    public PaymentController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/pago-exitoso")
-    public String pagoExitoso(User user, Model model) {
-        model.addAttribute("user", user);
-        return "payment-success";
+    public String pagoExitoso(HttpSession session, Model model) {
+
+        User usuarioPendiente = (User) session.getAttribute("usuarioPendiente");
+
+        if (usuarioPendiente == null) {
+            return "registro";
+        }
+
+        userRepository.save(usuarioPendiente);
+
+        session.removeAttribute("usuarioPendiente");
+        session.setAttribute("usuarioLogado", usuarioPendiente);
+
+        model.addAttribute("user", usuarioPendiente);
+        
+        return "successful";
     }
 }
