@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ClaseRepository;
+import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
 @Service
 public class DataBaseInitializer {
 
     @Autowired
-    private ClaseRepository claseRepository;
+    private ClassRepository claseRepository;
 
     @Autowired
     private UserRepository userRepository;
