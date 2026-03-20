@@ -23,7 +23,7 @@ public class ProfileController {
         User user = (User) session.getAttribute("usuarioLogado");
 
         if (user == null) {
-            return "registro";
+            return "register";
         }
 
         model.addAttribute("user", user);

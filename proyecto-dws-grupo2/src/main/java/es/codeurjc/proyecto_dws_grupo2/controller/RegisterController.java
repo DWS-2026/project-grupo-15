@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RegisterController {
@@ -23,8 +22,8 @@ public class RegisterController {
         return "registro";
     }
 
-    @PostMapping("/register")
-    public String pagar(User user, Model model, HttpSession session) {
+     @PostMapping("/register")
+    public String pagar(User user, Model model) {
 
         double total = 29.99;
 
@@ -32,10 +31,10 @@ public class RegisterController {
         if (user.isExtraNutrition()) total += 29.99;
         if (user.isExtraDrinks()) total += 2.99;
 
-        session.setAttribute("usuarioPendiente", user);
-        
         model.addAttribute("user", user);
         model.addAttribute("total", total);
+        model.addAttribute("origin", "register");
+        model.addAttribute("fromRegister", true);
 
         return "payment";
     }

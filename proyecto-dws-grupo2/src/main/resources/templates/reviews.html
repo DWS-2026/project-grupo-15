@@ -4,154 +4,105 @@
     <meta charset="utf-8">
     <title>Reviews | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <link href="img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">
-
 <div class="container-fluid">
     <div class="row">
+        {{> partials/sidebar}}
 
-        <!-- SIDEBAR -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
-            <div class="text-center mb-5">
-                <h2 class="text-primary font-weight-bold">TITANGYM</h2>
-                <p class="text-white-50">Área de Usuario</p>
-            </div>
-
-            <ul class="nav flex-column px-3">
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="index.html">
-                        <i class="fas fa-home mr-2"></i> Inicio
-                    </a>
-                </li>
-
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="perfil.html">
-                        <i class="fas fa-user mr-2"></i> Mi Perfil
-                    </a>
-                </li>
-
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="servicios-listado.html">
-                        <i class="fas fa-plus-circle mr-2"></i> Servicios
-                    </a>
-                </li>
-
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="clases-listado.html">
-                        <i class="fas fa-dumbbell mr-2"></i> Clases
-                    </a>
-                </li>
-
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="reviews.html">
-                        <i class="fas fa-star mr-2"></i> Reviews
-                    </a>
-                </li>
-
-                <li class="nav-item mt-5">
-                    <a class="nav-link text-danger" href="login.html">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- CONTENIDO PRINCIPAL -->
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
-            <!-- CABECERA -->
             <div class="d-flex justify-content-between align-items-center mb-5">
                 <h1 class="display-4 font-weight-bold">Reviews</h1>
                 <span class="text-white-50">Opiniones de usuarios</span>
             </div>
 
-            <!-- LISTA DE REVIEWS -->
+            <!-- REVIEWS DEL USUARIO -->
             <div class="card bg-secondary text-white p-4 mb-4">
-                <h4 class="mb-4 text-primary">Reviews hechas</h4>
+                <h4 class="mb-4 text-primary">Mis reviews</h4>
 
+                {{#reviews}}
                 <div class="border rounded p-3 mb-3 bg-dark">
                     <div class="d-flex justify-content-between">
-                        <strong>Manuel García</strong>
-                        <span class="text-warning">★★★★★</span>
+                        <strong>{{user.firstName}} {{user.lastName}}</strong>
+                        <span class="text-warning">
+                            {{#rating5}}★★★★★{{/rating5}}
+                            {{#rating4}}★★★★☆{{/rating4}}
+                            {{#rating3}}★★★☆☆{{/rating3}}
+                            {{#rating2}}★★☆☆☆{{/rating2}}
+                            {{#rating1}}★☆☆☆☆{{/rating1}}
+                        </span>
                     </div>
-                    <p class="mb-0 text-white-50">Muy buen gimnasio, buen ambiente y máquinas nuevas.</p>
+                    <small class="text-white-50">{{about}}</small>
+                    <p class="mb-0 mt-1">{{comment}}</p>
                 </div>
+                {{/reviews}}
 
-                <div class="border rounded p-3 mb-3 bg-dark">
-                    <div class="d-flex justify-content-between">
-                        <strong>Manuel García</strong>
-                        <span class="text-warning">★★★★☆</span>
-                    </div>
-                    <p class="mb-0 text-white-50">Me encantan las clases, pero iría bien ampliar horarios.</p>
-                </div>
+                {{^reviews}}
+                <p class="text-white-50">Aún no has hecho ninguna review.</p>
+                {{/reviews}}
 
-                <div class="border rounded p-3 bg-dark">
-                    <div class="d-flex justify-content-between">
-                        <strong>Manuel García</strong>
-                        <span class="text-warning">★★★★★</span>
-                    </div>
-                    <p class="mb-0 text-white-50">El servicio de nutrición está genial y el trato es muy bueno.</p>
-                </div>
             </div>
 
-            <!-- FORMULARIO (mockup) -->
+            <!-- FORMULARIO -->
             <div class="card bg-secondary text-white p-4">
                 <h4 class="mb-4 text-primary">Añadir una review</h4>
 
-                <form>
+                <form action="/reviews" method="post">
+
                     <div class="form-group">
                         <label>Usuario</label>
-                        <input id="usuarioActual" type="text" class="form-control" value="Manuel García" readonly>
+                        <input type="text" class="form-control"
+                               value="{{user.firstName}} {{user.lastName}}" readonly>
                     </div>
+
                     <div class="form-group">
                         <label>Acerca de</label>
-                            <select id="puntuacion" class="form-control">
-        
-                                    <option selected disabled>Selecciona una opción...</option>
-
-                                    <optgroup label="Clases">
-                                        <option value="crossfit">CrossFit</option>
-                                        <option value="zumba">Zumba</option>
-                                        <option value="spinning">Spinning</option>
-                                        <option value="bodypump">Body Pump</option>
-                                    </optgroup>
-
-                                    <optgroup label="Servicios">
-                                        <option value="nutricion">Nutrición</option>
-                                        <option value="sauna">Sauna</option>
-                                        <option value="entrenador">Entrenador Personal</option>
-                                 </optgroup>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="puntuacion">Puntuación</label>
-                        <select id="puntuacion" class="form-control">
-                            <option>★★★★★ (5)</option>
-                            <option>★★★★☆ (4)</option>
-                            <option>★★★☆☆ (3)</option>
-                            <option>★★☆☆☆ (2)</option>
-                            <option>★☆☆☆☆ (1)</option>
+                        <select name="about" class="form-control" required>
+                            <option selected disabled>Selecciona una opción...</option>
+                            <optgroup label="Clases">
+                                <option value="CrossFit">CrossFit</option>
+                                <option value="Zumba">Zumba</option>
+                                <option value="Spinning">Spinning</option>
+                                <option value="Body Pump">Body Pump</option>
+                            </optgroup>
+                            <optgroup label="Servicios">
+                                <option value="Nutrición">Nutrición</option>
+                                <option value="Sauna">Sauna</option>
+                                <option value="Entrenador Personal">Entrenador Personal</option>
+                            </optgroup>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="comentario">Comentario</label>
-                        <textarea id="comentario" class="form-control" rows="4" placeholder="Escribe tu opinión..."></textarea>
+                        <label>Puntuación</label>
+                        <select name="rating" class="form-control" required>
+                            <option value="5">★★★★★ (5)</option>
+                            <option value="4">★★★★☆ (4)</option>
+                            <option value="3">★★★☆☆ (3)</option>
+                            <option value="2">★★☆☆☆ (2)</option>
+                            <option value="1">★☆☆☆☆ (1)</option>
+                        </select>
                     </div>
 
-                    <button type="button" class="btn btn-primary" onclick="addReview()">
+                    <div class="form-group">
+                        <label>Comentario</label>
+                        <textarea name="comment" class="form-control" rows="4"
+                                  placeholder="Escribe tu opinión..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane mr-2"></i> Enviar
                     </button>
 
-                    <a href="perfil.html" class="btn btn-light ml-2">
+                    <a href="/profile" class="btn btn-light ml-2">
                         <i class="fas fa-arrow-left mr-2"></i> Volver
                     </a>
+
                 </form>
             </div>
 
@@ -161,3 +112,5 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

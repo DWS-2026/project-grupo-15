@@ -9,6 +9,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String about;
     private int rating;
     private String comment;
 
@@ -30,12 +31,40 @@ public class Review {
         this.user = user;
     }
 
+    public boolean isRating5() {
+        return this.rating == 5;
+    }
+
+    public boolean isRating4() {
+        return this.rating == 4;
+    }
+
+    public boolean isRating3() {
+        return this.rating == 3;
+    }
+
+    public boolean isRating2() {
+        return this.rating == 2;
+    }
+
+    public boolean isRating1() {
+        return this.rating == 1;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public int getRating() {
