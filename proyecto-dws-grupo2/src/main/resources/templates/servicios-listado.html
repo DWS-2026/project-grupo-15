@@ -3,143 +3,148 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mi Perfil | TITANGYM</title>
+    <title>Servicios | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Font Awesome -->
+    <link href="/img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Bootstrap + Template CSS -->
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">
 
-    <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
 
-            <!-- SIDEBAR -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
-                <div class="text-center mb-5">
-                    <h2 class="text-primary font-weight-bold">TITANGYM</h2>
-                    <p class="text-white-50">Área de Usuario</p>
+        <!-- SIDEBAR -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
+            <div class="text-center mb-5">
+                <h2 class="text-primary font-weight-bold">TITANGYM</h2>
+                <p class="text-white-50">Área de Usuario</p>
+            </div>
+
+            <ul class="nav flex-column px-3">
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="/">
+                        <i class="fas fa-home mr-2"></i> Inicio
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="/profile">
+                        <i class="fas fa-user mr-2"></i> Mi Perfil
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white active" href="/services">
+                        <i class="fas fa-plus-circle mr-2"></i> Servicios
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="/classes">
+                        <i class="fas fa-dumbbell mr-2"></i> Clases
+                    </a>
+                </li>
+
+                <li class="nav-item mb-3">
+                    <a class="nav-link text-white" href="/reviews">
+                        <i class="fas fa-star mr-2"></i> Reviews
+                    </a>
+                </li>
+
+                <li class="nav-item mt-5">
+                    <a class="nav-link text-danger" href="/logout">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- CONTENIDO -->
+        <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+
+            <div class="card bg-secondary p-4">
+                <h4 class="mb-4 text-primary">Mis servicios</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <!-- FISIOTERAPIA -->
+                        <tr>
+                            <td><img src="/img/fisio.jpg" width="80" class="rounded"></td>
+                            <td>Fisioterapia</td>
+                            <td>Sesiones semanales de recuperación muscular y tratamiento de lesiones.</td>
+                            <td>39,99 € / mes</td>
+                            <td>
+                                {{#user.extraPhysio}}
+                                    <span class="text-success">Activo</span>
+                                {{/user.extraPhysio}}
+
+                                {{^user.extraPhysio}}
+                                    <a href="/payment" class="btn btn-outline-light btn-sm">Suscribirse</a>
+                                {{/user.extraPhysio}}
+                            </td>
+                        </tr>
+
+                        <!-- NUTRICIÓN -->
+                        <tr>
+                            <td><img src="/img/nutri.jpg" width="80" class="rounded"></td>
+                            <td>Nutrición</td>
+                            <td>Asesoramiento nutricional personalizado para mejorar tu rendimiento.</td>
+                            <td>29,99 € / mes</td>
+                            <td>
+                                {{#user.extraNutrition}}
+                                    <span class="text-success">Activo</span>
+                                {{/user.extraNutrition}}
+
+                                {{^user.extraNutrition}}
+                                    <a href="/payment" class="btn btn-outline-light btn-sm">Suscribirse</a>
+                                {{/user.extraNutrition}}
+                            </td>
+                        </tr>
+
+                        <!-- BEBIDAS -->
+                        <tr>
+                            <td><img src="/img/bebida.jpg" width="80" class="rounded"></td>
+                            <td>Bebidas Extra</td>
+                            <td>Acceso máquina de bebidas.</td>
+                            <td>2,99 € / mes</td>
+                            <td>
+                                {{#user.extraDrinks}}
+                                    <span class="text-success">Activo</span>
+                                {{/user.extraDrinks}}
+
+                                {{^user.extraDrinks}}
+                                    <a href="/payment" class="btn btn-outline-light btn-sm">Suscribirse</a>
+                                {{/user.extraDrinks}}
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
                 </div>
+            </div>
 
-                <ul class="nav flex-column px-3">
-                    <li class="nav-item mb-3">
-                        <a class="nav-link text-white" href="index.html">
-                            <i class="fas fa-home mr-2"></i> Inicio
-                        </a>
-                    </li>
-
-                    <li class="nav-item mb-3">
-                        <a class="nav-link text-white" href="perfil.html">
-                            <i class="fas fa-user mr-2"></i> Mi Perfil
-                        </a>
-                    </li>
-
-                    <li class="nav-item mb-3">
-                        <a class="nav-link text-white" href="servicios-listado.html">
-                            <i class="fas fa-plus-circle mr-2"></i> Servicios
-                        </a>
-                    </li>
-
-                    <li class="nav-item mb-3">
-                        <a class="nav-link text-white" href="clases-listado.html">
-                            <i class="fas fa-dumbbell mr-2"></i> Clases
-                        </a>
-                    </li>
-
-                    <li class="nav-item mb-3">
-                        <a class="nav-link text-white active" href="reviews.html">
-                            <i class="fas fa-star mr-2"></i> Reviews
-                        </a>
-                    </li>
-
-                    <li class="nav-item mt-5">
-                        <a class="nav-link text-danger" href="login.html">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- CONTENIDO PRINCIPAL -->
-            <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
-
-                <div class="card bg-secondary p-4">
-                    <h4 class="mb-4 text-primary">Mis servicios</h4>
-
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Título</th>
-                                    <th>Descripción</th>
-                                    <th>Precio</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                <!-- FISIOTERAPIA -->
-                                <tr>
-                                    <td><img src="img/fisio.jpg" width="80" class="rounded"></td>
-                                    <td>Fisioterapia</td>
-                                    <td>Sesiones semanales de recuperación muscular y tratamiento de lesiones.</td>
-                                    <td>39,99 € / mes</td>
-                                    <td>
-                                        <a href="payment.html" class="btn btn-outline-light btn-block btn-subscribe">
-                                            Suscribirse
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <!-- NUTRICIÓN -->
-                                <tr>
-                                    <td><img src="img/nutri.jpg" width="80" class="rounded"></td>
-                                    <td>Nutrición</td>
-                                    <td>Asesoramiento nutricional personalizado para mejorar tu rendimiento.</td>
-                                    <td>29,99 € / mes</td>
-                                    <td>
-                                        <a href="payment.html" class="btn btn-outline-light btn-block btn-subscribe">
-                                            Suscribirse
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <!-- BEBIDAS EXTRA -->
-                                <tr>
-                                    <td><img src="img/bebida.jpg" width="80" class="rounded"></td>
-                                    <td>Bebidas Extra</td>
-                                    <td>Acceso máquina de bebidas.</td>
-                                    <td>2,99 € / mes</td>
-                                    <td>
-                                        <a href="payment.html" class="btn btn-outline-light btn-block btn-subscribe">
-                                            Suscribirse
-                                        </a>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                </div>
-
-            </main>
-        </div>
+        </main>
     </div>
+</div>
 
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
