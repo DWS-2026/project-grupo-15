@@ -1,0 +1,44 @@
+<nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
+    <div class="text-center mb-5">
+        <h2 class="text-primary font-weight-bold">TITANGYM</h2>
+        <p class="text-white-50">Panel Administrador</p>
+    </div>
+
+    <ul class="nav flex-column px-3">
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activePanel}}active{{/activePanel}}" href="/admin">
+                <i class="fas fa-tachometer-alt mr-2"></i> Panel principal
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activeMembers}}active{{/activeMembers}}" href="/admin/members">
+                <i class="fas fa-users mr-2"></i> Miembros
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activeClasses}}active{{/activeClasses}}" href="/admin/classes">
+                <i class="fas fa-dumbbell mr-2"></i> Clases
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activeServices}}active{{/activeServices}}" href="/admin/services">
+                <i class="fas fa-plus-circle mr-2"></i> Servicios Extra
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activeProfile}}active{{/activeProfile}}" href="/admin/profile">
+                <i class="fas fa-cog mr-2"></i> Perfil Admin
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a class="nav-link text-white {{#activeReviews}}active{{/activeReviews}}" href="/admin/reviews">
+                <i class="fas fa-star mr-2"></i> Reviews
+            </a>
+        </li>
+        <li class="nav-item mt-5">
+            <a class="nav-link text-danger" href="/logout">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </a>
+        </li>
+    </ul>
+</nav>

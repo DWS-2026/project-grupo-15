@@ -5,9 +5,9 @@
     <title>Añadir Clase | Panel Admin TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <link href="img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">
@@ -15,53 +15,7 @@
 <div class="container-fluid">
     <div class="row">
 
-        <!-- SIDEBAR -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar py-5">
-            <div class="text-center mb-5">
-                <h2 class="text-primary font-weight-bold">TITANGYM</h2>
-                <p class="text-white-50">Panel Administrador</p>
-            </div>
-
-            <ul class="nav flex-column px-3">
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="admin.html">
-                        <i class="fas fa-tachometer-alt mr-2"></i> Panel principal
-                    </a>
-                </li>
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="admin-usuarios.html">
-                        <i class="fas fa-users mr-2"></i> Miembros
-                    </a>
-                </li>
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="admin-clases.html">
-                        <i class="fas fa-dumbbell mr-2"></i> Clases
-                    </a>
-                </li>
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="admin-servicios.html">
-                        <i class="fas fa-plus-circle mr-2"></i> Servicios Extra
-                    </a>
-                </li>
-        
-                 <li class="nav-item mb-3">
-                    <a class="nav-link text-white" href="admin-ajustes.html">
-                        <i class="fas fa-cog mr-2"></i> Perfil Admin
-                    </a>
-                </li>
-                <li class="nav-item mb-3">
-                    <a class="nav-link text-white active" href="admin-reviews.html">
-                        <i class="fas fa-star mr-2"></i> Reviews
-                    </a>
-                </li>
-
-                <li class="nav-item mt-5">
-                    <a class="nav-link text-danger" href="index.html">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </a>
-                </li>
-            </ul>
-        </nav>
+       {{> partials/sidebar-admin}}
 
         <!-- CONTENIDO -->
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
