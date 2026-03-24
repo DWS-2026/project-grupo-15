@@ -14,6 +14,7 @@ public class ClassEntity {
     private String name;
     private String description;
     private String imageUrl;
+    private String schedule;
 
     @ManyToMany(mappedBy = "enrolledClasses")
     private List<User> attendees = new ArrayList<>();
@@ -24,9 +25,10 @@ public class ClassEntity {
     protected ClassEntity() {
     }
 
-    public ClassEntity(String name, String description) {
+    public ClassEntity(String name, String description, String schedule) {
         this.name = name;
         this.description = description;
+        this.schedule = schedule;
     }
 
     // Getters and setters
@@ -61,6 +63,14 @@ public class ClassEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+    
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     public List<User> getAttendees() {

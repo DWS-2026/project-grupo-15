@@ -45,7 +45,11 @@
                             <p class="lead text-white-50 mb-4">{{description}}</p>
                             
                             <div class="mt-auto">
-                                <a href="#" class="btn btn-primary btn-lg mr-3"><i class="fas fa-check-circle mr-2"></i> Apuntarme</a>
+                                <form action="/classes/{{id}}/signup" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-primary btn-lg mr-3">
+                                        <i class="fas fa-check-circle mr-2"></i> ¡Apuntarme!
+                                    </button>
+                                </form>
                                 <a href="/classes" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left mr-2"></i> Volver</a>
                             </div>
                         </div>
