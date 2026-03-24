@@ -49,10 +49,10 @@ public class ClassController {
     public String apuntarseAClase(@PathVariable Long id, HttpSession session, RedirectAttributes attributes) {
         
         // 1. Comprobamos quién es el usuario que ha iniciado sesión
-        User userLogged = (User) session.getAttribute("userLogged");
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
         
         // Si no hay nadie logueado, le echamos al login
-        if (userLogged == null) {
+        if (usuarioLogado == null) {
             return "redirect:/login";
         }
 
@@ -63,13 +63,13 @@ public class ClassController {
             ClassEntity clase = classOptional.get();
 
             // 3. ¡Magia! Añadimos la clase a la lista del usuario
-            userLogged.getEnrolledClasses().add(clase);
+            usuarioLogado.getEnrolledClasses().add(clase);
             
             // 4. Guardamos el usuario actualizado en la base de datos
-            userRepository.save(userLogged);
+            userRepository.save(usuarioLogado);
             
             // 5. Actualizamos la memoria temporal por si acaso
-            session.setAttribute("userLogged", userLogged);
+            session.setAttribute("usuarioLogado", usuarioLogado);
 
             // 6. Preparamos el mensaje Pop-up de éxito
             attributes.addFlashAttribute("mensajeExito", "¡Genial! Te has apuntado a " + clase.getName() + " el " + clase.getSchedule() + ".");

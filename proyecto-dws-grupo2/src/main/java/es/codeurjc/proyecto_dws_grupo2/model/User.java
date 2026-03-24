@@ -23,7 +23,7 @@ public class User {
 
     private String profileImageUrl;
 
-    @ManyToMany
+   @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
     private List<ClassEntity> enrolledClasses = new ArrayList<>();
 
     @ManyToMany
