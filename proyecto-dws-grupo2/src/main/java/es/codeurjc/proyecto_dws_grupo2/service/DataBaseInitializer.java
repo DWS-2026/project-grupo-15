@@ -20,9 +20,9 @@ public class DataBaseInitializer {
    @PostConstruct
     public void init() {
         
-        ClassEntity crossfit = new ClassEntity("CrossFit", "Entrenamiento funcional intenso");
-        ClassEntity zumba = new ClassEntity("Zumba", "Baile y cardio divertido");
-        ClassEntity bodyPump = new ClassEntity("Body Pump", "Pesas y música");
+        ClassEntity crossfit = new ClassEntity("CrossFit", "Entrenamiento funcional intenso", "Lunes 18:00-19:00");
+        ClassEntity zumba = new ClassEntity("Zumba", "Baile y cardio divertido", "Miércoles 19:00-20:00");
+        ClassEntity bodyPump = new ClassEntity("Body Pump", "Pesas y música", "Viernes 17:00-18:00");
 
         claseRepository.save(crossfit);
         claseRepository.save(zumba);
