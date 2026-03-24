@@ -31,16 +31,23 @@
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ml-auto p-4 bg-secondary">
-                    <a href="index.html" class="nav-item nav-link active">Inicio</a>
-                    <a href="about.html" class="nav-item nav-link">Sobre Nosotros</a>
-                    <a href="feature.html" class="nav-item nav-link">Qué Ofrecemos</a>
-                    <a href="class.html" class="nav-item nav-link">Clases</a>
-                    <a href="/profile" class="nav-item nav-link">Mi perfil</a>
-                    <a href="contact.html" class="nav-item nav-link">Contacto</a>
-                </div>
-            </div>
+           <div class="navbar-nav ml-auto p-4 bg-secondary">
+                <a href="/" class="nav-item nav-link active">Inicio</a>
+                <a href="about.html" class="nav-item nav-link">Sobre Nosotros</a>
+                <a href="class.html" class="nav-item nav-link">Clases</a>
+    
+                {{#usuarioSesion}}
+                <a href="/profile" class="nav-item nav-link">Hola, {{firstName}}</a>
+                <a href="/logout" class="nav-item nav-link">Cerrar Sesión</a>
+                {{/usuarioSesion}}
+
+                {{^usuarioSesion}}
+                <a href="/login" class="nav-item nav-link">Entrar</a>
+                <a href="/register" class="nav-item nav-link">Registrarse</a>
+                {{/usuarioSesion}}
+    
+                <a href="contact.html" class="nav-item nav-link">Contacto</a>
+</div>
         </nav>
     </div>
     <!-- Navbar End -->
@@ -55,7 +62,14 @@
                         <h3 class="text-primary text-capitalize m-0">Gimnsaio y Centro Deportivo</h3>
                         <h2 class="display-2 m-0 mt-2 mt-md-4 text-white font-weight-bold text-capitalize">Mejor
                             Gimnasio 2026</h2>
+
+                            {{^usuarioSesion}}
+                            <a href="/register" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Únete ahora</a>
+                            {{/usuarioSesion}}
+                            
+                            {{#usuarioSesion}}
                         <a href="/register" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Únete</a>
+                            {{/usuarioSesion}}
                     </div>
                 </div>
                 <div class="carousel-item">
