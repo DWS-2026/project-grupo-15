@@ -38,6 +38,7 @@ public class RegisterController {
         model.addAttribute("total", total);
         model.addAttribute("origin", "register");
         model.addAttribute("fromRegister", true);
+        model.addAttribute("serviceKey", "");
 
         return "payment";
     }
