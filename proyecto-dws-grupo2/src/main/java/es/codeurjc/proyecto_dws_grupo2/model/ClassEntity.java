@@ -12,6 +12,7 @@ public class ClassEntity {
     private Long id;
 
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String imageUrl;
     private String schedule;
@@ -30,8 +31,6 @@ public class ClassEntity {
         this.description = description;
         this.schedule = schedule;
     }
-
-    // Getters and setters
 
     public Long getId() {
         return id;

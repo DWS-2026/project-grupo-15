@@ -10,7 +10,6 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute("usuarioSesion")
     public User addAttributeUser(HttpSession session) {
-        // Esto inyecta el objeto "usuarioSesion" en TODAS las vistas automáticamente
         return (User) session.getAttribute("usuarioLogado");
     }
 }

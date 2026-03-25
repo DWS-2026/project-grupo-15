@@ -12,16 +12,15 @@ import java.util.Optional;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; // AÑADIDO
+import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ClassController {
 
     private final ClassRepository classRepository;
-    private final UserRepository userRepository; // AÑADIDO
+    private final UserRepository userRepository; 
 
-    // AÑADIDO: Actualizamos el constructor para incluir el userRepository
     public ClassController(ClassRepository classRepository, UserRepository userRepository) {
         this.classRepository = classRepository;
         this.userRepository = userRepository;
@@ -44,7 +43,6 @@ public class ClassController {
         }
     }
 
-    // --- NUEVO MÉTODO: EL BOTÓN DE APUNTARSE ---
     @PostMapping("/classes/{id}/signup")
     public String apuntarseAClase(@PathVariable Long id, HttpSession session, RedirectAttributes attributes) {
         
