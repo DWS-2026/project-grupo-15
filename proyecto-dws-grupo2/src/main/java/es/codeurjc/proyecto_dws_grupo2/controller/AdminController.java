@@ -8,6 +8,9 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
@@ -88,6 +91,11 @@ public class AdminController {
 
     @GetMapping("/admin/classes")
     public String adminClasses(HttpSession session, Model model) {
+
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
+            return "redirect:/login"; 
+        }
         
         List<ClassEntity> allClasses = classRepository.findAll();
         List<Map<String, Object>> classes = new ArrayList<>();
@@ -104,6 +112,7 @@ public class AdminController {
             map.put("imageUrl", classImage); 
             map.put("name", c.getName());
             map.put("description", c.getDescription());
+            map.put("schedule", c.getSchedule());
 
             classes.add(map);
         }
@@ -111,6 +120,75 @@ public class AdminController {
         model.addAttribute("classes", classes);
         
         return "admin-classes";
+    }
+
+    //BORRAR CLASE 
+    @PostMapping("/admin/classes/delete/{id}")
+    public String deleteClass(@PathVariable Long id, HttpSession session) {
+        
+        //  Comprobar si es admin
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
+            return "redirect:/login";
+        }
+
+        // Borramos de la base de datos y recargamos la página de la lista
+        classRepository.deleteById(id);
+        
+        return "redirect:/admin/classes";
+    }
+
+    @GetMapping("/admin/classes/new")
+    public String showCreateForm(HttpSession session) {
+        
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
+            return "redirect:/login";
+        }
+
+        // Carga tu archivo HTML del formulario
+        return "admin-clase-crear"; 
+    }
+
+    // --- 4. ATRAPAR DATOS Y GUARDAR NUEVA CLASE ---
+    @PostMapping("/admin/classes/new")
+    public String saveNewClass(
+            @RequestParam String name,
+            @RequestParam String schedule,
+            @RequestParam String description,
+            @RequestParam("imageField") org.springframework.web.multipart.MultipartFile imageField,
+            HttpSession session) throws java.io.IOException {
+        
+        // Portero: Comprobamos si es la admin
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
+            return "redirect:/login";
+        }
+
+        // 1. Lógica para guardar la imagen subida
+        String imageUrl = "/img/avatar.jpg"; // Imagen por defecto por si falla
+        
+        if (!imageField.isEmpty()) {
+            // Sacamos el nombre original de la foto (ej: zumba.jpg)
+            String fileName = imageField.getOriginalFilename();
+            
+            // Le decimos a Java dónde guardar el archivo en tu disco duro
+            // (Se guardará en la carpeta static/img de tu proyecto)
+            java.nio.file.Path ruta = java.nio.file.Paths.get("src/main/resources/static/img", fileName);
+            java.nio.file.Files.write(ruta, imageField.getBytes());
+            
+            // La ruta que guardaremos en la base de datos para que el HTML la encuentre
+            imageUrl = "/img/" + fileName;
+        }
+
+        // 2. Creamos la clase con los datos del formulario
+        ClassEntity nuevaClase = new ClassEntity(name, description, schedule);
+        
+        // 3. La guardamos en la base de datos
+        classRepository.save(nuevaClase);
+
+        // 4. Volvemos al listado de clases donde ya debería aparecer
+        return "redirect:/admin/classes";
     }
 
     @GetMapping("/admin/services")

@@ -32,23 +32,19 @@
                 <div class="table-responsive">
                     <table class="table table-dark table-hover align-middle">
                         <thead>
-                            <tr>
+                           <tr>
                                 <th>Imagen</th>
                                 <th>Título</th>
-                                <th>Descripción</th>
+                                <th>Horario</th> <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
-                        </thead>
 
-                        <tbody>
                             {{#classes}}
                             <tr>
-                                <td>
-                                    <img src="{{imageUrl}}" onerror="this.src='/img/crossfit.jpg'" width="80" class="rounded">
-                                </td>
-                                
+                                <td><img src="{{imageUrl}}" onerror="this.src='/img/crossfit.jpg'" width="80" class="rounded"></td>
                                 <td class="font-weight-bold">{{name}}</td>
-                                <td>{{description}}</td>
+                                <td><span class="text-warning">{{schedule}}</span></td> <td>{{description}}</td>
+
                                 
                                 <td>
                                     <a href="/admin/classes/{{id}}/asistentes" class="btn btn-info btn-sm mr-2" title="Ver Asistentes">
