@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-<<<<<<< HEAD
-=======
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
->>>>>>> ca9ae7e6526f86c889616cbfc7d9428520be5ff1
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
@@ -109,14 +106,11 @@ public class AdminController {
     @GetMapping("/admin/classes")
     public String adminClasses(HttpSession session, Model model) {
 
-<<<<<<< HEAD
         User usuarioLogado = (User) session.getAttribute("usuarioLogado");
         if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
             return "redirect:/login"; 
         }
         
-=======
->>>>>>> ca9ae7e6526f86c889616cbfc7d9428520be5ff1
         List<ClassEntity> allClasses = classRepository.findAll();
         List<Map<String, Object>> classes = new ArrayList<>();
 
@@ -142,7 +136,6 @@ public class AdminController {
         return "admin-classes";
     }
 
-<<<<<<< HEAD
     //BORRAR CLASE 
     @PostMapping("/admin/classes/delete/{id}")
     public String deleteClass(@PathVariable Long id, HttpSession session) {
@@ -212,7 +205,6 @@ public class AdminController {
         return "redirect:/admin/classes";
     }
 
-=======
     @GetMapping("/admin/classes/new")
     public String showAddClassForm() {
         return "admin-class-create";
@@ -264,7 +256,6 @@ public class AdminController {
         return "admin-class-edit";
     }
 
->>>>>>> ca9ae7e6526f86c889616cbfc7d9428520be5ff1
     @GetMapping("/admin/services")
     public String adminServices(HttpSession session, Model model) {
         return "admin-services";
