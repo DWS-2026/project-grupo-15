@@ -23,11 +23,14 @@ public class User {
 
     private String profileImageUrl;
 
-   @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
+    @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
     private List<ClassEntity> enrolledClasses = new ArrayList<>();
 
     @ManyToMany
     private List<Activity> enrolledActivities = new ArrayList<>();
+
+    @ManyToMany
+    private List<Activity> enrolledServices = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
