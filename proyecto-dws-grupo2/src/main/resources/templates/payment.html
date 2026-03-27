@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="/img/favicon.ico" rel="icon">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
@@ -29,12 +30,11 @@
             <div class="card bg-dark border-0 mb-4">
                 <div class="card-body p-3">
 
-                     {{#fromRegister}}
+                    {{#fromRegister}}
                     <div class="d-flex justify-content-between mb-2">
                         <span>Plan Titan (Mensual)</span>
                         <span class="font-weight-bold">29,99€</span>
                     </div>
-                    {{/fromRegister}}
 
                     {{#user.extraPhysio}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
@@ -51,11 +51,20 @@
                     {{/user.extraNutrition}}
 
                     {{#user.extraDrinks}}
-                    <div class="d-flex justify-content-between mb-3 text-white-50 small">
+                    <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Bebidas Extra</span>
                         <span>+2,99€</span>
                     </div>
                     {{/user.extraDrinks}}
+                    
+                    {{/fromRegister}}
+
+                    {{^fromRegister}}
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{serviceName}}</span>
+                        <span class="font-weight-bold">{{servicePrice}}€</span>
+                    </div>
+                    {{/fromRegister}}
 
                     <hr class="border-secondary">
 
@@ -69,8 +78,9 @@
 
             <form action="/payment_success" method="post">
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">Método de Pago</h5>
-                
+
                 <input type="hidden" name="origin" value="{{origin}}">
+                <input type="hidden" name="service" value="{{serviceKey}}">
 
                 <div class="mb-4 text-white-50">
                     <i class="fab fa-cc-visa fa-2x mr-3"></i>
@@ -81,14 +91,14 @@
                 <div class="form-group">
                     <label>Titular de la tarjeta</label>
                     <input type="text" class="form-control bg-dark text-white border-0"
-                           placeholder="{{user.firstName}} {{user.lastName}}" required>
+                        placeholder="{{user.firstName}} {{user.lastName}}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Número de tarjeta</label>
                     <div class="input-group">
                         <input type="text" class="form-control bg-dark text-white border-0"
-                               placeholder="0000 0000 0000 0000" required>
+                            placeholder="0000 0000 0000 0000" required>
                         <div class="input-group-append">
                             <span class="input-group-text bg-dark border-0 text-primary">
                                 <i class="fas fa-credit-card"></i>
@@ -100,11 +110,13 @@
                 <div class="form-row">
                     <div class="col-md-6 form-group">
                         <label>Fecha de caducidad</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="MM / AA" required>
+                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="MM / AA"
+                            required>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>CVV <i class="fas fa-question-circle text-white-50 ml-1"></i></label>
-                        <input type="password" class="form-control bg-dark text-white border-0" placeholder="123" maxlength="3" required>
+                        <input type="password" class="form-control bg-dark text-white border-0" placeholder="123"
+                            maxlength="3" required>
                     </div>
                 </div>
 
@@ -112,9 +124,17 @@
                     <i class="fas fa-lock mr-2"></i> PAGAR {{total}}€
                 </button>
 
+                {{#fromRegister}}
                 <a href="/register" class="btn btn-outline-light btn-block font-weight-bold mt-2">
                     VOLVER ATRÁS
                 </a>
+                {{/fromRegister}}
+
+                {{^fromRegister}}
+                <a href="/services" class="btn btn-outline-light btn-block font-weight-bold mt-2">
+                    VOLVER ATRÁS
+                </a>
+                {{/fromRegister}}
             </form>
 
             <div class="text-center mt-4">
@@ -127,4 +147,5 @@
     </div>
 
 </body>
+
 </html>

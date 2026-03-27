@@ -20,13 +20,14 @@ public class PaymentController {
 
     @PostMapping("/payment_success")
     public String pagoExitoso(@RequestParam String origin,
-                               @RequestParam(required = false) String service,
-                               HttpSession session,
-                               Model model) {
+            @RequestParam(required = false) String service,
+            HttpSession session,
+            Model model) {
 
         if ("register".equals(origin)) {
             User usuarioPendiente = (User) session.getAttribute("usuarioPendiente");
-            if (usuarioPendiente == null) return "redirect:/register";
+            if (usuarioPendiente == null)
+                return "redirect:/register";
 
             userRepository.save(usuarioPendiente);
             session.removeAttribute("usuarioPendiente");
@@ -37,12 +38,13 @@ public class PaymentController {
         }
 
         User user = (User) session.getAttribute("usuarioLogado");
-        if (user == null) return "redirect:/login";
+        if (user == null)
+            return "redirect:/login";
 
         switch (service) {
-            case "physio"    -> user.setExtraPhysio(true);
+            case "physio" -> user.setExtraPhysio(true);
             case "nutrition" -> user.setExtraNutrition(true);
-            case "drinks"    -> user.setExtraDrinks(true);
+            case "drinks" -> user.setExtraDrinks(true);
         }
 
         userRepository.save(user);

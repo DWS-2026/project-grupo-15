@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <title>Admin Panel | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <!-- Favicon -->
     <link href="/img/favicon.ico" rel="icon">
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Bootstrap + Template CSS -->
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
@@ -22,79 +16,62 @@
 
         {{> partials/sidebar-admin}}
 
-        <!-- MAIN CONTENT -->
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
-            <!-- HEADER -->
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <h1 class="display-4 font-weight-bold">Dashboard</h1>
+            <div class="d-flex justify-content-end mb-5 mt-2">
                 <span class="text-white-50">Bienvenido, Admin</span>
             </div>
 
-            <!-- STATS CARDS -->
             <div class="row mb-5">
                 <div class="col-md-3 mb-4">
-                    <div class="card bg-primary text-white text-center p-4">
-                        <i class="fas fa-users fa-2x mb-2"></i>
-                        <h3>20</h3>
-                        <p class="mb-0">Miembros</p>
+                    <div class="card bg-primary text-white text-center p-4 h-100 border-0">
+                        <i class="fas fa-users fa-2x mb-3"></i>
+                        <h3 class="mb-1">{{totalMembers}}</h3>
+                        <p class="mb-0 text-white-50">Miembros</p>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card bg-secondary text-white text-center p-4">
-                        <i class="fas fa-dumbbell fa-2x mb-2"></i>
-                        <h3>4</h3>
-                        <p class="mb-0">Clases</p>
+                    <div class="card bg-secondary text-white text-center p-4 h-100 border-0">
+                        <i class="fas fa-dumbbell fa-2x mb-3"></i>
+                        <h3 class="mb-1">{{totalClasses}}</h3>
+                        <p class="mb-0 text-white-50">Clases</p>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card bg-primary text-white text-center p-4">
-                        <i class="fas fa-user-tie fa-2x mb-2"></i>
-                        <h3>5</h3>
-                        <p class="mb-0">Entrenadores</p>
+                    <div class="card bg-primary text-white text-center p-4 h-100 border-0">
+                        <i class="fas fa-user-tie fa-2x mb-3"></i>
+                        <h3 class="mb-1">{{totalTrainers}}</h3>
+                        <p class="mb-0 text-white-50">Entrenadores</p>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card bg-secondary text-white text-center p-4">
-                        <i class="fas fa-chart-line fa-2x mb-2"></i>
-                        <h3>+18%</h3>
-                        <p class="mb-0">Crecimiento Mensual</p>
+                    <div class="card bg-secondary text-white text-center p-4 h-100 border-0">
+                        <i class="fas fa-chart-line fa-2x mb-3"></i>
+                        <h3 class="mb-1">{{monthlyGrowth}}</h3>
+                        <p class="mb-0 text-white-50">Crecimiento Mensual</p>
                     </div>
                 </div>
             </div>
 
-            <!-- TABLE -->
-            <div class="card bg-secondary p-4">
+            <div class="card bg-secondary p-4 border-0">
                 <h4 class="mb-4 text-primary">Últimos Miembros</h4>
                 <div class="table-responsive">
-                    <table class="table table-dark table-hover">
+                    <table class="table table-dark table-hover border-0">
                         <thead>
-                            <tr>
+                            <tr class="text-white-50">
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Plan</th>
                                 <th>Estatus</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#recentMembers}}
                             <tr>
-                                <td>John Doe</td>
-                                <td>john@email.com</td>
-                                <td>Premium</td>
-                                <td class="text-success">Active</td>
+                                <td>{{nombre}}</td>
+                                <td>{{email}}</td>
+                                <td class="{{statusColor}}">{{statusText}}</td>
                             </tr>
-                            <tr>
-                                <td>Maria Lopez</td>
-                                <td>maria@email.com</td>
-                                <td>Basic</td>
-                                <td class="text-success">Active</td>
-                            </tr>
-                            <tr>
-                                <td>Carlos Ruiz</td>
-                                <td>carlos@email.com</td>
-                                <td>VIP</td>
-                                <td class="text-danger">Inactive</td>
-                            </tr>
+                            {{/recentMembers}}
                         </tbody>
                     </table>
                 </div>
@@ -104,7 +81,6 @@
     </div>
 </div>
 
-<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 

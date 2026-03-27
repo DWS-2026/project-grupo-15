@@ -20,6 +20,6 @@ public class IndexController {
             model.addAttribute("logeado", false);
         }
 
-        return "index"; // Esto buscará src/main/resources/templates/index.html (o .mustache)
+        return "index"; 
     }
 }
