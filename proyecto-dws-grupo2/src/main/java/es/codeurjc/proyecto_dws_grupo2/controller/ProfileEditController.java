@@ -39,7 +39,7 @@ public class ProfileEditController {
         }
         
         model.addAttribute("user", user);
-        return "perfil-editar";
+        return "profile-edit";
     }
 
     @PostMapping("/profile/edit")
