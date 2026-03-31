@@ -21,28 +21,30 @@
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h1 class="display-4 font-weight-bold">Gestionar: CrossFit</h1>
-                    <p class="text-white-50">Jueves 18:00 - 19:00</p>
+                    <h1 class="display-4 font-weight-bold">Gestionar: {{clase.name}}</h1>
+                    <p class="text-white-50"><i class="far fa-clock mr-2"></i>{{clase.schedule}}</p>
                 </div>
-                <a href="admin-clases.html" class="btn btn-outline-light">
+                <a href="/admin/classes" class="btn btn-outline-light">
                     <i class="fas fa-arrow-left mr-2"></i> Volver al listado
                 </a>
             </div>
 
             <div class="card bg-secondary p-4 mb-4">
                 <h5 class="text-white mb-3"><i class="fas fa-user-plus text-primary mr-2"></i> Inscribir miembro manualmente</h5>
-                <form class="form-row align-items-center">
+                <form action="/admin/classes/{{clase.id}}/asistentes/add" method="POST" class="form-row align-items-center">
                     <div class="col-sm-8 my-1">
-                        <label class="sr-only" for="inlineFormInputName">Usuario</label>
-                        <select class="form-control bg-dark text-white border-0" id="selectUsuario">
-                            <option selected>Seleccionar usuario...</option>
-                            <option value="1">Laura Martínez (ID: 402)</option>
-                            <option value="2">Pedro Sanchez (ID: 105)</option>
-                            <option value="3">Miguel Angel (ID: 88)</option>
+                        <label class="sr-only" for="selectUsuario">Usuario</label>
+                        <select class="form-control bg-dark text-white border-0" id="selectUsuario" name="userId" required>
+                            <option value="" selected disabled>Seleccionar usuario...</option>
+                            
+                            {{#disponibles}}
+                            <option value="{{id}}">{{firstName}} {{lastName}} (ID: {{id}})</option>
+                            {{/disponibles}}
+                            
                         </select>
                     </div>
                     <div class="col-sm-4 my-1">
-                        <button type="button" class="btn btn-primary btn-block">Añadir a la clase</button>
+                        <button type="submit" class="btn btn-primary btn-block">Añadir a la clase</button>
                     </div>
                 </form>
             </div>
@@ -65,49 +67,34 @@
                         </thead>
                         <tbody>
                             
+                            <tbody>
+                            {{#asistentes}}
                             <tr>
                                 <td>
+                                    {{#profileImageUrl}}
+                                    <img src="{{profileImageUrl}}" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                    {{/profileImageUrl}}
+                                    {{^profileImageUrl}}
                                     <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                                         <i class="fas fa-user text-white"></i>
                                     </div>
+                                    {{/profileImageUrl}}
                                 </td>
-                                <td class="align-middle">Juan Pérez</td>
+                                <td class="align-middle font-weight-bold">{{firstName}} {{lastName}}</td>
                                 <td class="align-middle"><span class="badge badge-success">Confirmado</span></td>
                                 <td class="text-right align-middle">
-                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase" onclick="return confirm('¿Quitar a Juan Pérez de esta clase?')">
+                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase" onclick="return confirm('¿Quitar a {{firstName}} de esta clase?')">
                                         <i class="fas fa-times mr-1"></i> Quitar
                                     </button>
                                 </td>
                             </tr>
-
+                            {{/asistentes}}
+                            
+                            {{^asistentes}}
                             <tr>
-                                <td>
-                                    <img src="img/team-1.jpg" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-                                </td>
-                                <td class="align-middle">Maria Garcia</td>
-                                <td class="align-middle"><span class="badge badge-success">Confirmado</span></td>
-                                <td class="text-right align-middle">
-                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase">
-                                        <i class="fas fa-times mr-1"></i> Quitar
-                                    </button>
-                                </td>
+                                <td colspan="4" class="text-center py-4 text-white-50">No hay nadie apuntado a esta clase todavía.</td>
                             </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="rounded-circle bg-info d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                                        <span class="font-weight-bold">CR</span>
-                                    </div>
-                                </td>
-                                <td class="align-middle">Carlos Ruiz</td>
-                                <td class="align-middle"><span class="badge badge-warning">En espera</span></td>
-                                <td class="text-right align-middle">
-                                    <button class="btn btn-danger btn-sm" title="Quitar de la clase">
-                                        <i class="fas fa-times mr-1"></i> Quitar
-                                    </button>
-                                </td>
-                            </tr>
-
+                            {{/asistentes}}
                         </tbody>
                     </table>
                 </div>

@@ -49,23 +49,28 @@ public class DataBaseInitializer {
         claseRepository.save(spinning);
         claseRepository.save(zumba);
 
+        if(userRepository.findByEmail("paco@gmail.com").isEmpty()) {
         User user1 = new User();
         user1.setFirstName("Paco");
         user1.setLastName("García");
         user1.setEmail("paco@gmail.com");
         user1.setPassword("1234");
         user1.setExtraPhysio(true);
+        user1.getEnrolledClasses().add(crossfit);
+        user1.getEnrolledClasses().add(zumba);
+        userRepository.save(user1);
+        }
 
+        if(userRepository.findByEmail("admin@titangym.com").isEmpty()) {
         User admin = new User();
         admin.setFirstName("Laura");
         admin.setLastName("Admin");
         admin.setEmail("admin@titangym.com");
         admin.setPassword("admin123");
-
-        user1.getEnrolledClasses().add(crossfit);
-        user1.getEnrolledClasses().add(zumba);
-
-        userRepository.save(user1);
         userRepository.save(admin);
+        }
+
+        
+        
     }
 }

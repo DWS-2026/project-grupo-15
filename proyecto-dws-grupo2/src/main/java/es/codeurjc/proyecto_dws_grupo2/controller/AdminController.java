@@ -200,6 +200,50 @@ public class AdminController {
         return "admin-class-edit";
     }
 
+    @GetMapping("/admin/classes/{id}/asistentes")
+    public String viewClassAttendees(@PathVariable Long id, Model model, HttpSession session) {
+        
+        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
+            return "redirect:/login";
+        }
+
+       
+        ClassEntity clase = classRepository.findById(id).orElse(null);
+        if (clase == null) return "redirect:/admin/classes"; 
+
+        List<User> todosLosUsuarios = userRepository.findAll();
+        
+        List<User> asistentes = new ArrayList<>();
+        List<User> disponibles = new ArrayList<>(); 
+
+        for (User u : todosLosUsuarios) {
+            boolean estaApuntado = false;
+            for (ClassEntity c : u.getEnrolledClasses()) {
+                if (c.getId().equals(clase.getId())) {
+                    estaApuntado = true;
+                    break;
+                }
+            }
+            
+            if (estaApuntado) {
+                asistentes.add(u);
+            } else {
+                
+                if (!u.getEmail().equals("admin@titangym.com")) {
+                    disponibles.add(u);
+                }
+            }
+        }
+
+        model.addAttribute("clase", clase);
+        model.addAttribute("asistentes", asistentes);
+        model.addAttribute("totalAsistentes", asistentes.size());
+        model.addAttribute("disponibles", disponibles);
+
+        return "admin-clases-listado"; 
+    }
+
     @GetMapping("/admin/services")
     public String adminServices(HttpSession session, Model model) {
         return "admin-services";
