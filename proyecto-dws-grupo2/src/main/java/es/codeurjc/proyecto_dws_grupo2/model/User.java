@@ -30,7 +30,7 @@ public class User {
     private List<Activity> enrolledActivities = new ArrayList<>();
 
     @ManyToMany
-    private List<Activity> enrolledServices = new ArrayList<>();
+    private List<ServiceEntity> enrolledServices = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
@@ -133,4 +133,13 @@ public class User {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    public List<ServiceEntity> getEnrolledServices() {
+        return enrolledServices;
+    }
+
+    public void setEnrolledServices(List<ServiceEntity> enrolledServices) {
+        this.enrolledServices = enrolledServices;
+    }
 }
+    
