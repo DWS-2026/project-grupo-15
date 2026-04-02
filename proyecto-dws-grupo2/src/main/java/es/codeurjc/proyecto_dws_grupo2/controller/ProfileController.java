@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
+
+import java.security.Principal; 
 
 @Controller
 public class ProfileController {
@@ -18,13 +19,11 @@ public class ProfileController {
     }
 
     @GetMapping("/profile")
-    public String profile(HttpSession session, Model model) {
+    public String profile(Principal principal, Model model) {
 
-        User user = (User) session.getAttribute("usuarioLogado");
+        String email = principal.getName();
 
-        if (user == null) {
-            return "register";
-        }
+        User user = userRepository.findByEmail(email).orElseThrow();
 
         model.addAttribute("user", user);
 

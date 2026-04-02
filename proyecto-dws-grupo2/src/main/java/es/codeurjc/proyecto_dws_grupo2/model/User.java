@@ -17,6 +17,9 @@ public class User {
     private String email;
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
+
     private boolean extraPhysio;
     private boolean extraNutrition;
     private boolean extraDrinks;
@@ -140,6 +143,14 @@ public class User {
 
     public void setEnrolledServices(List<ServiceEntity> enrolledServices) {
         this.enrolledServices = enrolledServices;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
     

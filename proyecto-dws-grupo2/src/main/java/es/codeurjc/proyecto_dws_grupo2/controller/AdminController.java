@@ -64,10 +64,7 @@ public class AdminController {
         }
 
         model.addAttribute("recentMembers", recentMembers);
-
         model.addAttribute("totalClasses", 4);
-        model.addAttribute("totalTrainers", 5);
-        model.addAttribute("monthlyGrowth", "+18%");
 
         return "admin";
     }
@@ -104,12 +101,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/classes")
-    public String adminClasses(HttpSession session, Model model) {
-
-        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
-        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
-            return "redirect:/login"; 
-        }
+    public String adminClasses( Model model) {
         
         List<ClassEntity> allClasses = classRepository.findAll();
         List<Map<String, Object>> classes = new ArrayList<>();
@@ -138,12 +130,8 @@ public class AdminController {
 
   
     @PostMapping("/admin/classes/delete/{id}")
-    public String deleteClass(@PathVariable Long id, HttpSession session) {
+    public String deleteClass(@PathVariable Long id) {
     
-        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
-        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
-            return "redirect:/login";
-        }
         classRepository.deleteById(id);
         
         return "redirect:/admin/classes";
@@ -201,13 +189,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/classes/{id}/asistentes")
-    public String viewClassAttendees(@PathVariable Long id, Model model, HttpSession session) {
-        
-        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
-        if (usuarioLogado == null || !usuarioLogado.getEmail().equals("admin@titangym.com")) {
-            return "redirect:/login";
-        }
-
+    public String viewClassAttendees(@PathVariable Long id, Model model) {
        
         ClassEntity clase = classRepository.findById(id).orElse(null);
         if (clase == null) return "redirect:/admin/classes"; 
