@@ -16,7 +16,6 @@ public class ServiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     @Column(columnDefinition = "TEXT") 

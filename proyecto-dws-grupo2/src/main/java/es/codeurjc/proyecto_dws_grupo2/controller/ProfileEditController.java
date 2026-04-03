@@ -12,9 +12,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+import java.security.Principal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,17 +28,18 @@ public class ProfileEditController {
     private final UserRepository userRepository;
     private static final Path IMAGES_FOLDER = Paths.get("profile_images");
 
-    public ProfileEditController(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public ProfileEditController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/profile/edit")
-    public String editProfile(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("usuarioLogado");
-        if (user == null) {
-            return "redirect:/login";
-        }
-        
+    public String editProfile(Principal principal, Model model) {
+       
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email).orElseThrow();
         model.addAttribute("user", user);
         return "profile-edit";
     }
@@ -45,19 +47,18 @@ public class ProfileEditController {
     @PostMapping("/profile/edit")
     public String saveProfile(User updatedUser, 
                               @RequestParam("profilePicture") MultipartFile image, 
-                              HttpSession session) throws IOException {
+                              Principal principal) throws IOException {
         
-        User user = (User) session.getAttribute("usuarioLogado");
-        if (user == null) {
-            return "redirect:/login";
-        }
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email).orElseThrow();
 
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
 
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-            user.setPassword(updatedUser.getPassword());
+            String hash = passwordEncoder.encode(updatedUser.getPassword());
+            user.setPassword(hash);
         }
 
         if (image != null && !image.isEmpty()) {
@@ -68,7 +69,6 @@ public class ProfileEditController {
         }
 
         userRepository.save(user);
-        session.setAttribute("usuarioLogado", user);
 
         return "redirect:/profile";
     }
