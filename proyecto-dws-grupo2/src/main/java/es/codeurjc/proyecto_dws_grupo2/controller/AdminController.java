@@ -24,7 +24,6 @@ import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
-import jakarta.servlet.http.HttpSession;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -229,13 +228,27 @@ public class AdminController {
         return "admin-clases-listado";
     }
 
+    @PostMapping("/admin/classes/{id}/asistentes/add")
+    public String addAttendee(@PathVariable Long id, @RequestParam Long userId) {
+        
+        ClassEntity clase = classRepository.findById(id).orElse(null);
+        User usuario = userRepository.findById(userId).orElse(null);
+
+        if (clase != null && usuario != null) {
+            usuario.getEnrolledClasses().add(clase);
+            userRepository.save(usuario); 
+        }
+
+        return "redirect:/admin/classes/" + id + "/asistentes";
+    }
+
     @GetMapping("/admin/reviews")
-    public String adminReviews(HttpSession session, Model model) {
+    public String adminReviews(Model model) {
         return "admin-reviews";
     }
 
     @GetMapping("/admin/profile")
-    public String adminProfile(HttpSession session, Model model) {
+    public String adminProfile(Model model) {
         return "admin-settings";
     }
 
