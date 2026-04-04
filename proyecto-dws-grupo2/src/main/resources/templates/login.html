@@ -46,7 +46,7 @@
                 Iniciar sesión
             </button>
         </form>
-
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
         <div class="text-center mt-4">
             <a href="/recuperar-contrasena" class="text-white-50">¿No recuerdas tu contraseña?</a><br>
             <a href="/register" class="text-primary font-weight-bold">Registrarse</a>

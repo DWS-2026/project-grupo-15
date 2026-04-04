@@ -53,10 +53,7 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/")
                         .permitAll());
 
-        // Desactivamos CSRF para facilitar el desarrollo inicial (siguiendo los
-        // apuntes)
-        http.csrf(csrf -> csrf.disable());
-
+        
         return http.build();
     }
 }

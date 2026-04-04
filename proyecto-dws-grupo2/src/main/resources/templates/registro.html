@@ -152,7 +152,7 @@
                 <input type="submit" value="PROCEDER AL PAGO" class="btn btn-primary btn-lg btn-block font-weight-bold mt-4">
                 
             </form>
-
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             <div class="text-center mt-4">
                 <span class="text-white-50">¿Ya tienes cuenta?</span>
                 <a href="/login" class="text-primary font-weight-bold ml-1">Iniciar sesión</a>
