@@ -32,6 +32,7 @@
             <div class="card bg-secondary p-4 mb-4">
                 <h5 class="text-white mb-3"><i class="fas fa-user-plus text-primary mr-2"></i> Inscribir miembro manualmente</h5>
                 <form action="/admin/classes/{{clase.id}}/asistentes/add" method="POST" class="form-row align-items-center">
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="col-sm-8 my-1">
                         <label class="sr-only" for="selectUsuario">Usuario</label>
                         <select class="form-control bg-dark text-white border-0" id="selectUsuario" name="userId" required>
@@ -47,7 +48,6 @@
                         <button type="submit" class="btn btn-primary btn-block">Añadir a la clase</button>
                     </div>
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
             <div class="card bg-secondary p-4">

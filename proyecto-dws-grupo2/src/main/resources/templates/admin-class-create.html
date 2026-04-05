@@ -33,7 +33,7 @@
                     <h3 class="mb-4 text-primary">Datos de la clase</h3>
 
                     <form action="/admin/classes/new" method="POST" enctype="multipart/form-data">
-
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">Título</label>
                             <input type="text" name="name" class="form-control bg-dark text-white border-0" required>
@@ -55,7 +55,6 @@
                             <i class="fas fa-save mr-2"></i> Guardar clase
                         </button>
                     </form>
-                    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                 </div>
 
             </main>

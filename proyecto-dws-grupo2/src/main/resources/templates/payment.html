@@ -77,6 +77,7 @@
             </div>
 
             <form action="/payment_success" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">Método de Pago</h5>
 
                 <input type="hidden" name="origin" value="{{origin}}">
@@ -136,7 +137,6 @@
                 </a>
                 {{/fromRegister}}
             </form>
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             <div class="text-center mt-4">
                 <small class="text-white-50">
                     <i class="fas fa-shield-alt mr-1"></i> Pago 100% seguro y cifrado

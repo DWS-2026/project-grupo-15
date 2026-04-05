@@ -30,7 +30,7 @@
                 <h3 class="mb-4 text-primary">Modificar datos</h3>
 
                 <form action="/admin/services/edit/{{service.id}}" method="POST" enctype="multipart/form-data">
-
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group mb-3">
                         <label class="font-weight-bold">Título</label>
                         <input type="text" name="name" class="form-control bg-dark text-white border-0" value="{{service.name}}" required>
@@ -56,7 +56,6 @@
                     </a>
 
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
         </main>

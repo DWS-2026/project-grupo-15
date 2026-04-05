@@ -60,11 +60,11 @@
                                     </a>
 
                                     <form action="/admin/members/delete/{{id}}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
-                                    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                                 </td>
                             </tr>
                             {{/members}}

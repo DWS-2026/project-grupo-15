@@ -26,6 +26,7 @@
                 <h3 class="text-primary mb-4"><i class="fas fa-user-cog mr-2"></i> Ajustes del Administrador</h3>
 
                 <form>
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group mb-3">
                         <label>Nombre del administrador</label>
                         <input type="text" class="form-control bg-dark text-white border-0" value="Administrador TITANGYM">
@@ -45,7 +46,6 @@
                         <i class="fas fa-save mr-2"></i> Guardar cambios
                     </button>
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
             <!-- AJUSTES DEL GIMNASIO -->
@@ -53,6 +53,7 @@
                 <h3 class="text-primary mb-4"><i class="fas fa-building mr-2"></i> Información del Gimnasio</h3>
 
                 <form>
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group mb-3">
                         <label>Nombre del gimnasio</label>
                         <input type="text" class="form-control bg-dark text-white border-0" value="TITANGYM">
@@ -77,7 +78,6 @@
                         <i class="fas fa-save mr-2"></i> Guardar cambios
                     </button>
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
             <!-- AJUSTES VISUALES -->
@@ -85,6 +85,7 @@
                 <h3 class="text-primary mb-4"><i class="fas fa-paint-brush mr-2"></i> Apariencia del Panel</h3>
 
                 <form>
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group mb-3">
                         <label>Color principal</label>
                         <select class="form-control bg-dark text-white border-0">
@@ -104,7 +105,6 @@
                         <i class="fas fa-save mr-2"></i> Guardar cambios
                     </button>
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
             <!-- AJUSTES DE SEGURIDAD -->
@@ -112,6 +112,7 @@
                 <h3 class="text-primary mb-4"><i class="fas fa-shield-alt mr-2"></i> Seguridad</h3>
 
                 <form>
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group mb-3">
                         <label>Verificación en dos pasos</label>
                         <select class="form-control bg-dark text-white border-0">
@@ -132,7 +133,6 @@
                         <i class="fas fa-save mr-2"></i> Guardar cambios
                     </button>
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
         </main>

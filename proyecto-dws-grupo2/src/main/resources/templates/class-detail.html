@@ -46,11 +46,11 @@
                             
                             <div class="mt-auto">
                                 <form action="/classes/{{id}}/signup" method="post" style="display: inline;">
+                                    <input type="hidden" name="_csrf" value="{{token}}"/>
                                     <button type="submit" class="btn btn-primary btn-lg mr-3">
                                         <i class="fas fa-check-circle mr-2"></i> ¡Apuntarme!
                                     </button>
                                 </form>
-                                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                                 <a href="/classes" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left mr-2"></i> Volver</a>
                             </div>
                         </div>

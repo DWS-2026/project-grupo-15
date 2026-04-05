@@ -30,7 +30,7 @@
                     <h3 class="mb-4 text-primary">Información Personal</h3>
 
                     <form action="/profile/edit" method="post" enctype="multipart/form-data">
-
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
                         <div class="text-center mb-4">
                             {{#user.profileImageUrl}}
                             <img src="/profile/image/{{user.id}}" class="rounded-circle mb-3" width="150" height="150" alt="Foto de perfil">
@@ -76,7 +76,6 @@
                         </div>
 
                     </form>
-                    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                 </div>
 
             </main>

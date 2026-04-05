@@ -38,7 +38,7 @@
                 <h3 class="mb-4 text-primary">Datos del nuevo usuario</h3>
 
                 <form>
-
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <!-- FOTO -->
                     <div class="form-group mb-4">
                         <label class="font-weight-bold">Foto de perfil</label>
@@ -98,7 +98,6 @@
                     </a>
 
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
         </main>

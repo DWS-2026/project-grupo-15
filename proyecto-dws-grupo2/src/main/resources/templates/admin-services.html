@@ -60,13 +60,13 @@
 
                                         <form action="/admin/services/delete/{{id}}" method="POST"
                                             style="display:inline;">
+                                            <input type="hidden" name="_csrf" value="{{token}}"/>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('¿Seguro que deseas eliminar la clase {{name}}?')"
                                                 title="Eliminar">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-                                        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                                     </td>
                                 </tr>
                                 {{/services}}

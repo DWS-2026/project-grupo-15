@@ -53,7 +53,7 @@
                 <h4 class="mb-4 text-primary">Añadir una review</h4>
 
                 <form action="/reviews" method="post">
-
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <div class="form-group">
                         <label>Usuario</label>
                         <input type="text" class="form-control"
@@ -104,7 +104,6 @@
                     </a>
 
                 </form>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
             </div>
 
         </main>
