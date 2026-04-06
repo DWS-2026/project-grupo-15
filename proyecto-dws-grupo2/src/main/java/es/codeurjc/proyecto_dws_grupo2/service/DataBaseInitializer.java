@@ -98,6 +98,7 @@ public class DataBaseInitializer {
             user1.setPassword(passwordEncoder.encode("1234"));
             user1.setRoles(List.of("USER"));
             user1.setExtraPhysio(true);
+            user1.setProfileImageUrl("/img/avatar.jpg");
             userRepository.save(user1);
         }
 
@@ -108,6 +109,7 @@ public class DataBaseInitializer {
             admin.setEmail("admin@titangym.com");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRoles(List.of("ADMIN"));
+            admin.setProfileImageUrl("/img/avatar.jpg");
             userRepository.save(admin);
         }
     }

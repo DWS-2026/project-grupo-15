@@ -6,23 +6,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
+import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
+import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 
 @Controller
 public class IndexController {
 
-    // Necesitamos el repositorio para buscar su nombre de pila
     private final UserRepository userRepository;
+    
+    private final ServiceRepository serviceRepository; 
 
-    public IndexController(UserRepository userRepository) {
+    private final ClassRepository classRepository; 
+
+    private final ReviewRepository reviewRepository;
+
+    public IndexController(UserRepository userRepository, ServiceRepository serviceRepository, ClassRepository classRepository, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
+        this.serviceRepository = serviceRepository;
+        this.classRepository = classRepository;
+        this.reviewRepository = reviewRepository;
     }
 
    @GetMapping("/")
     public String index(Model model, Principal principal) {
         
         if (principal != null) {
-            // Buscamos al usuario en la BBDD
             User user = userRepository.findByEmail(principal.getName()).orElse(null);
             
             if (user != null) {
@@ -31,6 +41,10 @@ public class IndexController {
             }
         }
 
+        model.addAttribute("services", serviceRepository.findAll());
+        model.addAttribute("classes", classRepository.findAll());
+        model.addAttribute("reviews", reviewRepository.findAll());
+        model.addAttribute("activeInicio", true);
         return "index";
     }
 
@@ -43,6 +57,7 @@ public class IndexController {
                 model.addAttribute("usuarioSesion", user);
             }
         }
+        model.addAttribute("activeAbout", true);
         return "about";
     }
 
@@ -54,6 +69,8 @@ public class IndexController {
                 model.addAttribute("usuarioSesion", user);
             }
         }
+
+        model.addAttribute("activeContact", true);
         return "contact";
     }
 
@@ -65,6 +82,8 @@ public class IndexController {
                 model.addAttribute("usuarioSesion", user);
             }
         }
+         model.addAttribute("services", serviceRepository.findAll());
+         model.addAttribute("activeFeature", true);
         return "feature";
     }
 }

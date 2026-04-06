@@ -24,7 +24,7 @@ public class User {
     private boolean extraNutrition;
     private boolean extraDrinks;
 
-    private String profileImageUrl;
+    private String profileImageUrl = "/img/avatar.jpg";
 
     @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
     private List<ClassEntity> enrolledClasses = new ArrayList<>();

@@ -37,7 +37,7 @@ public class ProfileEditController {
 
     @GetMapping("/profile/edit")
     public String editProfile(Principal principal, Model model) {
-       
+
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
         model.addAttribute("user", user);
@@ -45,10 +45,10 @@ public class ProfileEditController {
     }
 
     @PostMapping("/profile/edit")
-    public String saveProfile(User updatedUser, 
-                              @RequestParam("profilePicture") MultipartFile image, 
-                              Principal principal) throws IOException {
-        
+    public String saveProfile(User updatedUser,
+            @RequestParam("profilePicture") MultipartFile image,
+            Principal principal) throws IOException {
+
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
 
@@ -65,7 +65,7 @@ public class ProfileEditController {
             Files.createDirectories(IMAGES_FOLDER);
             Path imagePath = IMAGES_FOLDER.resolve("user_" + user.getId() + ".jpg");
             image.transferTo(imagePath);
-            user.setProfileImageUrl("user_" + user.getId() + ".jpg");
+            user.setProfileImageUrl("/profile/image/" + user.getId());
         }
 
         userRepository.save(user);

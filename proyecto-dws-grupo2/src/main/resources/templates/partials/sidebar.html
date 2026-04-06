@@ -32,11 +32,11 @@
             </a>
         </li>
         <li class="nav-item mt-5">
-            <form action="/logout" method="POST" style="display:inline;">
+            <form action="/logout" method="POST" class="w-100">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 
-                <button type="submit" class="nav-item nav-link" style="background:transparent; border:none; cursor:pointer; padding-top: 1.5rem; padding-bottom: 1.5rem;">
-                    Cerrar Sesión
+                <button type="submit" class="nav-link text-white w-100 text-left" style="background:transparent; border:none; cursor:pointer; padding-top: 1.5rem; padding-bottom: 1.5rem; text-align: left;">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
                 </button>
             </form>
         </li>
