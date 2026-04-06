@@ -33,7 +33,7 @@ public class SecurityConfiguration implements WebMvcConfigurer { // <-- AÑADIDO
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**").permitAll()
                         // AÑADIDO: /error a las rutas públicas para evitar el bucle infinito
-                        .requestMatchers("/", "/login", "/loginerror", "/register", "/error").permitAll()
+                        .requestMatchers("/", "/login", "/loginerror", "/register", "/error", "/classes/info", "/about", "/contact", "/feature", "/payment_success").permitAll()
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated())
 

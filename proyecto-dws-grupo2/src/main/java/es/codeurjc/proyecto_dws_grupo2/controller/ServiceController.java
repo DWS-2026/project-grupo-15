@@ -1,35 +1,42 @@
 package es.codeurjc.proyecto_dws_grupo2.controller;
 
+import java.security.Principal; // Importante para la nueva seguridad
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
+import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
 @Controller
 public class ServiceController {
 
+    // 1. Inyectamos el repositorio para poder buscar en la base de datos
+    private final UserRepository userRepository;
+
+    public ServiceController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/services")
-    public String showServices(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("usuarioLogado");
-        if (user == null)
-            return "redirect:/login";
+    public String showServices(Model model, Principal principal) {
+        
+        // 2. Buscamos al usuario por su email (que es el "nombre" en Principal)
+        User user = userRepository.findByEmail(principal.getName()).orElse(null);
 
         model.addAttribute("user", user);
         return "services";
     }
 
     @GetMapping("/extrapayment")
-    public String showPayment(@RequestParam String service,
-            HttpSession session,
-            Model model) {
+    public String showPayment(@RequestParam String service, Model model, Principal principal) {
 
-        User user = (User) session.getAttribute("usuarioLogado");
-        if (user == null)
-            return "redirect:/login";
+        // Volvemos a usar Principal para sacar al usuario, sin ifs ni redirecciones manuales
+        User user = userRepository.findByEmail(principal.getName()).orElse(null);
 
+        // Tu lógica del switch se queda exactamente igual, ¡está perfecta!
         switch (service) {
             case "physio" -> {
                 model.addAttribute("serviceName", "Fisioterapia");

@@ -32,12 +32,27 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto p-4 bg-secondary">
-                    <a href="index.html" class="nav-item nav-link">Inicio</a>
-                    <a href="about.html" class="nav-item nav-link">Sobre Nosotros</a>
-                    <a href="feature.html" class="nav-item nav-link active">Qué Ofrecemos</a>
-                    <a href="class.html" class="nav-item nav-link">Clases</a>
-                    <a href="perfil.html" class="nav-item nav-link">Mi perfil</a>
-                    <a href="contact.html" class="nav-item nav-link">Contacto</a>
+                         <a href="/" class="nav-item nav-link active">Inicio</a>
+                <a href="/about" class="nav-item nav-link">Sobre Nosotros</a>
+                <a href="/feature" class="nav-item nav-link">Que Ofrecemos</a>
+                <a href="/classes/info" class="nav-item nav-link">Clases</a>
+    
+                {{#usuarioSesion}}
+                <a href="/profile" class="nav-item nav-link">Hola, {{firstName}}</a>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
+                    <button type="submit" class="nav-item nav-link" style="background:transparent; border:none; cursor:pointer;">
+                        Cerrar Sesión
+                    </button>
+                </form>
+                {{/usuarioSesion}}
+
+                {{^usuarioSesion}}
+                <a href="/login" class="nav-item nav-link">Entrar</a>
+                <a href="/register" class="nav-item nav-link">Registrarse</a>
+                {{/usuarioSesion}}
+    
+                <a href="/contact" class="nav-item nav-link">Contacto</a>
                 </div>
             </div>
         </nav>

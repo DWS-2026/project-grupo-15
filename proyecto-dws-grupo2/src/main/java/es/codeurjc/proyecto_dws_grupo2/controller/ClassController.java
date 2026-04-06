@@ -5,15 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // PARA EL MENSAJE EMERGENTE
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
+import java.security.Principal; // Importamos el nuevo "portero"
 import java.util.Optional;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; 
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ClassController {
@@ -26,14 +26,34 @@ public class ClassController {
         this.userRepository = userRepository;
     }
 
+    // --- MÉTODO AYUDANTE: Para mantener el menú de navegación funcionando ---
+    private void cargarUsuarioEnMenu(Model model, Principal principal) {
+        if (principal != null) {
+            User user = userRepository.findByEmail(principal.getName()).orElse(null);
+            if (user != null) {
+                // Le pasamos el usuario al HTML para que pinte "Hola, Paco" y el botón de Cerrar Sesión
+                model.addAttribute("usuarioSesion", user);
+            }
+        }
+    }
+
+    @GetMapping("/classes/info") 
+    public String mostrarInfoClases(Model model, Principal principal) {
+        cargarUsuarioEnMenu(model, principal); 
+        model.addAttribute("clases", classRepository.findAll());
+        return "class"; 
+    }
+
     @GetMapping("/classes")
-    public String mostrarClases(Model model) {
+    public String mostrarClases(Model model, Principal principal) {
+        cargarUsuarioEnMenu(model, principal); 
         model.addAttribute("clases", classRepository.findAll());
         return "class-list"; 
     }
 
     @GetMapping("/classes/{id}")
-    public String verDetalleClase(@PathVariable Long id, Model model) {
+    public String verDetalleClase(@PathVariable Long id, Model model, Principal principal) {
+        cargarUsuarioEnMenu(model, principal); 
         Optional<ClassEntity> classOptional = classRepository.findById(id);
         if (classOptional.isPresent()) {
             model.addAttribute("clase", classOptional.get());
@@ -44,36 +64,31 @@ public class ClassController {
     }
 
     @PostMapping("/classes/{id}/signup")
-    public String apuntarseAClase(@PathVariable Long id, HttpSession session, RedirectAttributes attributes) {
+    public String apuntarseAClase(@PathVariable Long id, Principal principal, RedirectAttributes attributes) {
         
-        // 1. Comprobamos quién es el usuario que ha iniciado sesión
-        User usuarioLogado = (User) session.getAttribute("usuarioLogado");
+   
+        User usuarioLogado = userRepository.findByEmail(principal.getName()).orElse(null);
+
         
-        // Si no hay nadie logueado, le echamos al login
-        if (usuarioLogado == null) {
-            return "redirect:/login";
+        if (usuarioLogado != null) {
+            
+            
+            Optional<ClassEntity> classOptional = classRepository.findById(id);
+
+            if (classOptional.isPresent()) {
+                ClassEntity clase = classOptional.get();
+
+                
+                usuarioLogado.getEnrolledClasses().add(clase);
+                
+                
+                userRepository.save(usuarioLogado);
+                
+                
+                attributes.addFlashAttribute("mensajeExito", "¡Genial! Te has apuntado a " + clase.getName() + " el " + clase.getSchedule() + ".");
+            }
         }
 
-        // 2. Buscamos la clase a la que se quiere apuntar
-        Optional<ClassEntity> classOptional = classRepository.findById(id);
-
-        if (classOptional.isPresent()) {
-            ClassEntity clase = classOptional.get();
-
-            // 3. ¡Magia! Añadimos la clase a la lista del usuario
-            usuarioLogado.getEnrolledClasses().add(clase);
-            
-            // 4. Guardamos el usuario actualizado en la base de datos
-            userRepository.save(usuarioLogado);
-            
-            // 5. Actualizamos la memoria temporal por si acaso
-            session.setAttribute("usuarioLogado", usuarioLogado);
-
-            // 6. Preparamos el mensaje Pop-up de éxito
-            attributes.addFlashAttribute("mensajeExito", "¡Genial! Te has apuntado a " + clase.getName() + " el " + clase.getSchedule() + ".");
-        }
-
-        // 7. Le devolvemos a la lista de clases
         return "redirect:/classes";
     }
 }

@@ -32,9 +32,13 @@
             </a>
         </li>
         <li class="nav-item mt-5">
-            <a class="nav-link text-danger" href="/logout">
-                <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
-            </a>
+            <form action="/logout" method="POST" style="display:inline;">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                
+                <button type="submit" class="nav-item nav-link" style="background:transparent; border:none; cursor:pointer; padding-top: 1.5rem; padding-bottom: 1.5rem;">
+                    Cerrar Sesión
+                </button>
+            </form>
         </li>
     </ul>
 </nav>
