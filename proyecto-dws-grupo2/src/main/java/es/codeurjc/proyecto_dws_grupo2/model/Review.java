@@ -13,7 +13,7 @@ public class Review {
     private int rating;
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @ManyToOne

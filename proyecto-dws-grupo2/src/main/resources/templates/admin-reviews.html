@@ -40,63 +40,52 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                       <tbody>
+    {{#reviews}}
+    <tr>
+        <td>
+            {{#user}}
+                {{firstName}} {{lastName}}
+            {{/user}}
+            {{^user}}
+                Usuario Anónimo
+            {{/user}}
+        </td>
 
-                            <!-- REVIEW 1 -->
-                            <tr>
-                                <td>Manuel García</td>
-                                <td>
-                                <span class="badge badge-primary">Clase: CrossFit</span>
-                                </td>
-                                <td>
-                                    <span class="text-warning">★★★★☆</span>
-                                </td>
-                                <td>Clases intensas y entrenadores muy profesionales.</td>
-                                <td>12/01/2026</td>
-                                <td>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
+        <td>
+            <span class="badge badge-primary">{{about}}</span>
+        </td>
 
-                            <!-- REVIEW 2 -->
-                            <tr>
-                                <td>Laura Pérez</td>
-                                <td>
-                                    <span class="badge badge-success">Servicio: Nutrición</span>
-                                </td>
-                                <td>
-                                    <span class="text-warning">★★★★★</span>
-                                </td>
-                                <td>El ambiente es increíble y las instalaciones están muy limpias.</td>
-                                <td>08/01/2026</td>
-                                <td>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
+        <td>
+            <span class="text-warning">
+                {{#isRating5}}★★★★★{{/isRating5}}
+                {{#isRating4}}★★★★☆{{/isRating4}}
+                {{#isRating3}}★★★☆☆{{/isRating3}}
+                {{#isRating2}}★★☆☆☆{{/isRating2}}
+                {{#isRating1}}★☆☆☆☆{{/isRating1}}
+                ({{rating}})
+            </span>
+        </td>
 
-                            <!-- REVIEW 3 -->
-                            <tr>
-                                <td>Carlos Ruiz</td>
-                                <td>
-                                <span class="badge badge-primary">Clase: Spinning</span>
-                                </td>
-                                <td>
-                                    <span class="text-warning">★★★☆☆</span>
-                                </td>
-                                <td>Buen gimnasio, pero las clases de spinning suelen estar llenas.</td>
-                                <td>02/01/2026</td>
-                                <td>
-                                    <a href="#" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
+        <td>{{comment}}</td>
 
-                        </tbody>
+        <td>Sin fecha</td>
+
+        <td>
+            <form action="/admin/reviews/delete/{{id}}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+    {{/reviews}}
+    {{^reviews}}
+    <tr>
+        <td colspan="6" class="text-center">No hay reviews para mostrar.</td>
+    </tr>
+    {{/reviews}}
+</tbody>
                     </table>
                 </div>
             </div>

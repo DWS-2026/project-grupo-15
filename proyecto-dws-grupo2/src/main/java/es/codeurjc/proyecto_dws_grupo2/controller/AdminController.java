@@ -19,10 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
+import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
+import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 
 import java.nio.file.Files;
@@ -33,17 +36,22 @@ import java.nio.file.Paths;
 public class AdminController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final ClassRepository classRepository;
     private final ServiceRepository serviceRepository;
+    private final ReviewRepository reviewRepository;
     private static final Path CLASSES_IMAGES_FOLDER = Paths.get("classes_images");
     private static final Path SERVICES_IMAGES_FOLDER = Paths.get("services_images");
 
     public AdminController(UserRepository userRepository, ClassRepository classRepository,
-            ServiceRepository serviceRepository) {
-        this.userRepository = userRepository;
-        this.classRepository = classRepository;
-        this.serviceRepository = serviceRepository;
-    }
+                       ServiceRepository serviceRepository, UserService userService,
+                       ReviewRepository reviewRepository) { // <--- Añadir aquí
+    this.userRepository = userRepository;
+    this.classRepository = classRepository;
+    this.serviceRepository = serviceRepository;
+    this.userService = userService;
+    this.reviewRepository = reviewRepository; // <--- Inicializar
+}
 
     @GetMapping("/admin")
     public String adminPanel(Model model) {
@@ -244,7 +252,18 @@ public class AdminController {
 
     @GetMapping("/admin/reviews")
     public String adminReviews(Model model) {
-        return "admin-reviews";
+    List<Review> allReviews = reviewRepository.findAll();
+    
+    // Si la lista está vacía, enviamos una lista vacía, no un null
+    model.addAttribute("reviews", allReviews != null ? allReviews : new ArrayList<>());
+    
+    return "admin-reviews";
+}
+
+    @PostMapping("/admin/reviews/delete/{id}")
+    public String deleteReview(@PathVariable Long id) {
+        reviewRepository.deleteById(id);
+        return "redirect:/admin/reviews";
     }
 
     @GetMapping("/admin/profile")
@@ -332,4 +351,15 @@ public class AdminController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PostMapping("/admin/members/delete/{id}")
+    public String deleteMember(@PathVariable Long id) {
+        // Usamos el service en lugar del repository directamente 
+        // para que se ejecute la lógica @Transactional y el borrado en cascada
+        userService.deleteUser(id);
+
+        return "redirect:/admin/members";
+
+    }
+       
 }
