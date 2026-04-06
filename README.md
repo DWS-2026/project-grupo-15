@@ -272,7 +272,7 @@ Solo si han cambiado.
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](profile_images/diagramabbdd.png)
+![Diagrama Entidad-Relación](profile_images/diagramanuevo.png)
 
 > [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Review, Clase y Servicio, con sus respectivos atributos y relaciones 1:N y N:M."]
 
