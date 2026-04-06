@@ -39,7 +39,17 @@
                     </div>
                     <small class="text-white-50">{{about}}</small>
                     <p class="mb-0 mt-1">{{comment}}</p>
-                </div>
+                    
+                    <div class="text-right mt-2">
+                        <form action="/reviews/{{id}}/delete" method="post" style="display:inline-block;">
+                            <input type="hidden" name="_csrf" value="{{token}}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                    onclick="return confirm('¿Seguro que quieres eliminar esta review?');">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </form>
+                    </div>
+                    </div>
                 {{/reviews}}
 
                 {{^reviews}}
