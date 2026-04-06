@@ -314,17 +314,17 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - [Genshen Lin]**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Cambio Base de Datos Entidad Servicios y corregir](https://github.com/DWS-2026/project-grupo-15/commit/278c6c22ede8d7fb687a289d5925916493254a9f)  | [Service.Entity](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/model/ServiceEntity.java)   |
+|2| [Implementación Seguridad](https://github.com/DWS-2026/project-grupo-15/commit/ee096938bbc81a72ed9ab9c9d601b781a69b3cf2)  | [SecurityConfiguration.java](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/SecurityConfiguration.java)   |
+|3| [Dinámico paginas iniciales](https://github.com/DWS-2026/project-grupo-15/commit/ceba93ec53007d977fe21581a6f69af53ccd2c8e)  | [index.html] (https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/resources/templates/index.html)   |
+|4| [Dinamico Admin](https://github.com/DWS-2026/project-grupo-15/commit/6b4c56dca5fc9fad014d47eb4bca35a122dadf62)  | [AdminController](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/AdminController.java)   |
+|5| [Dinamico User](https://github.com/DWS-2026/project-grupo-15/commit/29d45b89140d1ccceb94624d55781e2ca64d32ee)  | [Profile Controller](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/ProfileController.java)   |
 
 ---
 
