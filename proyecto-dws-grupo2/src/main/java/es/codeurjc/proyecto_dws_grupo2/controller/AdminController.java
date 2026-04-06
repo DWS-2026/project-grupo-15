@@ -361,5 +361,62 @@ public class AdminController {
         return "redirect:/admin/members";
 
     }
+
+    @GetMapping("/admin/members/{id}")
+    public String viewMemberDetail(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id).orElse(null);
+    
+        if (user == null) {
+            return "redirect:/admin/members";
+        }
+
+        model.addAttribute("user", user);
+        // Añadimos las listas por separado para facilitar el bucle en Mustache
+        model.addAttribute("classes", user.getEnrolledClasses());
+        model.addAttribute("services", user.getEnrolledServices());
+        model.addAttribute("reviews", user.getReviews());
+    
+    return "admin-usuario-detalle";
+    }
+
+
+
+    // MÉTODO 1: Mostrar el formulario con los datos actuales
+    @GetMapping("/admin/members/edit/{id}")
+        public String showEditUserForm(@PathVariable Long id, Model model) {
+            User user = userRepository.findById(id).orElseThrow();
+            model.addAttribute("user", user);
+        return "admin-usuario-edit"; // El nombre del HTML que creamos arriba
+    }
+
+    @PostMapping("/admin/members/edit/{id}")
+        public String updateUser(@PathVariable Long id, 
+                            @RequestParam String firstName,
+                            @RequestParam String lastName,
+                            @RequestParam String email,
+                            @RequestParam(required = false) String newPassword,
+                            @RequestParam(defaultValue = "false") boolean extraPhysio,
+                            @RequestParam(defaultValue = "false") boolean extraNutrition,
+                            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+
+        User user = userRepository.findById(id).orElseThrow();
+        
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setExtraPhysio(extraPhysio);
+        user.setExtraNutrition(extraNutrition);
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            user.setPassword(newPassword); // Recuerda encriptarla si usas Security
+        }
+
+        if (!imageFile.isEmpty()) {
+            // Tu lógica de guardado de imagen aquí
+        }
+
+        userRepository.save(user);
+        return "redirect:/admin/members"; // Redirige a la lista general
+    }
        
 }

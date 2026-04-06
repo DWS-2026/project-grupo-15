@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Editar Usuario | TITANGYM</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-white">
+<div class="container-fluid">
+    <div class="row">
+        {{> partials/sidebar-admin}}
+
+        <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="display-4 font-weight-bold">Editar Perfil</h1>
+                <a href="/admin/members" class="btn btn-outline-light">Volver</a>
+            </div>
+
+            <div class="card bg-secondary p-5 border-0 shadow">
+                <form action="/admin/members/edit/{{user.id}}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf" value="{{token}}">
+                    
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="{{#user.profileImageUrl}}{{user.profileImageUrl}}{{/user.profileImageUrl}}{{^user.profileImageUrl}}/img/avatar.jpg{{/user.profileImageUrl}}" 
+                                 class="rounded-circle mb-3 border border-primary" 
+                                 width="180" height="180" style="object-fit: cover;">
+                            
+                            <div class="form-group">
+                                <label class="btn btn-sm btn-dark btn-block">
+                                    Subir nueva foto <input type="file" name="imageFile" hidden>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Nombre</label>
+                                    <input type="text" name="firstName" class="form-control" value="{{user.firstName}}" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Apellido</label>
+                                    <input type="text" name="lastName" class="form-control" value="{{user.lastName}}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" value="{{user.email}}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cambiar Contraseña (dejar vacío para mantener actual)</label>
+                                <input type="password" name="newPassword" class="form-control" placeholder="••••••••">
+                            </div>
+
+                            <hr class="bg-dark">
+                            
+                            <h5 class="mb-3 text-primary">Extras</h5>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="physio" name="extraPhysio" {{#user.extraPhysio}}checked{{/user.extraPhysio}}>
+                                <label class="custom-control-label" for="physio">Servicio de Fisioterapia</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="nutrition" name="extraNutrition" {{#user.extraNutrition}}checked{{/user.extraNutrition}}>
+                                <label class="custom-control-label" for="nutrition">Plan Nutricional</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg btn-block mt-4">Actualizar Usuario</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>
