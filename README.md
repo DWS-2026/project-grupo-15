@@ -274,7 +274,7 @@ Diagrama mostrando las entidades, sus campos y relaciones:
 
 ![Diagrama Entidad-Relación](profile_images/diagramabbdd.png)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Review, Clase y Servicio, con sus respectivos atributos y relaciones 1:N y N:M."]
 
 ### **Diagrama de Clases y Templates**
 
@@ -286,17 +286,17 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ### **Participación de Miembros en la Práctica 2**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [Manuel García Muñoz]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[He realizado tareas como la configuración de la base de datos, y su diagrama, además de tareas del panel del admin]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [DIAGRAMA BASE DE DATOS](https://github.com/DWS-2026/dws-2026-project-base/commit/abb7d4102a51756ad146dde007911732150e0f33)  | [diagrambbdd.png](profile_images/diagramabbdd.png)   |
+|2| [PANEL ADMIN EDICION USUARIOS](https://github.com/DWS-2026/dws-2026-project-base/commit/a3b1dddf0b0cc0bcfd9701b513a4ed00b812b542)  | [AdminController.java](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/AdminController.java)   |
+|3| [BASE DE DATOS](https://github.com/DWS-2026/dws-2026-project-base/commit/e988d9981dfa0f9aac94a0c0e9f2310807d13a33)  | [Application.properties](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/resources/application.properties)   |
+|4| [MANTENIMIENTO DE LA SESIÓN](https://github.com/DWS-2026/dws-2026-project-base/commit/73beb135c2becd9eadbb8a4937e1d18ec25cb660)  | [GlobalControllerAdvice.java](https://github.com/DWS-2026/project-grupo-15/blob/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/GlobalControllerAdvice.java)   |
+|5| [CREACIÓN ENTIDADES](https://github.com/DWS-2026/dws-2026-project-base/commit/f6434f10d2880098231a2c5b91907262df0a4608)  | [Carpeta entidades](https://github.com/DWS-2026/project-grupo-15/tree/main/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/model)   |
 
 ---
 
