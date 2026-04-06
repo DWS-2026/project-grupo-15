@@ -282,7 +282,6 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ![Diagrama de Clases](profile_images/clases-diagrama.png)
 
-> [Descripción opcional del diagrama y relaciones principales]
 
 ### **Participación de Miembros en la Práctica 2**
 
@@ -300,17 +299,18 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Daniel Puga Blanco]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguridad. Ademas de ser el responsable del video
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Creacion de pagina de errores](https://github.com/DWS-2026/project-grupo-15/commit/d75dca4f5722301503740b31efe09a42df1fe8af)  | [Archivo1](URL_archivo_1)   |
+|2| [CSFR](https://github.com/DWS-2026/project-grupo-15/commit/7ff1f62f2993a8267edecded04aa6b75163448e1)  | [Archivo2](https://github.com/DWS-2026/project-grupo-15/blob/7ff1f62f2993a8267edecded04aa6b75163448e1/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/SecurityConfiguration.java)   |
+|3| [admin clases](https://github.com/DWS-2026/project-grupo-15/commit/feb1b86c85975cd942ef6a4659d1fe09b8774fdd)  | [Archivo3](https://github.com/DWS-2026/project-grupo-15/blob/feb1b86c85975cd942ef6a4659d1fe09b8774fdd/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/AdminController.java)   |
+|4| [Class controller](https://github.com/DWS-2026/project-grupo-15/commit/ebd78572643c4cf882db4184c33648e4768199b0)  | [Archivo4](https://github.com/DWS-2026/project-grupo-15/blob/ebd78572643c4cf882db4184c33648e4768199b0/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/ClassController.java)   |
+|5| [Relacion clase-usuario](https://github.com/DWS-2026/project-grupo-15/commit/58eb534f9b7d29fc6655f198217828cfdcfa6821)  | [Archivo5](https://github.com/DWS-2026/project-grupo-15/blob/58eb534f9b7d29fc6655f198217828cfdcfa6821/proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/service/DataBaseInitializer.java)   |
+|6| [Clases en bbdd](https://github.com/DWS-2026/project-grupo-15/commit/b6a1835c3f9e42c59f9fcd87bf9adfbe14332c23)  | [Archivo6](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/WebController.java)   |
 
 ---
 
