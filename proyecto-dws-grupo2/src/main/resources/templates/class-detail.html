@@ -22,36 +22,88 @@
                 </div>
 
                 <ul class="nav flex-column px-3">
-                    <li class="nav-item mb-3"><a class="nav-link text-white" href="/"><i class="fas fa-home mr-2"></i> Inicio</a></li>
-                    <li class="nav-item mb-3"><a class="nav-link text-white" href="/profile"><i class="fas fa-user mr-2"></i> Mi Perfil</a></li>
-                    <li class="nav-item mb-3"><a class="nav-link text-white" href="/servicios"><i class="fas fa-plus-circle mr-2"></i> Servicios</a></li>
-                    <li class="nav-item mb-3"><a class="nav-link text-white active" href="/classes"><i class="fas fa-dumbbell mr-2"></i> Clases</a></li>
-                    <li class="nav-item mb-3"><a class="nav-link text-white" href="/reviews"><i class="fas fa-star mr-2"></i> Reviews</a></li>
-                    <li class="nav-item mt-5"><a class="nav-link text-danger" href="/logout"><i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión</a></li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link text-white" href="/">
+                            <i class="fas fa-home mr-2"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link text-white" href="/profile">
+                            <i class="fas fa-user mr-2"></i> Mi Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link text-white" href="/services">
+                            <i class="fas fa-plus-circle mr-2"></i> Servicios
+                        </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link text-white active" href="/classes">
+                            <i class="fas fa-dumbbell mr-2"></i> Clases
+                        </a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link text-white" href="/reviews">
+                            <i class="fas fa-star mr-2"></i> Reviews
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item mt-5">
+                        <form action="/logout" method="POST" class="w-100">
+                            <input type="hidden" name="_csrf" value="{{token}}"/>
+                            <button type="submit" class="nav-link text-danger w-100 text-left" style="background:transparent; border:none; cursor:pointer;">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
 
             <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
                 {{#clase}}
-                <div class="card bg-secondary p-5" style="border-radius: 15px;">
+                <div class="card bg-secondary p-5" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <div class="row">
                         <div class="col-md-5 mb-4 mb-md-0">
-                            <img src="/img/crossfit.jpg" alt="Imagen de la clase" class="img-fluid rounded shadow-lg" style="width: 100%; object-fit: cover;">
+                            <img src="{{imageUrl}}" onerror="this.src='/img/crossfit.jpg'" alt="Imagen de la clase" 
+                                 class="img-fluid rounded shadow-lg" style="width: 100%; height: 350px; object-fit: cover;">
                         </div>
                         
                         <div class="col-md-7 d-flex flex-column justify-content-center">
-                            <h2 class="display-4 text-primary font-weight-bold mb-3">{{name}}</h2>
+                            <h2 class="display-4 text-primary font-weight-bold mb-3 text-uppercase">{{name}}</h2>
                             <p class="lead text-white-50 mb-4">{{description}}</p>
                             
+                            <div class="mb-4">
+                                <h5 class="text-white"><i class="fas fa-clock text-primary mr-2"></i>Horario disponible:</h5>
+                                <p class="text-white-50">{{schedule}}</p>
+                            </div>
+                            
                             <div class="mt-auto">
-                                <form action="/classes/{{id}}/signup" method="post" style="display: inline;">
-                                    <input type="hidden" name="_csrf" value="{{token}}"/>
-                                    <button type="submit" class="btn btn-primary btn-lg mr-3">
-                                        <i class="fas fa-check-circle mr-2"></i> ¡Apuntarme!
+                                {{#isEnrolled}}
+                                    <button class="btn btn-success btn-lg mr-2 disabled" disabled>
+                                        <i class="fas fa-check-double mr-2"></i> Apuntado
                                     </button>
-                                </form>
-                                <a href="/classes" class="btn btn-outline-light btn-lg"><i class="fas fa-arrow-left mr-2"></i> Volver</a>
+
+                                    <form action="/classes/{{id}}/leave" method="post" style="display: inline;">
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                        <button type="submit" class="btn btn-danger btn-lg">
+                                            <i class="fas fa-user-minus mr-2"></i> Desapuntarme
+                                        </button>
+                                    </form>
+                                {{/isEnrolled}}
+
+                                {{^isEnrolled}}
+                                    <form action="/classes/{{id}}/signup" method="post" style="display: inline;">
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-user-plus mr-2"></i> ¡Apuntarme ahora!
+                                        </button>
+                                    </form>
+                                {{/isEnrolled}}
+
+                                <a href="/classes" class="btn btn-outline-light btn-lg ml-3">
+                                    <i class="fas fa-arrow-left mr-2"></i> Volver a Clases
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -59,16 +111,20 @@
                 {{/clase}}
                 
                 {{^clase}}
-                <div class="alert alert-danger mt-4">
-                    <h3>Error</h3>
-                    <p>No se ha encontrado la información de esta clase.</p>
-                    <a href="/classes" class="btn btn-outline-light">Volver a la lista</a>
+                <div class="alert alert-danger mt-4 p-5 text-center" style="border-radius: 15px;">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                    <h3>¡Ups! Clase no encontrada</h3>
+                    <p>Parece que la clase que buscas no existe o ha sido cancelada.</p>
+                    <a href="/classes" class="btn btn-outline-light mt-3">Volver a la lista de clases</a>
                 </div>
                 {{/clase}}
 
             </main>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

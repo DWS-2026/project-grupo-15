@@ -19,9 +19,6 @@ public class Review {
     @ManyToOne
     private ClassEntity classEntity;
 
-    @ManyToOne
-    private Activity activity;
-
     public Review() {
     }
 
@@ -97,13 +94,5 @@ public class Review {
 
     public void setClassEntity(ClassEntity classEntity) {
         this.classEntity = classEntity;
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
     }
 }

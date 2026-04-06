@@ -41,7 +41,6 @@ public void deleteUser(Long id) {
         // Limpiamos las asociaciones para romper el vínculo en las tablas intermedias
         // sin eliminar las entidades ClassEntity, Activity o ServiceEntity
         user.getEnrolledClasses().clear();
-        user.getEnrolledActivities().clear();
         user.getEnrolledServices().clear();
         
         // Guardamos para que se limpien las tablas user_classes, etc.

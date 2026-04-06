@@ -1,6 +1,8 @@
 package es.codeurjc.proyecto_dws_grupo2.model;
 
 import jakarta.persistence.*;
+import java.util.HashSet; // Cambiado: Importamos Set y HashSet
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +14,22 @@ public class ClassEntity {
     private Long id;
 
     private String name;
+    
     @Column(columnDefinition = "TEXT")
     private String description;
+    
     private String imageUrl;
     private String schedule;
 
+    // CAMBIO IMPORTANTE: Usamos Set tanto en la declaración como en la inicialización
     @ManyToMany(mappedBy = "enrolledClasses")
-    private List<User> attendees = new ArrayList<>();
+    private Set<User> attendees = new HashSet<>();
 
     @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    protected ClassEntity() {
-    }
+    // Constructor protegido para JPA
+    protected ClassEntity() {}
 
     public ClassEntity(String name, String description, String schedule) {
         this.name = name;
@@ -32,59 +37,43 @@ public class ClassEntity {
         this.schedule = schedule;
     }
 
-    public Long getId() {
-        return id;
+    // MÉTODOS DE IDENTIDAD (Claves para que .remove() borre en la base de datos)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClassEntity)) return false;
+        ClassEntity that = (ClassEntity) o;
+        return id != null && id.equals(that.id);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        // Usamos un número fijo para que el objeto sea "encontrable" 
+        // siempre por Hibernate dentro de una colección Set
+        return 31; 
     }
 
-    public String getName() {
-        return name;
-    }
+    // --- GETTERS Y SETTERS ---
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    public String getSchedule() { return schedule; }
+    public void setSchedule(String schedule) { this.schedule = schedule; }
 
-    public String getSchedule() {
-        return schedule;
-    }
-    
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
+    // Cambiado a Set
+    public Set<User> getAttendees() { return attendees; }
+    public void setAttendees(Set<User> attendees) { this.attendees = attendees; }
 
-    public List<User> getAttendees() {
-        return attendees;
-    }
-
-    public void setAttendees(List<User> attendees) {
-        this.attendees = attendees;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 }
