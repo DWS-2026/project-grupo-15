@@ -28,7 +28,7 @@ public class User {
     private boolean extraNutrition;
     private boolean extraDrinks;
 
-    private String profileImageUrl;
+    private String profileImageUrl = "/img/avatar.jpg";
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

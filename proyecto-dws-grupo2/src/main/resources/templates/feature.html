@@ -21,43 +21,7 @@
 </head>
 
 <body class="bg-white">
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0 nav-bar">
-        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
-            <a href="" class="navbar-brand">
-                <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">TITANGYM</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ml-auto p-4 bg-secondary">
-                         <a href="/" class="nav-item nav-link active">Inicio</a>
-                <a href="/about" class="nav-item nav-link">Sobre Nosotros</a>
-                <a href="/feature" class="nav-item nav-link">Que Ofrecemos</a>
-                <a href="/classes/info" class="nav-item nav-link">Clases</a>
-    
-                {{#usuarioSesion}}
-                <a href="/profile" class="nav-item nav-link">Hola, {{firstName}}</a>
-                <form action="/logout" method="POST" style="display:inline;">
-                    <input type="hidden" name="_csrf" value="{{token}}"/>
-                    <button type="submit" class="nav-item nav-link" style="background:transparent; border:none; cursor:pointer;">
-                        Cerrar Sesión
-                    </button>
-                </form>
-                {{/usuarioSesion}}
-
-                {{^usuarioSesion}}
-                <a href="/login" class="nav-item nav-link">Entrar</a>
-                <a href="/register" class="nav-item nav-link">Registrarse</a>
-                {{/usuarioSesion}}
-    
-                <a href="/contact" class="nav-item nav-link">Contacto</a>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <!-- Navbar End -->
+    {{> partials/navbar}}
 
 
     <!-- Page Header Start -->
@@ -75,60 +39,34 @@
     <!-- Page Header End -->
 
 
-    <!-- Servicios y precios Start -->
     <div class="container feature pt-5">
+        
         <div class="d-flex flex-column text-center mb-5">
-            <h4 class="text-primary font-weight-bold">Qué ofrecemos</h4>
-            <h4 class="display-4 font-weight-bold">Servicios y precios</h4>
+            <h4 class="text-primary font-weight-bold">Nuestros Servicios</h4>
+            <h4 class="display-4 font-weight-bold">ELIGE A TU GUSTO</h4>
         </div>
-
+        
         <div class="row">
 
+            {{#services}}
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/fisio.jpg" alt="Fisioterapia">
-                        <i class="flaticon-support"></i>
-                    </div>
+                        <img class="img-fluid mb-3 mb-sm-0" src="{{imageUrl}}" onerror="this.src='/img/avatar.jpg'" alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
+                        </div>
                     <div class="col-sm-7">
-                        <h4 class="font-weight-bold">Fisioterapia</h4>
-                        <p>Sesiones semanales de recuperación muscular y tratamiento de lesiones.</p>
-                        <h5 class="text-primary font-weight-bold mb-0">39,99 € / mes</h5>
+                        <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
+                        <p>{{description}}</p>
                     </div>
                 </div>
             </div>
+            {{/services}}
 
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/nutri.jpg" alt="Nutrición">
-                        <i class="flaticon-training"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">Nutrición</h4>
-                        <p>Asesoramiento nutricional personalizado para mejorar tu rendimiento.</p>
-                        <h5 class="text-primary font-weight-bold mb-0">29,99 € / mes</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/bebida.jpg" alt="Bebidas Extra">
-                        <i class="flaticon-trends"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">Bebidas Extra</h4>
-                        <p>Acceso a máquina de bebidas.</p>
-                        <h5 class="text-primary font-weight-bold mb-0">2,99 € / mes</h5>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        </div> 
+        
     </div>
-    <!-- Servicios y precios End -->
+
+
 
 
     <!-- Testimonial Start -->

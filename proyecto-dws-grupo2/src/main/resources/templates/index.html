@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -8,74 +8,37 @@
     <meta content="Free Website Template" name="keywords">
     <meta content="Free Website Template" name="description">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Flaticon Font -->
     <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-white">
-    <!-- Navbar Start -->
-    <div class="container-fluid p-0 nav-bar">
-        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
-            <a href="" class="navbar-brand">
-                <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">TITANGYM</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-           <div class="navbar-nav ml-auto p-4 bg-secondary">
-                <a href="/" class="nav-item nav-link active">Inicio</a>
-                <a href="/about" class="nav-item nav-link">Sobre Nosotros</a>
-                <a href="/feature" class="nav-item nav-link">Que Ofrecemos</a>
-                <a href="/classes/info" class="nav-item nav-link">Clases</a>
-    
-                {{#usuarioSesion}}
-                <a href="/profile" class="nav-item nav-link">Hola, {{firstName}}</a>
-                <form action="/logout" method="POST" style="display:inline;">
-                    <input type="hidden" name="_csrf" value="{{token}}"/>
-                    <button type="submit" class="nav-item nav-link" style="background:transparent; border:none; cursor:pointer;">
-                        Cerrar Sesión
-                    </button>
-                </form>
-                {{/usuarioSesion}}
+    {{> partials/navbar}}
 
-                {{^usuarioSesion}}
-                <a href="/login" class="nav-item nav-link">Entrar</a>
-                <a href="/register" class="nav-item nav-link">Registrarse</a>
-                {{/usuarioSesion}}
-    
-                <a href="/contact" class="nav-item nav-link">Contacto</a>
-</div>
-        </nav>
-    </div>
-    <!-- Navbar End -->
-
-    <!-- Carousel Start -->
     <div class="container-fluid p-0">
         <div id="blog-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img class="w-100" src="img/carousel-1.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <h3 class="text-primary text-capitalize m-0">Gimnsaio y Centro Deportivo</h3>
+                        <h3 class="text-primary text-capitalize m-0">Gimnasio y Centro Deportivo</h3>
                         <h2 class="display-2 m-0 mt-2 mt-md-4 text-white font-weight-bold text-capitalize">Mejor
                             Gimnasio 2026</h2>
 
-                            {{^usuarioSesion}}
-                            <a href="/register" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Únete ahora</a>
-                            {{/usuarioSesion}}
-                            
-                            {{#usuarioSesion}}
-                        <a href="/register" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Únete</a>
-                            {{/usuarioSesion}}
+                        {{^usuarioSesion}}
+                        <a href="/register" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Únete
+                            ahora</a>
+                        {{/usuarioSesion}}
+
+                        {{#usuarioSesion}}
+                        <a href="/profile" class="btn btn-lg btn-outline-light mt-3 mt-md-5 py-md-3 px-md-5">Mi
+                            Perfil</a>
+                        {{/usuarioSesion}}
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -96,10 +59,6 @@
             </a>
         </div>
     </div>
-    <!-- Carousel End -->
-
-
-    <!-- Gym Class Start -->
     <div class="container gym-class mb-5">
         <div class="row px-3">
             <div class="col-md-6 p-0">
@@ -123,15 +82,11 @@
                         Profesionales en Muscle Building y sus derivados, además contamos con auditorías concretas para
                         ello
                     </p>
-                    <a href="register" class="btn btn-lg btn-outline-light mt-4 px-4">Únete</a>
+                    <a href="/register" class="btn btn-lg btn-outline-light mt-4 px-4">Únete</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Gym Class End -->
-
-
-    <!-- About Start -->
     <div class="container py-5">
         <div class="row align-items-center">
             <div class="col-lg-6">
@@ -153,14 +108,10 @@
                         <p>Reconocidos por la calidad de nuestro servicio</p>
                     </div>
                 </div>
-                <a href="" class="btn btn-lg px-4 btn-outline-primary">Conocer Más</a>
+                <a href="/about" class="btn btn-lg px-4 btn-outline-primary">Conocer Más</a>
             </div>
         </div>
     </div>
-    <!-- About End -->
-
-
-    <!-- Features Start -->
     <div class="container-fluid my-5">
         <div class="row">
             <div class="col-lg-4 p-0">
@@ -168,8 +119,7 @@
                     <i class="flaticon-training display-3 text-primary mr-3"></i>
                     <div class="">
                         <h2 class="text-white mb-3">Progresión</h2>
-                        <p>Con nuestros instructores te guiamos paso a paso en tu recorrido
-                        </p>
+                        <p>Con nuestros instructores te guiamos paso a paso en tu recorrido</p>
                     </div>
                 </div>
             </div>
@@ -178,8 +128,7 @@
                     <i class="flaticon-weightlifting display-3 text-secondary mr-3"></i>
                     <div class="">
                         <h2 class="text-white mb-3">Planificación</h2>
-                        <p>Formaremos una planificación específica para ti dependiendo de tus capacidades
-                        </p>
+                        <p>Formaremos una planificación específica para ti dependiendo de tus capacidades</p>
                     </div>
                 </div>
             </div>
@@ -188,541 +137,68 @@
                     <i class="flaticon-treadmill display-3 text-primary mr-3"></i>
                     <div class="">
                         <h2 class="text-white mb-3">Nutrición</h2>
-                        <p>Completamos tu entreno semanal con un Nutricionista experto en nutrición deportiva
-                        </p>
+                        <p>Completamos tu entreno semanal con un Nutricionista experto en nutrición deportiva</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Features End -->
-
-
-    <!-- GYM Feature Start CLASES-->
     <div class="container feature pt-5">
         <div class="d-flex flex-column text-center mb-5">
             <h4 class="text-primary font-weight-bold">Nuestras Actividades</h4>
             <h4 class="display-4 font-weight-bold">ELIGE A TU GUSTO</h4>
         </div>
         <div class="row">
+            {{#classes}}
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/feature-1.jpg" alt="Image">
-                        <i class="flaticon-barbell"></i>
+                        <img class="img-fluid mb-3 mb-sm-0" src="{{imageUrl}}" onerror="this.src='/img/avatar.jpg'"
+                            alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
                     </div>
                     <div class="col-sm-7">
-                        <h4 class="font-weight-bold">CROSSFIT</h4>
-                        <p> En esta clase de CrossFit no solo vienes a levantar pesas; vienes a compartir el esfuerzo
-                            con un equipo que te apoya en cada repetición. Aquí celebramos desde el primer pull-up hasta
-                            el último segundo del cronómetro. Si buscas un ambiente divertido, dinámico y que te
-                            mantenga motivado, ¡esta es tu clase!</p>
+                        <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
+                        <p>{{description}}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/feature-2.jpg" alt="Image">
-                        <i class="flaticon-training"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">BODY PUMP</h4>
-                        <p> Entrenamiento con pesas al ritmo de la música que fortalece y tonifica todo el cuerpo.
-                            Mejora tu resistencia, quema calorías y gana fuerza en una sola clase. ¡Apta para todos los
-                            niveles!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/spinning.jpg" alt="Image">
-                        <i class="flaticon-trends"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">SPINNING</h4>
-                        <p>Pedalea al ritmo de la música y quema calorías al máximo.
-                            Entrenamiento intenso que mejora tu resistencia, fortalece piernas y te llena de energía.
-                            ¡Siente la adrenalina en cada clase!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/zumba.jpg" alt="Image">
-                        <i class="flaticon-support"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">ZUMBA</h4>
-                        <p>Baila, quema calorías y diviértete sin darte cuenta.
-                            Coreografías fáciles, música latina y buen rollo para ponerte en forma disfrutando. ¡Sonríe,
-                            muévete y repite!</p>
-                    </div>
-                </div>
-            </div>
+            {{/classes}}
         </div>
     </div>
-    <!-- GYM Feature End -->
-
-
-    <!-- GYM Feature Start  SERVICIOS-->
     <div class="container feature pt-5">
         <div class="d-flex flex-column text-center mb-5">
-            <h4 class="text-primary font-weight-bold">Nuestras Servicios</h4>
+            <h4 class="text-primary font-weight-bold">Nuestros Servicios</h4>
             <h4 class="display-4 font-weight-bold">ELIGE A TU GUSTO</h4>
         </div>
         <div class="row">
+            {{#services}}
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/fisio.jpg" alt="Image">
-                        <i class="flaticon-barbell"></i>
+                        <img class="img-fluid mb-3 mb-sm-0" src="{{imageUrl}}" onerror="this.src='/img/avatar.jpg'"
+                            alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
                     </div>
                     <div class="col-sm-7">
-                        <h4 class="font-weight-bold">FISIOTERAPIA</h4>
-                        <p> Recupera tu bienestar y mejora tu movilidad con sesiones personalizadas de fisioterapia.
-                            Tratamos lesiones, prevenimos dolores y optimizamos tu rendimiento físico mediante técnicas
-                            profesionales adaptadas a tus necesidades. Tu cuerpo en buenas manos. </p>
+                        <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
+                        <p>{{description}}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/nutri.jpg" alt="Image">
-                        <i class="flaticon-training"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">NUTRICIÓN</h4>
-                        <p> Alcanza tus objetivos con un plan nutricional hecho a tu medida. Te ayudamos a mejorar tu
-                            alimentación, aumentar tu energía y complementar tu entrenamiento con hábitos saludables y
-                            sostenibles en el tiempo. </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/bebida.jpg" alt="Image">
-                        <i class="flaticon-trends"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">BEBIDAS EXTRA</h4>
-                        <p> Disfruta de bebidas saludables y energéticas diseñadas para complementar tu entrenamiento.
-                            Hidratación, recuperación y sabor en cada sorbo para que rindas al máximo antes y después de
-                            cada sesión. </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-5">
-                <div class="row align-items-center">
-                    <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="img/spa.jpg" alt="Image">
-                        <i class="flaticon-support"></i>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="font-weight-bold">SPA</h4>
-                        <p> Relájate y recupera tu cuerpo en nuestro espacio de spa. Disfruta de un ambiente pensado
-                            para reducir el estrés, aliviar tensiones musculares y favorecer la recuperación física
-                            después del entrenamiento. </p>
-                    </div>
-                </div>
-            </div>
+            {{/services}}
         </div>
     </div>
-    <!-- GYM Feature End -->
-
-
-    <!-- Subscribe Start -->
     <div class="subscribe container-fluid my-5 py-5 text-center">
         <h4 class="display-4 text-white font-weight-bold mt-5 mb-3">Suscribete a Nuestra Newsletter</h4>
         <p class="text-white mb-4">Subscribete y recibe grandes novedades del mundo Fitness</p>
         <form class="form-inline justify-content-center mb-5">
             <div class="input-group">
-                <input type="text" class="form-control-lg" placeholder="Your Email">
+                <input type="text" class="form-control-lg" placeholder="Tu Email">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">Subscribete</button>
                 </div>
             </div>
         </form>
     </div>
-    <!-- Subscribe End -->
-
-    <!-- Horario de Clases Start -->
-    <div class="container gym-feature py-5">
-        <div class="d-flex flex-column text-center mb-5">
-            <h4 class="text-primary font-weight-bold">Horario de Clases</h4>
-            <h4 class="display-4 font-weight-bold">Horarios y Actividades</h4>
-        </div>
-
-        <div class="tab-class">
-            <ul class="nav nav-pills justify-content-center mb-4">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="pill" href="#class-all">Todas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-crossfit">Crossfit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-bodypump">Body Pump</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-spinning">Spinning</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#class-zumba">Zumba</a>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-
-                <!-- TODAS -->
-                <div id="class-all" class="container tab-pane p-0 active">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Horario</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
-                                    <td>
-                                        <h5>Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Crossfit</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
-                                    <td></td>
-                                    <td>
-                                        <h5>Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Crossfit</h5>
-                                    </td>
-                                    <td>
-                                        <h5>Zumba</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
-                                    <td>
-                                        <h5>Crossfit</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Zumba</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Crossfit</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
-                                    <td></td>
-                                    <td>
-                                        <h5>Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Zumba</h5>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <h5>Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- CROSSFIT -->
-                <div id="class-crossfit" class="container tab-pane fade p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Horario</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Crossfit</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Crossfit</h5>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Crossfit</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Crossfit</h5>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- BODY PUMP -->
-                <div id="class-bodypump" class="container tab-pane fade p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Horario</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Body Pump</h5>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- SPINNING -->
-                <div id="class-spinning" class="container tab-pane fade p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Horario</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">6:00 - 8:00</th>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Spinning</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- ZUMBA -->
-                <div id="class-zumba" class="container tab-pane fade p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-lg m-0">
-                            <thead class="bg-secondary text-white text-center">
-                                <tr>
-                                    <th>Horario</th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">10:00 - 12:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Zumba</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">17:00 - 19:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Zumba</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th class="bg-secondary text-white align-middle">19:00 - 21:00</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="bg-primary text-white">
-                                        <h5 class="text-white">Zumba</h5>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Horario de Clases End -->
-
-    <!-- BMI Calculation Start -->
     <div class="container-fluid position-relative bmi my-5">
         <div class="container">
             <div class="row px-3 align-items-center">
@@ -738,34 +214,45 @@
                 <div class="col-md-6 bg-secondary py-5">
                     <div class="py-5 px-3">
                         <h1 class="mb-4 text-white">Calcula tu IMB</h1>
-                        <form>
+                        <form id="formIMB">
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                        placeholder="Peso (KG)">
+                                    <input type="number" id="peso"
+                                        class="form-control form-control-lg bg-dark text-white" placeholder="Peso (KG)"
+                                        required>
                                 </div>
                                 <div class="col form-group">
-                                    <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                        placeholder="Altura (CM)">
+                                    <input type="number" id="altura"
+                                        class="form-control form-control-lg bg-dark text-white"
+                                        placeholder="Altura (CM)" required>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <input type="text" class="form-control form-control-lg bg-dark text-white"
-                                        placeholder="Edad">
+                                    <input type="number" id="edad"
+                                        class="form-control form-control-lg bg-dark text-white" placeholder="Edad"
+                                        required>
                                 </div>
                                 <div class="col form-group">
-                                    <select class="custom-select custom-select-lg bg-dark text-muted">
-                                        <option>Género</option>
-                                        <option>Masculino</option>
-                                        <option>Femenino</option>
+                                    <select id="genero" class="custom-select custom-select-lg bg-dark text-muted"
+                                        required>
+                                        <option value="">Género</option>
+                                        <option value="m">Masculino</option>
+                                        <option value="f">Femenino</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col">
-                                    <input type="button" class="btn btn-lg btn-block btn-dark border-light"
-                                        value="Calcula Ya">
+                                    <input type="button" id="btnCalcular"
+                                        class="btn btn-lg btn-block btn-dark border-light" value="Calcula Ya">
+                                </div>
+                            </div>
+
+                            <div class="form-row mt-4" id="resultadoCaja" style="display: none;">
+                                <div class="col text-center">
+                                    <h3 class="text-white">Tu IMB es: <span class="text-primary font-weight-bold"
+                                            id="valorIMB"></span> kcal/día</h3>
                                 </div>
                             </div>
                         </form>
@@ -774,10 +261,6 @@
             </div>
         </div>
     </div>
-    <!-- BMI Calculation End -->
-
-
-    <!-- Team Start -->
     <div class="container pt-5 team">
         <div class="d-flex flex-column text-center mb-5">
             <h4 class="text-primary font-weight-bold">Nuestros Instructores</h4>
@@ -826,75 +309,49 @@
             </div>
         </div>
     </div>
-    <!-- Team End -->
 
-
-    <!-- Testimonial Start -->
     <div class="container-fluid position-relative testimonial my-5">
         <div class="container">
             <div class="row px-3 align-items-center">
                 <div class="col-md-6 bg-secondary">
                     <div class="d-flex align-items-center px-3" style="min-height: 450px;">
-
                         <div id="carouselId" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselId" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselId" data-slide-to="1"></li>
-                                <li data-target="#carouselId" data-slide-to="2"></li>
-                            </ol>
+                            <div class="carousel-inner" role="listbox" id="reviewsContainer">
 
-                            <div class="carousel-inner" role="listbox">
+                                {{#reviews}}
+                                <div class="carousel-item">
+                                    <div class="d-flex align-items-center mb-4 text-white">
+                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
+                                            src="{{user.profileImageUrl}}" style="object-fit: cover;"
+                                            onerror="this.src='/img/avatar.jpg'" alt="Avatar">
 
+                                        <div class="pl-4">
+                                            {{#user}}
+                                            <h4 class="text-primary text-capitalize">{{firstName}} {{lastName}}</h4>
+                                            {{/user}}
+                                            {{^user}}
+                                            <h4 class="text-primary text-capitalize">Usuario Anónimo</h4>
+                                            {{/user}}
+
+                                            <p class="m-0 text-warning">
+                                                Puntuación: {{rating}} / 5 <i class="fas fa-star"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
+                                        {{comment}}
+                                    </div>
+                                </div>
+                                {{/reviews}}
+
+                                {{^reviews}}
                                 <div class="carousel-item active">
-                                    <div class="d-flex align-items-center mb-4 text-white">
-                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                            src="img/testimonial-1.jpg" alt="Image">
-                                        <div class="pl-4">
-                                            <h4 class="text-primary">María González</h4>
-                                            <p class="m-0">Abogada</p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                        ¡El mejor gimnasio de la ciudad! Las instalaciones son modernas, siempre están
-                                        impecables y la maquinaria es de última generación. El ambiente te motiva a
-                                        superar
-                                        tus límites cada día.
+                                    <div
+                                        class="testimonial-text position-relative border bg-dark text-white mb-5 p-4 text-center">
+                                        Aún no hay opiniones. ¡Sé el primero en dejarnos tu reseña!
                                     </div>
                                 </div>
-
-                                <div class="carousel-item">
-                                    <div class="d-flex align-items-center mb-4 text-white">
-                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                            src="img/testimonial-2.jpg" alt="Image">
-                                        <div class="pl-4">
-                                            <h4 class="text-primary">Carlos Ruiz</h4>
-                                            <p class="m-0">Ingeniero de Software</p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                        Los entrenadores son excepcionales, especialmente en las clases de CrossFit.
-                                        Tienen
-                                        mucha paciencia para enseñar la técnica y siempre están atentos para evitar
-                                        lesiones. ¡100% recomendado!
-                                    </div>
-                                </div>
-
-                                <div class="carousel-item">
-                                    <div class="d-flex align-items-center mb-4 text-white">
-                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                            src="img/testimonial-3.jpg" alt="Image">
-                                        <div class="pl-4">
-                                            <h4 class="text-primary">Laura M.</h4>
-                                            <p class="m-0">Estudiante</p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
-                                        Me encanta la variedad de clases y la flexibilidad de horarios, perfecto para
-                                        compaginar con mis estudios. Además, poder relajarse en la zona de Spa después
-                                        de
-                                        entrenar es un lujo.
-                                    </div>
-                                </div>
+                                {{/reviews}}
 
                             </div>
                         </div>
@@ -911,9 +368,7 @@
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
 
-    <!-- Footer Start -->
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
@@ -924,11 +379,11 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Enlaces Rápidos</h4>
-                <a class="text-white mb-2 d-block" href="index.html">Inicio</a>
-                <a class="text-white mb-2 d-block" href="about.html">Sobre Nosotros</a>
-                <a class="text-white mb-2 d-block" href="class.html">Clases</a>
-                <a class="text-white mb-2 d-block" href="feature.html">Que Ofrecemos</a>
-                <a class="text-white d-block" href="contact.html">Contacto</a>
+                <a class="text-white mb-2 d-block" href="/">Inicio</a>
+                <a class="text-white mb-2 d-block" href="/about">Sobre Nosotros</a>
+                <a class="text-white mb-2 d-block" href="/classes/info">Clases</a>
+                <a class="text-white mb-2 d-block" href="/feature">Que Ofrecemos</a>
+                <a class="text-white d-block" href="/contact">Contacto</a>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Horario</h4>
@@ -940,28 +395,55 @@
         </div>
         <div class="container border-top border-dark pt-4">
             <p class="m-0 text-center text-white">
-                &copy; TITANGYM. Todos los derechos reservados.
+                TITANGYM. Todos los derechos reservados.
             </p>
         </div>
     </div>
-    <!-- Footer End -->
-
-    <!-- Back to Top -->
     <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
 
-    <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/proyecto-dws-grupo2/src/main/resources/static/js/main.js""></script>
+    <script src="/proyecto-dws-grupo2/src/main/resources/static/js/main.js"></script>
+
+    <script>
+        document.getElementById('btnCalcular').addEventListener('click', function () {
+            let peso = parseFloat(document.getElementById('peso').value);
+            let altura = parseFloat(document.getElementById('altura').value);
+            let edad = parseInt(document.getElementById('edad').value);
+            let genero = document.getElementById('genero').value;
+
+            if (!peso || !altura || !edad || genero === "") {
+                alert("Por favor, rellena todos los campos para calcular tu IMB.");
+                return;
+            }
+
+            let imb = 0;
+
+            if (genero === 'm') {
+                imb = (10 * peso) + (6.25 * altura) - (5 * edad) + 5;
+            } else if (genero === 'f') {
+                imb = (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
+            }
+
+            document.getElementById('valorIMB').innerText = Math.round(imb);
+            document.getElementById('resultadoCaja').style.display = 'block';
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let firstReview = document.querySelector("#reviewsContainer .carousel-item");
+            if (firstReview) {
+                firstReview.classList.add("active");
+            }
+        });
+    </script>
 </body>
 
 </html>
