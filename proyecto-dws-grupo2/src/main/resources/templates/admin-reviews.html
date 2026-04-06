@@ -72,8 +72,10 @@
         <td>Sin fecha</td>
 
         <td>
-            <form action="/admin/reviews/delete/{{id}}" method="POST" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review?')">
+            <form action="/reviews/{{id}}/delete" method="POST" style="display:inline;">
+                <input type="hidden" name="_csrf" value="{{token}}">
+                
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta review del sistema?')">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </form>

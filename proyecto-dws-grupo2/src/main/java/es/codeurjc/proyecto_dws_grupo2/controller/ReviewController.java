@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,6 +14,7 @@ import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; // <-- Importamos el UserRepository
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ReviewController {
@@ -59,5 +61,24 @@ public class ReviewController {
         reviewRepository.save(review);
 
         return "redirect:/reviews";
+
+        
+    }
+    @PostMapping("/reviews/{id}/delete")
+    public String deleteReview(@PathVariable Long id, Principal principal, HttpServletRequest request) {
+        
+        User currentUser = userRepository.findByEmail(principal.getName()).orElse(null);
+        Review review = reviewRepository.findById(id).orElse(null);
+
+        // Seguridad: borra si es el dueño o si es un ADMIN
+        if (review != null && currentUser != null) {
+            if (review.getUser().getId().equals(currentUser.getId()) || currentUser.getRoles().contains("ADMIN")) {
+                reviewRepository.deleteById(id);
+            }
+        }
+
+        // TRUCO: Volver a la página exacta desde la que se pulsó el botón
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
     }
 }
