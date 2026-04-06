@@ -51,18 +51,28 @@ public class ClassController {
         return "class-list"; 
     }
 
-    @GetMapping("/classes/{id}")
+
+  @GetMapping("/classes/{id}")
     public String verDetalleClase(@PathVariable Long id, Model model, Principal principal) {
         cargarUsuarioEnMenu(model, principal); 
-        Optional<ClassEntity> classOptional = classRepository.findById(id);
-        if (classOptional.isPresent()) {
-            model.addAttribute("clase", classOptional.get());
-            return "class-detail"; 
-        } else {
-            return "redirect:/classes"; 
-        }
-    }
+        
+        ClassEntity clase = classRepository.findById(id).orElse(null);
+        if (clase == null) return "redirect:/classes";
 
+        model.addAttribute("clase", clase);
+
+        // Lógica para los botones de apuntado
+        if (principal != null) {
+            User user = userRepository.findByEmail(principal.getName()).orElse(null);
+            if (user != null) {
+                // Comprobamos si la clase está en su lista de inscritas
+                boolean isEnrolled = user.getEnrolledClasses().contains(clase);
+                model.addAttribute("isEnrolled", isEnrolled);
+            }
+        }
+
+        return "class-detail"; 
+    }
     @PostMapping("/classes/{id}/signup")
     public String apuntarseAClase(@PathVariable Long id, Principal principal, RedirectAttributes attributes) {
         
@@ -90,5 +100,16 @@ public class ClassController {
         }
 
         return "redirect:/classes";
+    }
+
+    @PostMapping("/classes/{id}/leave")
+    public String desapuntarseDeClase(@PathVariable Long id, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow();
+        ClassEntity clase = classRepository.findById(id).orElseThrow();
+
+        user.getEnrolledClasses().remove(clase);
+        userRepository.save(user);
+
+        return "redirect:/classes/" + id;
     }
 }

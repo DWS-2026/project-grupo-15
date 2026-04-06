@@ -36,27 +36,26 @@
                         <span class="font-weight-bold">29,99€</span>
                     </div>
 
-                    {{#user.extraPhysio}}
+                    {{#selPhysio}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Fisioterapia</span>
                         <span>+39,99€</span>
                     </div>
-                    {{/user.extraPhysio}}
+                    {{/selPhysio}}
 
-                    {{#user.extraNutrition}}
+                    {{#selNutrition}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Nutrición</span>
                         <span>+29,99€</span>
                     </div>
-                    {{/user.extraNutrition}}
+                    {{/selNutrition}}
 
-                    {{#user.extraDrinks}}
+                    {{#selDrinks}}
                     <div class="d-flex justify-content-between mb-2 text-white-50 small">
                         <span>Bebidas Extra</span>
                         <span>+2,99€</span>
                     </div>
-                    {{/user.extraDrinks}}
-                    
+                    {{/selDrinks}}
                     {{/fromRegister}}
 
                     {{^fromRegister}}
@@ -78,10 +77,14 @@
 
             <form action="/payment_success" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
+
                 <h5 class="text-white mb-3 border-bottom border-dark pb-2">Método de Pago</h5>
 
                 <input type="hidden" name="origin" value="{{origin}}">
-                <input type="hidden" name="service" value="{{serviceKey}}">
+
+                {{#serviceId}}
+                <input type="hidden" name="serviceId" value="{{serviceId}}">
+                {{/serviceId}}
 
                 <div class="mb-4 text-white-50">
                     <i class="fab fa-cc-visa fa-2x mr-3"></i>
@@ -137,6 +140,7 @@
                 </a>
                 {{/fromRegister}}
             </form>
+
             <div class="text-center mt-4">
                 <small class="text-white-50">
                     <i class="fas fa-shield-alt mr-1"></i> Pago 100% seguro y cifrado
@@ -147,5 +151,4 @@
     </div>
 
 </body>
-
 </html>

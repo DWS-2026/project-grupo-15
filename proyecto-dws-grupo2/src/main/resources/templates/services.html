@@ -4,19 +4,28 @@
     <meta charset="utf-8">
     <title>Servicios | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
     <link href="/img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">
+
 <div class="container-fluid">
     <div class="row">
         {{> partials/sidebar}}
 
         <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+
             <div class="card bg-secondary p-4">
-                <h4 class="mb-4 text-primary">Mis servicios</h4>
+                <h4 class="mb-4 text-primary">Servicios adicionales</h4>
+
+                {{#mensajeExito}}
+                <div class="alert alert-success">
+                    <i class="fas fa-check mr-1"></i> {{mensajeExito}}
+                </div>
+                {{/mensajeExito}}
 
                 <div class="table-responsive">
                     <table class="table table-dark table-hover">
@@ -26,80 +35,61 @@
                                 <th>Título</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
-                                <th></th>
+                                <th style="width: 200px;">Acción</th>
                             </tr>
                         </thead>
+
                         <tbody>
-
-                            <!-- FISIOTERAPIA -->
+                            {{#allServices}}
                             <tr>
-                                <td><img src="/img/fisio.jpg" width="80" class="rounded"></td>
-                                <td>Fisioterapia</td>
-                                <td>Sesiones semanales de recuperación muscular y tratamiento de lesiones.</td>
-                                <td>39,99 € / mes</td>
-                                <td>
-                                    {{#user.extraPhysio}}
-                                    <button class="btn btn-success btn-block" disabled>
-                                        <i class="fas fa-check mr-1"></i> Suscrito
-                                    </button>
-                                    {{/user.extraPhysio}}
-                                    {{^user.extraPhysio}}
-                                    <a href="/extrapayment?service=physio" class="btn btn-outline-light btn-block">
+                                <td class="align-middle">
+                                    <img src="{{imageUrl}}" 
+                                         onerror="this.src='/img/service.jpg'" 
+                                         width="80" 
+                                         class="rounded">
+                                </td>
+
+                                <td class="align-middle">{{name}}</td>
+
+                                <td class="align-middle">{{description}}</td>
+
+                                <td class="align-middle text-nowrap">{{price}} € / mes</td>
+
+                                <td class="align-middle">
+                                    {{#enrolled}}
+                                    <a href="/unsubscribe?serviceId={{id}}" class="btn btn-danger btn-block">
+                                        <i class="fas fa-times mr-1"></i> Desuscribirse
+                                    </a>
+                                    {{/enrolled}}
+
+                                    {{^enrolled}}
+                                    <a href="/extrapayment?serviceId={{id}}" class="btn btn-outline-light btn-block">
                                         Suscribirse
                                     </a>
-                                    {{/user.extraPhysio}}
+                                    {{/enrolled}}
                                 </td>
                             </tr>
+                            {{/allServices}}
 
-                            <!-- NUTRICIÓN -->
+                            {{^allServices}}
                             <tr>
-                                <td><img src="/img/nutri.jpg" width="80" class="rounded"></td>
-                                <td>Nutrición</td>
-                                <td>Asesoramiento nutricional personalizado para mejorar tu rendimiento.</td>
-                                <td>29,99 € / mes</td>
-                                <td>
-                                    {{#user.extraNutrition}}
-                                    <button class="btn btn-success btn-block" disabled>
-                                        <i class="fas fa-check mr-1"></i> Suscrito
-                                    </button>
-                                    {{/user.extraNutrition}}
-                                    {{^user.extraNutrition}}
-                                    <a href="/extrapayment?service=nutrition" class="btn btn-outline-light btn-block">
-                                        Suscribirse
-                                    </a>
-                                    {{/user.extraNutrition}}
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    No hay servicios disponibles actualmente.
                                 </td>
                             </tr>
-
-                            <!-- BEBIDAS EXTRA -->
-                            <tr>
-                                <td><img src="/img/bebida.jpg" width="80" class="rounded"></td>
-                                <td>Bebidas Extra</td>
-                                <td>Acceso máquina de bebidas.</td>
-                                <td>2,99 € / mes</td>
-                                <td>
-                                    {{#user.extraDrinks}}
-                                    <button class="btn btn-success btn-block" disabled>
-                                        <i class="fas fa-check mr-1"></i> Suscrito
-                                    </button>
-                                    {{/user.extraDrinks}}
-                                    {{^user.extraDrinks}}
-                                    <a href="/extrapayment?service=drinks" class="btn btn-outline-light btn-block">
-                                        Suscribirse
-                                    </a>
-                                    {{/user.extraDrinks}}
-                                </td>
-                            </tr>
-
+                            {{/allServices}}
                         </tbody>
                     </table>
                 </div>
+
             </div>
+
         </main>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

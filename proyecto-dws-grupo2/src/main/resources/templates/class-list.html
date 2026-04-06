@@ -1,79 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
-    <title>Clases | Panel Admin TITANGYM</title>
+    <title>Clases | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="img/favicon.ico" rel="icon">
+    
+    <link href="/img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-dark text-white">
 
-    <div class="container-fluid">
-        <div class="row">
-            {{> partials/sidebar}}
+<div class="container-fluid">
+    <div class="row">
+        {{> partials/sidebar}}
 
-            <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
+        <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
-                <div class="card bg-secondary p-4">
-                    <h4 class="mb-4 text-primary">Clases disponibles</h4>
+            <div class="card bg-secondary p-4">
+                <h4 class="mb-4 text-primary">Clases disponibles</h4>
 
-                    {{#mensajeExito}}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong><i class="fas fa-check-circle"></i> ¡Reserva confirmada!</strong> {{mensajeExito}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {{/mensajeExito}}
+                {{#mensajeExito}}
+                <div class="alert alert-success">
+                    <i class="fas fa-check mr-1"></i> {{mensajeExito}}
+                </div>
+                {{/mensajeExito}}
 
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Imagen</th>
-                                    <th>Título</th>
-                                    <th>Descripción</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Horario</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
-                                {{#clases}}
-                                <tr>
-                                    <td><img src="img/class.jpg" width="80" class="rounded"></td>
-                                    
-                                    <td>{{name}}</td>
-                                    <td>{{description}} <br><strong><i class="fas fa-clock"></i> Horario: {{schedule}}</strong></td>
-                                    
-                                    <td>
-                                        <a href="/classes/{{id}}" class="btn btn-outline-light btn-block btn-subscribe">
-                                            Ver detalles
-                                        </a>
-                                    </td>
-                                </tr>
-                                {{/clases}}
-                                
-                                {{^clases}}
-                                <tr>
-                                    <td colspan="4" class="text-center">No hay clases registradas en el gimnasio.</td>
-                                </tr>
-                                {{/clases}}
-                            </tbody>
-                        </table>
-                    </div>
+                        <tbody>
+                            {{#clases}}
+                            <tr>
+                                <td>
+                                    <img src="{{imageUrl}}" 
+                                         onerror="this.src='/img/class.jpg'" 
+                                         width="80" 
+                                         class="rounded">
+                                </td>
+
+                                <td>{{name}}</td>
+
+                                <td>{{description}}</td>
+
+                                <td>{{schedule}}</td>
+
+                                <td>
+                                    <a href="/classes/{{id}}" class="btn btn-outline-light btn-block">
+                                        Ver detalles
+                                    </a>
+                                </td>
+                            </tr>
+                            {{/clases}}
+
+                            {{^clases}}
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    No hay clases disponibles
+                                </td>
+                            </tr>
+                            {{/clases}}
+                        </tbody>
+                    </table>
                 </div>
 
-                </main>
-        </div>
-    </div>
+            </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
