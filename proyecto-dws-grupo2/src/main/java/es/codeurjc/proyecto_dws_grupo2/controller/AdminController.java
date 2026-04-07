@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.security.Principal;
 
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
-import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
@@ -399,6 +397,36 @@ public class AdminController {
         model.addAttribute("inscritos", inscritos);
         model.addAttribute("totalInscritos", inscritos.size());
         return "admin-servicio-listado";
+    }
+
+    @GetMapping("/admin/services/new")
+    public String showAddServiceForm() {
+        return "admin-service-create";
+    }
+
+    @PostMapping("/admin/services/new")
+    public String addService(@RequestParam String name,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam("imageFile") MultipartFile image) throws IOException {
+
+        ServiceEntity newService = new ServiceEntity();
+        newService.setName(name);
+        newService.setDescription(description);
+        newService.setPrice(price);
+        serviceRepository.save(newService);
+
+        if (image != null && !image.isEmpty()) {
+            Files.createDirectories(SERVICES_IMAGES_FOLDER);
+            Path imagePath = SERVICES_IMAGES_FOLDER.resolve("service_" + newService.getId() + ".jpg");
+            image.transferTo(imagePath);
+            newService.setImageUrl("/admin/services/image/" + newService.getId());
+        } else {
+            newService.setImageUrl("/img/service.jpg");
+        }
+
+        serviceRepository.save(newService);
+        return "redirect:/admin/services";
     }
 
     // --- PERFIL ADMIN ---
