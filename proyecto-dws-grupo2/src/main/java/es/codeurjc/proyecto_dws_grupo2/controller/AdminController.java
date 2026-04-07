@@ -222,12 +222,12 @@ public class AdminController {
     }
 
     // ✅ AÑADIDO: guardar cambios de clase
-    @PostMapping("/admin/classes/edit/{id}")
+   @PostMapping("/admin/classes/edit/{id}")
     public String saveClass(@PathVariable Long id,
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam String schedule,
-            @RequestParam("classPicture") MultipartFile image) throws IOException {
+            @RequestParam(value = "classPicture", required = false) MultipartFile image) throws IOException { // ✅ ¡Magia aplicada aquí!
 
         ClassEntity clase = classRepository.findById(id).orElseThrow();
         clase.setName(name);
@@ -244,7 +244,7 @@ public class AdminController {
         classRepository.save(clase);
         return "redirect:/admin/classes";
     }
-
+    
     @PostMapping("/admin/classes/delete/{id}")
     public String deleteClass(@PathVariable Long id) {
         classRepository.deleteById(id);

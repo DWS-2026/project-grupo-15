@@ -40,6 +40,11 @@
                         <textarea name="description" class="form-control bg-dark text-white border-0" rows="4" required>{{clase.description}}</textarea>
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Horario</label>
+                        <input type="text" name="schedule" class="form-control bg-dark text-white border-0" value="{{clase.schedule}}" required>
+                    </div>
+
                     <div class="form-group mb-4">
                         <label class="font-weight-bold">Imagen actual</label><br>
                         <img src="{{clase.imageUrl}}" onerror="this.src='/img/crossfit.jpg'" width="150" class="rounded mb-3 d-block">
