@@ -19,7 +19,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration implements WebMvcConfigurer { // <-- AÑADIDO: implements WebMvcConfigurer
+public class SecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -31,10 +31,22 @@ public class SecurityConfiguration implements WebMvcConfigurer { // <-- AÑADIDO
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**").permitAll()
-                        // AÑADIDO: /error a las rutas públicas para evitar el bucle infinito
-                        .requestMatchers("/", "/login", "/loginerror", "/register", "/error", "/classes/info", "/about", "/contact", "/feature", "/payment_success").permitAll()
-                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        // 1. Recursos estáticos siempre públicos
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/lib/**", "/mail/**").permitAll()
+                        
+                        // 2. Imágenes de Clases y Servicios: ¡DEBEN SER PÚBLICAS! 
+                        // Aunque el controlador sea Admin, la ruta de visualización no debe estar bloqueada
+                        .requestMatchers("/admin/classes/image/**", "/admin/services/image/**", "/profile/image/**").permitAll()
+
+                        // 3. Páginas públicas (He añadido /classes para que se vean las actividades)
+                        .requestMatchers("/", "/login", "/loginerror", "/register", "/error", 
+                                        "/classes/info", "/classes", "/about", "/contact", "/feature", 
+                                        "/payment_success").permitAll()
+
+                        // 4. Panel de administración
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // 5. Todo lo demás (perfil, reviews, apuntarse a clases, comprar extras) requiere login
                         .anyRequest().authenticated())
 
                 .formLogin(formLogin -> formLogin
@@ -42,6 +54,7 @@ public class SecurityConfiguration implements WebMvcConfigurer { // <-- AÑADIDO
                         .usernameParameter("email") 
                         .failureUrl("/loginerror")
                         .successHandler((request, response, authentication) -> {
+                            // Verificamos si es admin para mandarlo a su panel
                             boolean isAdmin = authentication.getAuthorities().stream()
                                     .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
                             
@@ -56,14 +69,13 @@ public class SecurityConfiguration implements WebMvcConfigurer { // <-- AÑADIDO
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll());
-
-        // ELIMINADA LA LÍNEA DE DESACTIVAR EL CSRF (Ahora está activo y seguro)
 
         return http.build();
     }
 
-   
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CSRFHandlerInterceptor());
