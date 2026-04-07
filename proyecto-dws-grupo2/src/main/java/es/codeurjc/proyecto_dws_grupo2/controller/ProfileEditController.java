@@ -13,9 +13,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
 import java.security.Principal;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,16 +49,18 @@ public class ProfileEditController {
         return "profile-edit";
     }
 
-    @PostMapping("/profile/edit")
+   @PostMapping("/profile/edit")
     public String saveProfile(User updatedUser,
-            @RequestParam("profilePicture") MultipartFile image,
-            Principal principal) throws IOException {
+            @RequestParam(value = "profilePicture", required = false) MultipartFile image,
+            Principal principal) throws IOException { 
 
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
 
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
+        
+        // Actualizamos el email en la base de datos
         user.setEmail(updatedUser.getEmail());
 
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
@@ -69,6 +76,22 @@ public class ProfileEditController {
         }
 
         userRepository.save(user);
+
+        // LA NUEVA MAGIA: Actualizar la sesión sin cerrar sesión
+        if (!email.equals(updatedUser.getEmail())) {
+            // 1. Cogemos la sesión actual
+            Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+            
+            // 2. Creamos un nuevo "DNI" con el correo nuevo, pero con los mismos permisos (roles)
+            Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                    updatedUser.getEmail(), 
+                    currentAuth.getCredentials(), 
+                    currentAuth.getAuthorities()
+            );
+            
+            // 3. Metemos el DNI nuevo en el bolsillo de Spring Security
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+        }
 
         return "redirect:/profile";
     }
