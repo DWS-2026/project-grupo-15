@@ -22,7 +22,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-5">
                     <h1 class="display-4 font-weight-bold">Servicios Extra</h1>
-                    <a href="admin-servicio-crear.html" class="btn btn-primary">
+                    <a href="/admin/services/new" class="btn btn-primary">
                         <i class="fas fa-plus mr-2"></i> Añadir servicio
                     </a>
                 </div>
@@ -52,7 +52,10 @@
 
 
                                     <td>
-
+                                        <a href="/admin/services/{{id}}/miembros" class="btn btn-info btn-sm mr-2"
+                                            title="Ver Miembros">
+                                            <i class="fas fa-users"></i>
+                                        </a>
                                         <a href="/admin/services/edit/{{id}}" class="btn btn-light btn-sm mr-2"
                                             title="Editar">
                                             <i class="fas fa-edit"></i>
@@ -60,7 +63,7 @@
 
                                         <form action="/admin/services/delete/{{id}}" method="POST"
                                             style="display:inline;">
-                                            <input type="hidden" name="_csrf" value="{{token}}"/>
+                                            <input type="hidden" name="_csrf" value="{{token}}" />
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('¿Seguro que deseas eliminar la clase {{name}}?')"
                                                 title="Eliminar">

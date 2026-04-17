@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.security.Principal;
 
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
-import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
@@ -49,8 +47,8 @@ public class AdminController {
     private static final Path USERS_IMAGES_FOLDER = Paths.get("users_images");
 
     public AdminController(UserRepository userRepository, ClassRepository classRepository,
-                           ServiceRepository serviceRepository, UserService userService,
-                           ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
+            ServiceRepository serviceRepository, UserService userService,
+            ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.classRepository = classRepository;
         this.serviceRepository = serviceRepository;
@@ -104,7 +102,8 @@ public class AdminController {
     @GetMapping("/admin/members/{id}")
     public String viewMemberDetail(@PathVariable Long id, Model model) {
         User user = userRepository.findById(id).orElse(null);
-        if (user == null) return "redirect:/admin/members";
+        if (user == null)
+            return "redirect:/admin/members";
 
         model.addAttribute("user", user);
         model.addAttribute("classes", user.getEnrolledClasses());
@@ -129,14 +128,14 @@ public class AdminController {
 
     @PostMapping("/admin/members/edit/{id}")
     public String updateUser(@PathVariable Long id,
-                            @RequestParam String firstName,
-                            @RequestParam String lastName,
-                            @RequestParam String email,
-                            @RequestParam(required = false) String newPassword,
-                            @RequestParam(defaultValue = "false") boolean extraPhysio,
-                            @RequestParam(defaultValue = "false") boolean extraNutrition,
-                            @RequestParam(defaultValue = "false") boolean extraDrinks,
-                            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam(required = false) String newPassword,
+            @RequestParam(defaultValue = "false") boolean extraPhysio,
+            @RequestParam(defaultValue = "false") boolean extraNutrition,
+            @RequestParam(defaultValue = "false") boolean extraDrinks,
+            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
 
         User user = userRepository.findById(id).orElseThrow();
 
@@ -148,15 +147,18 @@ public class AdminController {
         user.getEnrolledServices().clear();
         if (extraPhysio) {
             ServiceEntity s = serviceRepository.findByName("Fisioterapia");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null)
+                user.getEnrolledServices().add(s);
         }
         if (extraNutrition) {
             ServiceEntity s = serviceRepository.findByName("Nutrición");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null)
+                user.getEnrolledServices().add(s);
         }
         if (extraDrinks) {
             ServiceEntity s = serviceRepository.findByName("Bebidas Extra");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null)
+                user.getEnrolledServices().add(s);
         }
 
         if (newPassword != null && !newPassword.isEmpty()) {
@@ -216,7 +218,8 @@ public class AdminController {
     @GetMapping("/admin/classes/edit/{id}")
     public String editClass(@PathVariable Long id, Model model) {
         ClassEntity clase = classRepository.findById(id).orElse(null);
-        if (clase == null) return "redirect:/admin/classes";
+        if (clase == null)
+            return "redirect:/admin/classes";
         model.addAttribute("clase", clase);
         return "admin-class-edit";
     }
@@ -227,7 +230,10 @@ public class AdminController {
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam String schedule,
-            @RequestParam("classPicture") MultipartFile image) throws IOException {
+            @RequestParam(value = "classPicture", required = false) MultipartFile image) throws IOException { // ✅
+                                                                                                              // ¡Magia
+                                                                                                              // aplicada
+                                                                                                              // aquí!
 
         ClassEntity clase = classRepository.findById(id).orElseThrow();
         clase.setName(name);
@@ -255,7 +261,8 @@ public class AdminController {
     @GetMapping("/admin/classes/{id}/asistentes")
     public String viewClassAttendees(@PathVariable Long id, Model model) {
         ClassEntity clase = classRepository.findById(id).orElse(null);
-        if (clase == null) return "redirect:/admin/classes";
+        if (clase == null)
+            return "redirect:/admin/classes";
 
         List<User> todosLosUsuarios = userRepository.findAll();
         List<User> asistentes = new ArrayList<>();
@@ -302,7 +309,8 @@ public class AdminController {
     @GetMapping("/admin/services/edit/{id}")
     public String editService(@PathVariable Long id, Model model) {
         ServiceEntity service = serviceRepository.findById(id).orElse(null);
-        if (service == null) return "redirect:/admin/services";
+        if (service == null)
+            return "redirect:/admin/services";
         model.addAttribute("service", service);
         return "admin-service-edit";
     }
@@ -374,6 +382,53 @@ public class AdminController {
         return "redirect:/admin/reviews";
     }
 
+    @GetMapping("/admin/services/{id}/miembros")
+    public String viewServiceMembers(@PathVariable Long id, Model model) {
+        ServiceEntity service = serviceRepository.findById(id).orElse(null);
+        if (service == null)
+            return "redirect:/admin/services";
+
+        List<User> todos = userRepository.findAll();
+        List<User> inscritos = todos.stream()
+                .filter(u -> u.getEnrolledServices().contains(service))
+                .collect(java.util.stream.Collectors.toList());
+
+        model.addAttribute("service", service);
+        model.addAttribute("inscritos", inscritos);
+        model.addAttribute("totalInscritos", inscritos.size());
+        return "admin-servicio-listado";
+    }
+
+    @GetMapping("/admin/services/new")
+    public String showAddServiceForm() {
+        return "admin-service-create";
+    }
+
+    @PostMapping("/admin/services/new")
+    public String addService(@RequestParam String name,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam("imageFile") MultipartFile image) throws IOException {
+
+        ServiceEntity newService = new ServiceEntity();
+        newService.setName(name);
+        newService.setDescription(description);
+        newService.setPrice(price);
+        serviceRepository.save(newService);
+
+        if (image != null && !image.isEmpty()) {
+            Files.createDirectories(SERVICES_IMAGES_FOLDER);
+            Path imagePath = SERVICES_IMAGES_FOLDER.resolve("service_" + newService.getId() + ".jpg");
+            image.transferTo(imagePath);
+            newService.setImageUrl("/admin/services/image/" + newService.getId());
+        } else {
+            newService.setImageUrl("/img/service.jpg");
+        }
+
+        serviceRepository.save(newService);
+        return "redirect:/admin/services";
+    }
+
     // --- PERFIL ADMIN ---
     @GetMapping("/admin/profile")
     public String adminProfile() {
@@ -383,6 +438,6 @@ public class AdminController {
     // --- MÉTODO AUXILIAR ---
     private boolean hasService(User user, String serviceName) {
         return user.getEnrolledServices().stream()
-                   .anyMatch(s -> s.getName().equalsIgnoreCase(serviceName));
+                .anyMatch(s -> s.getName().equalsIgnoreCase(serviceName));
     }
 }
