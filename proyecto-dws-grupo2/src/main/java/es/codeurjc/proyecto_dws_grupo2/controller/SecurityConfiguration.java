@@ -78,6 +78,7 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration c
         http
             .authorizeHttpRequests(authorize -> authorize
                 // PRIVATE ENDPOINTS
+                .requestMatchers(HttpMethod.GET, "/api/v1/classes/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/images/*/media").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/books/*/images/*").hasRole("USER")
 

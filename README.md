@@ -233,7 +233,7 @@ Encargado de la realización del apartado de reviews del usuario y reviews en ge
 ## 🛠 **Práctica 2: Web con HTML generado en servidor**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://youtu.be/ybsQyKAimeI?si=xbzcXjhJeYjiVmwF)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/kIxQtGaD6js)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Navegación y Capturas de Pantalla**

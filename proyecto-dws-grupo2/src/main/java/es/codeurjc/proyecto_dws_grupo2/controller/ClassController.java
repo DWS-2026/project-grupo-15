@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
+import es.codeurjc.proyecto_dws_grupo2.dto.ClassDTO; 
 import java.security.Principal;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;

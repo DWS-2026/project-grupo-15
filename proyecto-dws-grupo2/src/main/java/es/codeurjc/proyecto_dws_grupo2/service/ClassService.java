@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
@@ -23,6 +25,10 @@ public class ClassService {
     // 1. Obtener todas las clases
     public List<ClassEntity> findAll() {
         return classRepository.findAll();
+    }
+
+    public Page<ClassEntity> findAllPaginated(Pageable pageable) {
+        return classRepository.findAll(pageable);
     }
 
     // 2. Obtener una clase por su ID
