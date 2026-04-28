@@ -42,12 +42,29 @@ public class ServiceController {
             this.enrolled = enrolled;
         }
 
-        public Long getId() { return id; }
-        public String getName() { return name; }
-        public String getDescription() { return description; }
-        public String getImageUrl() { return imageUrl; }
-        public double getPrice() { return price; }
-        public boolean isEnrolled() { return enrolled; }
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public boolean isEnrolled() {
+            return enrolled;
+        }
     }
 
     @GetMapping("/services")
@@ -71,7 +88,7 @@ public class ServiceController {
         model.addAttribute("user", user);
         model.addAttribute("serviceName", s.getName());
         model.addAttribute("servicePrice", s.getPrice());
-        model.addAttribute("serviceId", s.getId()); 
+        model.addAttribute("serviceId", s.getId());
         model.addAttribute("total", s.getPrice());
         model.addAttribute("origin", "services");
         model.addAttribute("fromRegister", false); // ✅ Crucial para el resumen
