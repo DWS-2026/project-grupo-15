@@ -7,31 +7,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
-import java.security.Principal; // Importamos el nuevo "portero"
-import java.util.Optional;
-
+import java.security.Principal;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.ClassService; // Importamos el servicio
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; 
 
 @Controller
 public class ClassController {
 
-    private final ClassRepository classRepository;
-    private final UserRepository userRepository; 
+    private final ClassService classService; // Ya no usamos los repositorios directamente para las clases
+    private final UserRepository userRepository; // Lo mantenemos solo para el menú de navegación
 
-    public ClassController(ClassRepository classRepository, UserRepository userRepository) {
-        this.classRepository = classRepository;
+    public ClassController(ClassService classService, UserRepository userRepository) {
+        this.classService = classService;
         this.userRepository = userRepository;
     }
 
-    // --- MÉTODO AYUDANTE: Para mantener el menú de navegación funcionando ---
     private void cargarUsuarioEnMenu(Model model, Principal principal) {
         if (principal != null) {
             User user = userRepository.findByEmail(principal.getName()).orElse(null);
             if (user != null) {
-                // Le pasamos el usuario al HTML para que pinte "Hola, Paco" y el botón de Cerrar Sesión
                 model.addAttribute("usuarioSesion", user);
             }
         }
@@ -40,76 +36,48 @@ public class ClassController {
     @GetMapping("/classes/info") 
     public String mostrarInfoClases(Model model, Principal principal) {
         cargarUsuarioEnMenu(model, principal); 
-        model.addAttribute("clases", classRepository.findAll());
+        model.addAttribute("clases", classService.findAll()); // Llamamos al servicio
         return "class"; 
     }
 
     @GetMapping("/classes")
     public String mostrarClases(Model model, Principal principal) {
         cargarUsuarioEnMenu(model, principal); 
-        model.addAttribute("clases", classRepository.findAll());
+        model.addAttribute("clases", classService.findAll()); // Llamamos al servicio
         return "class-list"; 
     }
 
-
-  @GetMapping("/classes/{id}")
+    @GetMapping("/classes/{id}")
     public String verDetalleClase(@PathVariable Long id, Model model, Principal principal) {
         cargarUsuarioEnMenu(model, principal); 
         
-        ClassEntity clase = classRepository.findById(id).orElse(null);
+        ClassEntity clase = classService.findById(id).orElse(null); // Llamamos al servicio
         if (clase == null) return "redirect:/classes";
 
         model.addAttribute("clase", clase);
 
-        // Lógica para los botones de apuntado
         if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
-            if (user != null) {
-                // Comprobamos si la clase está en su lista de inscritas
-                boolean isEnrolled = user.getEnrolledClasses().contains(clase);
-                model.addAttribute("isEnrolled", isEnrolled);
-            }
+            boolean isEnrolled = classService.isUserEnrolled(id, principal.getName());
+            model.addAttribute("isEnrolled", isEnrolled);
         }
 
         return "class-detail"; 
     }
+
     @PostMapping("/classes/{id}/signup")
     public String apuntarseAClase(@PathVariable Long id, Principal principal, RedirectAttributes attributes) {
-        
-   
-        User usuarioLogado = userRepository.findByEmail(principal.getName()).orElse(null);
-
-        
-        if (usuarioLogado != null) {
-            
-            
-            Optional<ClassEntity> classOptional = classRepository.findById(id);
-
-            if (classOptional.isPresent()) {
-                ClassEntity clase = classOptional.get();
-
-                
-                usuarioLogado.getEnrolledClasses().add(clase);
-                
-                
-                userRepository.save(usuarioLogado);
-                
-                
-                attributes.addFlashAttribute("mensajeExito", "¡Genial! Te has apuntado a " + clase.getName() + " el " + clase.getSchedule() + ".");
-            }
+        if (principal != null) {
+            classService.enrollUser(id, principal.getName()); // ¡Toda la lógica reducida a una línea!
+            attributes.addFlashAttribute("mensajeExito", "¡Genial! Te has apuntado correctamente.");
         }
-
         return "redirect:/classes";
     }
 
     @PostMapping("/classes/{id}/leave")
     public String desapuntarseDeClase(@PathVariable Long id, Principal principal) {
-        User user = userRepository.findByEmail(principal.getName()).orElseThrow();
-        ClassEntity clase = classRepository.findById(id).orElseThrow();
-
-        user.getEnrolledClasses().remove(clase);
-        userRepository.save(user);
-
+        if (principal != null) {
+            classService.unenrollUser(id, principal.getName()); // Toda la lógica delegada
+        }
         return "redirect:/classes/" + id;
     }
 }
