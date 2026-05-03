@@ -5,8 +5,14 @@ import es.codeurjc.proyecto_dws_grupo2.dto.ReviewMapper;
 import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.net.URI;
 import java.util.Collection;
@@ -25,8 +31,14 @@ public class ReviewRestController {
     private ReviewMapper reviewMapper;
 
     @GetMapping("/")
-    public Collection<ReviewDTO> getReviews() {
-        return reviewMapper.toDTOs(reviewService.getReviews());
+    public ResponseEntity<Page<ReviewDTO>> getReviews(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ReviewDTO> reviewDTOs = reviewService.getReviews(pageable)
+                .map(reviewMapper::toDTO);
+        return ResponseEntity.ok(reviewDTOs);
     }
 
     @GetMapping("/{id}")

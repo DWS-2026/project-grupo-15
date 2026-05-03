@@ -3,11 +3,16 @@ package es.codeurjc.proyecto_dws_grupo2.service;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;     
+import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -22,10 +27,14 @@ public class ReviewService {
     private UserRepository userRepository;
 
     @Autowired
-    private ClassRepository classRepository;                             
+    private ClassRepository classRepository;
 
     public Collection<Review> getReviews() {
         return reviewRepository.findAll();
+    }
+
+    public Page<Review> getReviews(Pageable pageable) {
+        return reviewRepository.findAll(pageable);
     }
 
     public Optional<Review> getReview(Long id) {
@@ -36,13 +45,13 @@ public class ReviewService {
 
         if (userId != null) {
             User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
             review.setUser(user);
         }
 
         if (classEntityId != null) {
-            ClassEntity classEntity = classRepository.findById(classEntityId) 
-                .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
+            ClassEntity classEntity = classRepository.findById(classEntityId)
+                    .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
             review.setClassEntity(classEntity);
         }
 
@@ -52,7 +61,7 @@ public class ReviewService {
     public Review replaceReview(Long id, Review updatedReview, Long userId, Long classEntityId) {
 
         Review existingReview = reviewRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
 
         existingReview.setAbout(updatedReview.getAbout());
         existingReview.setRating(updatedReview.getRating());
@@ -60,13 +69,13 @@ public class ReviewService {
 
         if (userId != null) {
             User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
             existingReview.setUser(user);
         }
 
         if (classEntityId != null) {
-            ClassEntity classEntity = classRepository.findById(classEntityId) 
-                .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
+            ClassEntity classEntity = classRepository.findById(classEntityId)
+                    .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
             existingReview.setClassEntity(classEntity);
         }
 
