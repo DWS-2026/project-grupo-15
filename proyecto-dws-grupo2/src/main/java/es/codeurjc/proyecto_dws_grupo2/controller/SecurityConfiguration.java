@@ -49,9 +49,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     private JwtRequestFilter jwtRequestFilter;
 
     @Bean
-public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-    return config.getAuthenticationManager();
-}
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -72,34 +72,30 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration c
         http.authenticationProvider(authenticationProvider());
 
         http
-            .securityMatcher("/api/**")
-            .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
+                .securityMatcher("/api/**")
+                .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
         http
-            .authorizeHttpRequests(authorize -> authorize
-                // PRIVATE ENDPOINTS
-                .requestMatchers(HttpMethod.GET, "/api/v1/classes/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/images/*/media").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "/api/books/*/images/*").hasRole("USER")
+                .authorizeHttpRequests(authorize -> authorize
+                        // PUBLIC - login no necesita autenticación
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/classes/**").permitAll()
 
-                .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("USER")
-                .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("USER")
-                .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
+                        // PRIVADAS - solo ADMIN
+                        .requestMatchers(HttpMethod.POST, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
 
-                .requestMatchers(HttpMethod.PUT, "/api/shops/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/shops/**").hasRole("ADMIN")
-
-                // PUBLIC
-                .anyRequest().permitAll()
-            );
+                        // Todo lo demás requiere autenticación
+                        .anyRequest().authenticated());
 
         http.formLogin(formLogin -> formLogin.disable());
         http.csrf(csrf -> csrf.disable());
         http.httpBasic(httpBasic -> httpBasic.disable());
 
-        http.sessionManagement(management ->
-            management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+        http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // ✅ AQUÍ YA NO USAMOS new
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -112,44 +108,44 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration c
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/lib/**", "/mail/**").permitAll()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/lib/**", "/mail/**")
+                        .permitAll()
 
-                .requestMatchers("/admin/classes/image/**", "/admin/services/image/**", "/profile/image/**").permitAll()
+                        .requestMatchers("/admin/classes/image/**", "/admin/services/image/**", "/profile/image/**")
+                        .permitAll()
 
-                .requestMatchers("/", "/login", "/loginerror", "/register", "/error",
-                        "/classes/info", "/classes", "/about", "/contact", "/feature",
-                        "/payment_success").permitAll()
+                        .requestMatchers("/", "/login", "/loginerror", "/register", "/error",
+                                "/classes/info", "/classes", "/about", "/contact", "/feature",
+                                "/payment_success")
+                        .permitAll()
 
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                .anyRequest().authenticated()
-            )
+                        .anyRequest().authenticated())
 
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .usernameParameter("email")
-                .failureUrl("/loginerror")
-                .successHandler((request, response, authentication) -> {
-                    boolean isAdmin = authentication.getAuthorities().stream()
-                            .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .failureUrl("/loginerror")
+                        .successHandler((request, response, authentication) -> {
+                            boolean isAdmin = authentication.getAuthorities().stream()
+                                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
 
-                    if (isAdmin) {
-                        response.sendRedirect("/admin");
-                    } else {
-                        response.sendRedirect("/profile");
-                    }
-                })
-                .permitAll()
-            )
+                            if (isAdmin) {
+                                response.sendRedirect("/admin");
+                            } else {
+                                response.sendRedirect("/profile");
+                            }
+                        })
+                        .permitAll())
 
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            );
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
 
         return http.build();
     }
@@ -164,7 +160,7 @@ class CSRFHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler, ModelAndView modelAndView) throws Exception {
+            Object handler, ModelAndView modelAndView) throws Exception {
 
         if (modelAndView != null) {
             CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
