@@ -6,31 +6,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.core.io.Resource;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
+import es.codeurjc.proyecto_dws_grupo2.model.Image;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 @Controller
 public class AdminController {
@@ -41,20 +35,19 @@ public class AdminController {
     private final ServiceRepository serviceRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
-
-    private static final Path CLASSES_IMAGES_FOLDER = Paths.get("classes_images");
-    private static final Path SERVICES_IMAGES_FOLDER = Paths.get("services_images");
-    private static final Path USERS_IMAGES_FOLDER = Paths.get("users_images");
+    private final ImageService imageService; // Nuestro superhéroe de las imágenes
 
     public AdminController(UserRepository userRepository, ClassRepository classRepository,
             ServiceRepository serviceRepository, UserService userService,
-            ReviewRepository reviewRepository, PasswordEncoder passwordEncoder) {
+            ReviewRepository reviewRepository, PasswordEncoder passwordEncoder,
+            ImageService imageService) { 
         this.userRepository = userRepository;
         this.classRepository = classRepository;
         this.serviceRepository = serviceRepository;
         this.userService = userService;
         this.reviewRepository = reviewRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageService = imageService;
     }
 
     // --- PANEL DASHBOARD ---
@@ -88,7 +81,11 @@ public class AdminController {
         for (User u : allMembers) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", u.getId());
-            map.put("photo", u.getProfileImageUrl());
+            if (u.getProfileImage() != null) {
+                map.put("photo", "/api/v1/images/" + u.getProfileImage().getId() + "/media");
+            } else {
+                map.put("photo", "/img/avatar.jpg");
+            }
             map.put("nombre", u.getFirstName() + " " + u.getLastName());
             map.put("email", u.getEmail());
             map.put("estado", "Activo");
@@ -102,8 +99,7 @@ public class AdminController {
     @GetMapping("/admin/members/{id}")
     public String viewMemberDetail(@PathVariable Long id, Model model) {
         User user = userRepository.findById(id).orElse(null);
-        if (user == null)
-            return "redirect:/admin/members";
+        if (user == null) return "redirect:/admin/members";
 
         model.addAttribute("user", user);
         model.addAttribute("classes", user.getEnrolledClasses());
@@ -135,7 +131,7 @@ public class AdminController {
             @RequestParam(defaultValue = "false") boolean extraPhysio,
             @RequestParam(defaultValue = "false") boolean extraNutrition,
             @RequestParam(defaultValue = "false") boolean extraDrinks,
-            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException { 
 
         User user = userRepository.findById(id).orElseThrow();
 
@@ -143,22 +139,18 @@ public class AdminController {
         user.setLastName(lastName);
         user.setEmail(email);
 
-        // ✅ Actualiza servicios desde BD
         user.getEnrolledServices().clear();
         if (extraPhysio) {
             ServiceEntity s = serviceRepository.findByName("Fisioterapia");
-            if (s != null)
-                user.getEnrolledServices().add(s);
+            if (s != null) user.getEnrolledServices().add(s);
         }
         if (extraNutrition) {
             ServiceEntity s = serviceRepository.findByName("Nutrición");
-            if (s != null)
-                user.getEnrolledServices().add(s);
+            if (s != null) user.getEnrolledServices().add(s);
         }
         if (extraDrinks) {
             ServiceEntity s = serviceRepository.findByName("Bebidas Extra");
-            if (s != null)
-                user.getEnrolledServices().add(s);
+            if (s != null) user.getEnrolledServices().add(s);
         }
 
         if (newPassword != null && !newPassword.isEmpty()) {
@@ -166,10 +158,14 @@ public class AdminController {
         }
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            Files.createDirectories(USERS_IMAGES_FOLDER);
-            Path imagePath = USERS_IMAGES_FOLDER.resolve("user_" + id + ".jpg");
-            imageFile.transferTo(imagePath);
-            user.setProfileImageUrl("/admin/members/image/" + id);
+            if (user.getProfileImage() != null) {
+                Long oldImageId = user.getProfileImage().getId();
+                user.setProfileImage(null);
+                userRepository.save(user); 
+                imageService.deleteImage(oldImageId);
+            }
+            Image savedImage = imageService.createImage(imageFile.getInputStream());
+            user.setProfileImage(savedImage);
         }
 
         userRepository.save(user);
@@ -197,18 +193,14 @@ public class AdminController {
     @PostMapping("/admin/classes/new")
     public String addClass(@RequestParam String name,
             @RequestParam String description,
-            @RequestParam("classPicture") MultipartFile image) throws IOException {
+            @RequestParam("classPicture") MultipartFile imageFile) throws IOException {
 
         ClassEntity newClass = new ClassEntity(name, description, "Horario a definir");
-        classRepository.save(newClass);
-
-        if (image != null && !image.isEmpty()) {
-            Files.createDirectories(CLASSES_IMAGES_FOLDER);
-            Path imagePath = CLASSES_IMAGES_FOLDER.resolve("class_" + newClass.getId() + ".jpg");
-            image.transferTo(imagePath);
-            newClass.setImageUrl("/admin/classes/image/" + newClass.getId());
-        } else {
-            newClass.setImageUrl("/img/class-default.jpg");
+        
+        // Guardamos la foto en BBDD si la suben
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Image savedImage = imageService.createImage(imageFile.getInputStream());
+            newClass.setImage(savedImage);
         }
 
         classRepository.save(newClass);
@@ -218,30 +210,32 @@ public class AdminController {
     @GetMapping("/admin/classes/edit/{id}")
     public String editClass(@PathVariable Long id, Model model) {
         ClassEntity clase = classRepository.findById(id).orElse(null);
-        if (clase == null)
-            return "redirect:/admin/classes";
+        if (clase == null) return "redirect:/admin/classes";
         model.addAttribute("clase", clase);
         return "admin-class-edit";
     }
 
-    // ✅ AÑADIDO: guardar cambios de clase
     @PostMapping("/admin/classes/edit/{id}")
     public String saveClass(@PathVariable Long id,
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam String schedule,
-            @RequestParam(value = "classPicture", required = false) MultipartFile image) throws IOException { 
+            @RequestParam(value = "classPicture", required = false) MultipartFile imageFile) throws IOException { 
 
         ClassEntity clase = classRepository.findById(id).orElseThrow();
         clase.setName(name);
         clase.setDescription(description);
         clase.setSchedule(schedule);
 
-        if (image != null && !image.isEmpty()) {
-            Files.createDirectories(CLASSES_IMAGES_FOLDER);
-            Path imagePath = CLASSES_IMAGES_FOLDER.resolve("class_" + id + ".jpg");
-            image.transferTo(imagePath);
-            clase.setImageUrl("/admin/classes/image/" + id);
+        if (imageFile != null && !imageFile.isEmpty()) {
+            if (clase.getImage() != null) {
+                Long oldImageId = clase.getImage().getId();
+                clase.setImage(null);
+                classRepository.save(clase);
+                imageService.deleteImage(oldImageId);
+            }
+            Image savedImage = imageService.createImage(imageFile.getInputStream());
+            clase.setImage(savedImage);
         }
 
         classRepository.save(clase);
@@ -258,8 +252,7 @@ public class AdminController {
     @GetMapping("/admin/classes/{id}/asistentes")
     public String viewClassAttendees(@PathVariable Long id, Model model) {
         ClassEntity clase = classRepository.findById(id).orElse(null);
-        if (clase == null)
-            return "redirect:/admin/classes";
+        if (clase == null) return "redirect:/admin/classes";
 
         List<User> todosLosUsuarios = userRepository.findAll();
         List<User> asistentes = new ArrayList<>();
@@ -287,7 +280,7 @@ public class AdminController {
         User usuario = userRepository.findById(userId).orElse(null);
 
         if (clase != null && usuario != null) {
-            if (!usuario.getEnrolledClasses().contains(clase)) { // ✅ evita duplicados
+            if (!usuario.getEnrolledClasses().contains(clase)) { 
                 usuario.getEnrolledClasses().add(clase);
                 userRepository.save(usuario);
             }
@@ -302,12 +295,35 @@ public class AdminController {
         return "admin-services";
     }
 
-    // ✅ AÑADIDO: mostrar formulario de edición de servicio
+    @GetMapping("/admin/services/new")
+    public String showAddServiceForm() {
+        return "admin-service-create";
+    }
+
+    @PostMapping("/admin/services/new")
+    public String addService(@RequestParam String name,
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+
+        ServiceEntity newService = new ServiceEntity();
+        newService.setName(name);
+        newService.setDescription(description);
+        newService.setPrice(price);
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Image savedImage = imageService.createImage(imageFile.getInputStream());
+            newService.setImage(savedImage);
+        }
+
+        serviceRepository.save(newService);
+        return "redirect:/admin/services";
+    }
+
     @GetMapping("/admin/services/edit/{id}")
     public String editService(@PathVariable Long id, Model model) {
         ServiceEntity service = serviceRepository.findById(id).orElse(null);
-        if (service == null)
-            return "redirect:/admin/services";
+        if (service == null) return "redirect:/admin/services";
         model.addAttribute("service", service);
         return "admin-service-edit";
     }
@@ -315,18 +331,22 @@ public class AdminController {
     @PostMapping("/admin/services/edit/{id}")
     public String saveService(@PathVariable Long id,
             ServiceEntity updatedService,
-            @RequestParam("imageFile") MultipartFile image) throws IOException {
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
 
         ServiceEntity service = serviceRepository.findById(id).orElseThrow();
         service.setName(updatedService.getName());
         service.setDescription(updatedService.getDescription());
-        service.setPrice(updatedService.getPrice()); // ✅ también actualiza el precio
+        service.setPrice(updatedService.getPrice()); 
 
-        if (image != null && !image.isEmpty()) {
-            Files.createDirectories(SERVICES_IMAGES_FOLDER);
-            Path imagePath = SERVICES_IMAGES_FOLDER.resolve("service_" + id + ".jpg");
-            image.transferTo(imagePath);
-            service.setImageUrl("/admin/services/image/" + id);
+        if (imageFile != null && !imageFile.isEmpty()) {
+            if (service.getImage() != null) {
+                Long oldImageId = service.getImage().getId();
+                service.setImage(null);
+                serviceRepository.save(service);
+                imageService.deleteImage(oldImageId);
+            }
+            Image savedImage = imageService.createImage(imageFile.getInputStream());
+            service.setImage(savedImage);
         }
 
         serviceRepository.save(service);
@@ -339,31 +359,20 @@ public class AdminController {
         return "redirect:/admin/services";
     }
 
-    // --- IMÁGENES ---
-    @GetMapping("/admin/classes/image/{id}")
-    public ResponseEntity<Resource> getClassImage(@PathVariable Long id) throws IOException {
-        return serveImage(CLASSES_IMAGES_FOLDER, "class_" + id + ".jpg");
-    }
+    @GetMapping("/admin/services/{id}/miembros")
+    public String viewServiceMembers(@PathVariable Long id, Model model) {
+        ServiceEntity service = serviceRepository.findById(id).orElse(null);
+        if (service == null) return "redirect:/admin/services";
 
-    @GetMapping("/admin/services/image/{id}")
-    public ResponseEntity<Resource> getServiceImage(@PathVariable Long id) throws IOException {
-        return serveImage(SERVICES_IMAGES_FOLDER, "service_" + id + ".jpg");
-    }
+        List<User> todos = userRepository.findAll();
+        List<User> inscritos = todos.stream()
+                .filter(u -> u.getEnrolledServices().contains(service))
+                .collect(java.util.stream.Collectors.toList());
 
-    @GetMapping("/admin/members/image/{id}")
-    public ResponseEntity<Resource> getMemberImage(@PathVariable Long id) throws IOException {
-        return serveImage(USERS_IMAGES_FOLDER, "user_" + id + ".jpg");
-    }
-
-    private ResponseEntity<Resource> serveImage(Path folder, String fileName) throws IOException {
-        Path imagePath = folder.resolve(fileName);
-        Resource resource = new UrlResource(imagePath.toUri());
-        if (resource.exists()) {
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                    .body(resource);
-        }
-        return ResponseEntity.notFound().build();
+        model.addAttribute("service", service);
+        model.addAttribute("inscritos", inscritos);
+        model.addAttribute("totalInscritos", inscritos.size());
+        return "admin-servicio-listado";
     }
 
     // --- REVIEWS ---
@@ -377,53 +386,6 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id) {
         reviewRepository.deleteById(id);
         return "redirect:/admin/reviews";
-    }
-
-    @GetMapping("/admin/services/{id}/miembros")
-    public String viewServiceMembers(@PathVariable Long id, Model model) {
-        ServiceEntity service = serviceRepository.findById(id).orElse(null);
-        if (service == null)
-            return "redirect:/admin/services";
-
-        List<User> todos = userRepository.findAll();
-        List<User> inscritos = todos.stream()
-                .filter(u -> u.getEnrolledServices().contains(service))
-                .collect(java.util.stream.Collectors.toList());
-
-        model.addAttribute("service", service);
-        model.addAttribute("inscritos", inscritos);
-        model.addAttribute("totalInscritos", inscritos.size());
-        return "admin-servicio-listado";
-    }
-
-    @GetMapping("/admin/services/new")
-    public String showAddServiceForm() {
-        return "admin-service-create";
-    }
-
-    @PostMapping("/admin/services/new")
-    public String addService(@RequestParam String name,
-            @RequestParam String description,
-            @RequestParam double price,
-            @RequestParam("imageFile") MultipartFile image) throws IOException {
-
-        ServiceEntity newService = new ServiceEntity();
-        newService.setName(name);
-        newService.setDescription(description);
-        newService.setPrice(price);
-        serviceRepository.save(newService);
-
-        if (image != null && !image.isEmpty()) {
-            Files.createDirectories(SERVICES_IMAGES_FOLDER);
-            Path imagePath = SERVICES_IMAGES_FOLDER.resolve("service_" + newService.getId() + ".jpg");
-            image.transferTo(imagePath);
-            newService.setImageUrl("/admin/services/image/" + newService.getId());
-        } else {
-            newService.setImageUrl("/img/service.jpg");
-        }
-
-        serviceRepository.save(newService);
-        return "redirect:/admin/services";
     }
 
     // --- PERFIL ADMIN ---

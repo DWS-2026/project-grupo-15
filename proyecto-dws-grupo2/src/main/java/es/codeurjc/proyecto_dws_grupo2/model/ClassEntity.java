@@ -18,7 +18,9 @@ public class ClassEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String imageUrl;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Image image;
+
     private String schedule;
 
     @ManyToMany(mappedBy = "enrolledClasses")
@@ -75,12 +77,13 @@ public class ClassEntity {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    // CAMBIO: Getter y Setter adaptados a la nueva entidad Image
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public String getSchedule() {
@@ -91,7 +94,6 @@ public class ClassEntity {
         this.schedule = schedule;
     }
 
-    // Cambiado a Set
     public Set<User> getAttendees() {
         return attendees;
     }

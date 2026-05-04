@@ -13,6 +13,7 @@ import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO; 
 
 @Controller
 public class ServiceController {
@@ -25,54 +26,12 @@ public class ServiceController {
         this.serviceRepository = serviceRepository;
     }
 
-    public static class ServiceDTO {
-        private Long id;
-        private String name;
-        private String description;
-        private String imageUrl;
-        private double price;
-        private boolean enrolled;
-
-        public ServiceDTO(ServiceEntity s, boolean enrolled) {
-            this.id = s.getId();
-            this.name = s.getName();
-            this.description = s.getDescription();
-            this.imageUrl = s.getImageUrl();
-            this.price = s.getPrice();
-            this.enrolled = enrolled;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public double getPrice() {
-            return price;
-        }
-
-        public boolean isEnrolled() {
-            return enrolled;
-        }
-    }
-
     @GetMapping("/services")
     public String showServices(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
 
-        List<ServiceDTO> allServices = serviceRepository.findAll().stream()
-                .map(s -> new ServiceDTO(s, user.getEnrolledServices().contains(s)))
+        List<ServiceResponseDTO> allServices = serviceRepository.findAll().stream()
+                .map(s -> new ServiceResponseDTO(s, user.getEnrolledServices().contains(s)))
                 .collect(Collectors.toList());
 
         model.addAttribute("allServices", allServices);
@@ -91,7 +50,7 @@ public class ServiceController {
         model.addAttribute("serviceId", s.getId());
         model.addAttribute("total", s.getPrice());
         model.addAttribute("origin", "services");
-        model.addAttribute("fromRegister", false); // ✅ Crucial para el resumen
+        model.addAttribute("fromRegister", false); 
 
         return "payment";
     }

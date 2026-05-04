@@ -1,20 +1,25 @@
 package es.codeurjc.proyecto_dws_grupo2.dto;
 
+import java.util.List;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 
 public record UserResponseDTO(
-        Long id,
-        String firstName,
-        String lastName,
-        String email,
-        String profileImageUrl) {
-
+    Long id,
+    String firstName,
+    String lastName,
+    String email,
+    List<String> roles,
+    ImageResponseDTO profileImage
+) {
     public UserResponseDTO(User user) {
         this(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getProfileImageUrl());
+            user.getId(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getEmail(),
+            user.getRoles(),
+            // Si el usuario tiene imagen, creamos el DTO. Si no, devolvemos null
+            user.getProfileImage() != null ? new ImageResponseDTO(user.getProfileImage()) : null
+        );
     }
 }

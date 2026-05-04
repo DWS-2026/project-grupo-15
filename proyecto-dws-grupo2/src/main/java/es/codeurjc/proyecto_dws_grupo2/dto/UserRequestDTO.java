@@ -6,8 +6,7 @@ public record UserRequestDTO(
         String firstName,
         String lastName,
         String email,
-        String password,
-        String profileImageUrl
+        String password
 ) {
     // 2. De DTO a nueva Entidad (Se usa en el POST)
     // Le pasamos la contraseña ya encriptada desde el controlador
@@ -17,7 +16,6 @@ public record UserRequestDTO(
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPassword(encodedPassword);
-        user.setProfileImageUrl(this.profileImageUrl);
     
         return user;
     }
@@ -27,10 +25,6 @@ public record UserRequestDTO(
         user.setFirstName(this.firstName);
         user.setLastName(this.lastName);
         user.setEmail(this.email);
-        
-        if (this.profileImageUrl != null) {
-            user.setProfileImageUrl(this.profileImageUrl);
-        }
         
         // Solo actualizamos la contraseña si nos enviaron una nueva encriptada
         if (encodedPassword != null) {

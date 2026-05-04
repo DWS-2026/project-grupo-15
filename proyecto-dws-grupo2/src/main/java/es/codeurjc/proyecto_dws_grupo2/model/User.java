@@ -20,20 +20,19 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String profileImageUrl = "/img/avatar.jpg";
-
+    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Image profileImage;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> roles = new ArrayList<>();
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_classes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ClassEntity> enrolledClasses = new HashSet<>();
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_services", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "service_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
@@ -41,14 +40,11 @@ public class User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ServiceEntity> enrolledServices = new HashSet<>();
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     public User() {
     }
-
-    // --- GETTERS Y SETTERS CORREGIDOS ---
 
     public Long getId() {
         return id;
@@ -90,15 +86,15 @@ public class User {
         this.password = password;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    // --- NUEVOS Getters y Setters para Image ---
+    public Image getProfileImage() {
+        return profileImage;
     }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public void setProfileImage(Image profileImage) {
+        this.profileImage = profileImage;
     }
 
-    // Corregido: Ahora devuelve y recibe Set
     public Set<ClassEntity> getEnrolledClasses() {
         return enrolledClasses;
     }
@@ -107,7 +103,6 @@ public class User {
         this.enrolledClasses = enrolledClasses;
     }
 
-    // Corregido: Ahora devuelve y recibe Set
     public Set<ServiceEntity> getEnrolledServices() {
         return enrolledServices;
     }

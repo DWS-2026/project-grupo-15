@@ -10,7 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import es.codeurjc.proyecto_dws_grupo2.dto.ClassDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.ClassResponseDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.ClassRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 
@@ -28,30 +29,30 @@ public class ClassRestController {
 
     // GET: Get all classes (with pagination)
     @GetMapping
-    public ResponseEntity<List<ClassDTO>> getAllClasses(
+    public ResponseEntity<List<ClassResponseDTO>> getAllClasses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<ClassDTO> classPage = classService.findAll(pageable)
-                .map(ClassDTO::new);
+        Page<ClassResponseDTO> classPage = classService.findAll(pageable)
+                .map(ClassResponseDTO::new);
 
         return ResponseEntity.ok(classPage.getContent());
     }
 
     // GET: Get class by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ClassDTO> getClassById(@PathVariable Long id) {
+    public ResponseEntity<ClassResponseDTO> getClassById(@PathVariable Long id) {
         return classService.findById(id)
-                .map(classEntity -> ResponseEntity.ok(new ClassDTO(classEntity)))
+                .map(classEntity -> ResponseEntity.ok(new ClassResponseDTO(classEntity)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // POST: Create a new class
    @PostMapping
-    public ResponseEntity<ClassDTO> createClass(@RequestBody ClassDTO classDTO) {
+    public ResponseEntity<ClassResponseDTO> createClass(@RequestBody ClassRequestDTO classRequestDTO) {
         
-        ClassEntity classEntity = classDTO.toEntity();
+        ClassEntity classEntity = classRequestDTO.toEntity();
         
         ClassEntity saved = classService.save(classEntity);
         
@@ -60,13 +61,13 @@ public class ClassRestController {
                 .buildAndExpand(saved.getId())
                 .toUri();
         
-        return ResponseEntity.created(location).body(new ClassDTO(saved));
+        return ResponseEntity.created(location).body(new ClassResponseDTO(saved));
     }
 
     // PUT: Update a class completely
     @PutMapping("/{id}")
-    public ResponseEntity<ClassDTO> updateClass(@PathVariable Long id, 
-                                                 @RequestBody ClassDTO classDTO) {
+    public ResponseEntity<ClassResponseDTO> updateClass(@PathVariable Long id, 
+                                                 @RequestBody ClassRequestDTO classRequestDTO) {
         
         Optional<ClassEntity> existingClassOpt = classService.findById(id);
         
@@ -76,16 +77,16 @@ public class ClassRestController {
         
         ClassEntity classEntity = existingClassOpt.get();
         
-        classDTO.updateEntity(classEntity);
+        classRequestDTO.updateEntity(classEntity);
         
         ClassEntity saved = classService.save(classEntity);
         
-        return ResponseEntity.ok(new ClassDTO(saved));
+        return ResponseEntity.ok(new ClassResponseDTO(saved));
     }
 
     // DELETE: Delete a class
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClassDTO> deleteClass(@PathVariable Long id) {
+    public ResponseEntity<ClassResponseDTO> deleteClass(@PathVariable Long id) {
         Optional<ClassEntity> classEntity = classService.findById(id);
 
         if (classEntity.isEmpty()) {
@@ -93,7 +94,7 @@ public class ClassRestController {
         }
 
         classService.deleteById(id);
-        return ResponseEntity.ok(new ClassDTO(classEntity.get()));
+        return ResponseEntity.ok(new ClassResponseDTO(classEntity.get()));
     }
 
     // GET: Get all attendees of a class

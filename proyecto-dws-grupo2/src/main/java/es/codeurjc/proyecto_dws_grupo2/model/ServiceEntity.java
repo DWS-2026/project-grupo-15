@@ -2,11 +2,13 @@ package es.codeurjc.proyecto_dws_grupo2.model;
 
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class ServiceEntity {
@@ -25,7 +27,8 @@ public class ServiceEntity {
 
     private double price;
 
-    private String imageUrl;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Image image;
 
     @Override
     public boolean equals(Object o) {
@@ -40,7 +43,6 @@ public class ServiceEntity {
         return Objects.hash(id);
     }
 
-    // ✅ AÑADIDO: getter y setter de id
     public Long getId() {
         return id;
     }
@@ -81,11 +83,12 @@ public class ServiceEntity {
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    // CAMBIO: Getter y Setter para la nueva entidad Image
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

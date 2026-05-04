@@ -81,7 +81,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/classes/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll() // registro público
+                        .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll() 
 
                         // REVIEWS
                         .requestMatchers(HttpMethod.POST, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
