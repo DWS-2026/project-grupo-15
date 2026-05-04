@@ -33,21 +33,11 @@ public class UserRestController {
 
     // GET: Todos los usuarios
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getAllUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
+    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
         Page<UserResponseDTO> pageResult = userRepository.findAll(pageable)
                 .map(UserResponseDTO::new);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("users", pageResult.getContent());
-        response.put("currentPage", pageResult.getNumber());
-        response.put("totalItems", pageResult.getTotalElements());
-        response.put("totalPages", pageResult.getTotalPages());
-
-        return ResponseEntity.ok(response);
+        
+        return ResponseEntity.ok(pageResult);
     }
 
     // GET: Usuario por ID

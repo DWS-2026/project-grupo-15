@@ -28,13 +28,10 @@ public class ReviewRestController {
     private ReviewMapper reviewMapper;
 
     @GetMapping("/")
-    public ResponseEntity<Page<ReviewDTO>> getReviews(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
+    public ResponseEntity<Page<ReviewDTO>> getReviews(Pageable pageable) {
         Page<ReviewDTO> reviewDTOs = reviewService.getReviews(pageable)
                 .map(reviewMapper::toDTO);
+                
         return ResponseEntity.ok(reviewDTOs);
     }
 
