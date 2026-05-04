@@ -31,11 +31,11 @@ public class ClassRestController {
     public ResponseEntity<List<ClassDTO>> getAllClasses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        
+
         Pageable pageable = PageRequest.of(page, size);
         Page<ClassDTO> classPage = classService.findAll(pageable)
                 .map(ClassDTO::new);
-        
+
         return ResponseEntity.ok(classPage.getContent());
     }
 
@@ -51,43 +51,42 @@ public class ClassRestController {
     @PostMapping
     public ResponseEntity<ClassDTO> createClass(@RequestBody ClassDTO classDTO) {
         ClassEntity classEntity = new ClassEntity(
-            classDTO.name(),
-            classDTO.description(),
-            classDTO.schedule()
-        );
+                classDTO.name(),
+                classDTO.description(),
+                classDTO.schedule());
         classEntity.setImageUrl(classDTO.imageUrl());
-        
+
         ClassEntity saved = classService.save(classEntity);
-        
+
         URI location = fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
-        
+
         return ResponseEntity.created(location).body(new ClassDTO(saved));
     }
 
     // PUT: Update a class completely
     @PutMapping("/{id}")
-    public ResponseEntity<ClassDTO> updateClass(@PathVariable Long id, 
-                                                 @RequestBody ClassDTO classDTO) {
+    public ResponseEntity<ClassDTO> updateClass(@PathVariable Long id,
+            @RequestBody ClassDTO classDTO) {
         if (!classService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        
+
         Optional<ClassEntity> existingClass = classService.findById(id);
         if (existingClass.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
+
         ClassEntity classEntity = existingClass.get();
         classEntity.setName(classDTO.name());
         classEntity.setDescription(classDTO.description());
         classEntity.setSchedule(classDTO.schedule());
         classEntity.setImageUrl(classDTO.imageUrl());
-        
+
         ClassEntity saved = classService.save(classEntity);
-        
+
         return ResponseEntity.ok(new ClassDTO(saved));
     }
 
@@ -95,11 +94,11 @@ public class ClassRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ClassDTO> deleteClass(@PathVariable Long id) {
         Optional<ClassEntity> classEntity = classService.findById(id);
-        
+
         if (classEntity.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
+
         classService.deleteById(id);
         return ResponseEntity.ok(new ClassDTO(classEntity.get()));
     }
@@ -110,7 +109,7 @@ public class ClassRestController {
         if (!classService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        
+
         return ResponseEntity.ok(classService.getAttendees(id));
     }
 
@@ -120,7 +119,7 @@ public class ClassRestController {
         if (!classService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        
+
         return ResponseEntity.ok(classService.getReviews(id));
     }
 }
