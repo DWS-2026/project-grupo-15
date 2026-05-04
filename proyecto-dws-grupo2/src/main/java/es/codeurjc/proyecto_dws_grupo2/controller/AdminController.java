@@ -230,10 +230,7 @@ public class AdminController {
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam String schedule,
-            @RequestParam(value = "classPicture", required = false) MultipartFile image) throws IOException { // ✅
-                                                                                                              // ¡Magia
-                                                                                                              // aplicada
-                                                                                                              // aquí!
+            @RequestParam(value = "classPicture", required = false) MultipartFile image) throws IOException { 
 
         ClassEntity clase = classRepository.findById(id).orElseThrow();
         clase.setName(name);

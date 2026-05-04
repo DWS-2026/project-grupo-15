@@ -2,9 +2,7 @@ package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.Map;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/users")

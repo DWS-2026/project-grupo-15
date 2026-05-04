@@ -44,7 +44,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Autowired
     private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
 
-    // 🔥 AQUÍ está la clave
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
@@ -77,10 +76,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
+
                         // PUBLIC
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/classes/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll() // registro público
 
@@ -89,8 +88,14 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
 
+                        // CLASSES 
+                        .requestMatchers(HttpMethod.POST, "/api/classes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/classes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/classes/**").hasRole("ADMIN")
+
                         // USERS
                         .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
 
                         // Todo lo demás requiere autenticación
