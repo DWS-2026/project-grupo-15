@@ -15,14 +15,25 @@ public class Image {
     private Long id;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB") 
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] imageFile;
 
-    public Image() {}
+    public Image() {
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public byte[] getImageFile() { return imageFile; }
-    public void setImageFile(byte[] imageFile) { this.imageFile = imageFile; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public byte[] getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
+    }
 }
