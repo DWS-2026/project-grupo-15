@@ -48,45 +48,38 @@ public class ClassRestController {
     }
 
     // POST: Create a new class
-    @PostMapping
+   @PostMapping
     public ResponseEntity<ClassDTO> createClass(@RequestBody ClassDTO classDTO) {
-        ClassEntity classEntity = new ClassEntity(
-                classDTO.name(),
-                classDTO.description(),
-                classDTO.schedule());
-        classEntity.setImageUrl(classDTO.imageUrl());
-
+        
+        ClassEntity classEntity = classDTO.toEntity();
+        
         ClassEntity saved = classService.save(classEntity);
-
+        
         URI location = fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
-
+        
         return ResponseEntity.created(location).body(new ClassDTO(saved));
     }
 
     // PUT: Update a class completely
     @PutMapping("/{id}")
-    public ResponseEntity<ClassDTO> updateClass(@PathVariable Long id,
-            @RequestBody ClassDTO classDTO) {
-        if (!classService.existsById(id)) {
+    public ResponseEntity<ClassDTO> updateClass(@PathVariable Long id, 
+                                                 @RequestBody ClassDTO classDTO) {
+        
+        Optional<ClassEntity> existingClassOpt = classService.findById(id);
+        
+        if (existingClassOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
-        Optional<ClassEntity> existingClass = classService.findById(id);
-        if (existingClass.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ClassEntity classEntity = existingClass.get();
-        classEntity.setName(classDTO.name());
-        classEntity.setDescription(classDTO.description());
-        classEntity.setSchedule(classDTO.schedule());
-        classEntity.setImageUrl(classDTO.imageUrl());
-
+        
+        ClassEntity classEntity = existingClassOpt.get();
+        
+        classDTO.updateEntity(classEntity);
+        
         ClassEntity saved = classService.save(classEntity);
-
+        
         return ResponseEntity.ok(new ClassDTO(saved));
     }
 
@@ -123,3 +116,4 @@ public class ClassRestController {
         return ResponseEntity.ok(classService.getReviews(id));
     }
 }
+

@@ -2,24 +2,22 @@ package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import es.codeurjc.proyecto_dws_grupo2.dto.UserRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -62,9 +60,13 @@ public class UserRestController {
 
     // POST: Crear usuario
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody User user) {
-        // Encriptamos la contraseña antes de guardar
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
+        // 1. Encriptamos la contraseña extraída del DTO
+        String encodedPassword = passwordEncoder.encode(userDTO.password());
+        
+        // 2. El DTO nos devuelve la entidad limpia y segura
+        User user = userDTO.toEntity(encodedPassword);
+        
         User saved = userRepository.save(user);
 
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(saved.getId()).toUri();
@@ -73,23 +75,24 @@ public class UserRestController {
 
     // PUT: Actualizar usuario
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO userDTO) {
         Optional<User> existing = userRepository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         User user = existing.get();
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-
-        // Solo actualizamos contraseña si viene en el body
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
-            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        
+        // Solo encriptamos si el usuario envió una contraseña nueva
+        String encodedPassword = null;
+        if (userDTO.password() != null && !userDTO.password().isBlank()) {
+            encodedPassword = passwordEncoder.encode(userDTO.password());
         }
 
-        return ResponseEntity.ok(new UserResponseDTO(userRepository.save(user)));
+        userDTO.updateEntity(user, encodedPassword);
+
+        User saved = userRepository.save(user);
+        return ResponseEntity.ok(new UserResponseDTO(saved));
     }
 
     // DELETE: Eliminar usuario
@@ -99,6 +102,7 @@ public class UserRestController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        
         userRepository.deleteById(id);
         return ResponseEntity.ok(new UserResponseDTO(user.get()));
     }
