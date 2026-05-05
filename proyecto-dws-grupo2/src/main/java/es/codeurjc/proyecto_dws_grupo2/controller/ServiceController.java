@@ -11,27 +11,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO; 
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceDTO; 
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceMapper; // CAMBIO AQUÍ: Añadimos el import del Mapper
+import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 
 @Controller
 public class ServiceController {
 
     private final UserRepository userRepository;
-    private final ServiceRepository serviceRepository;
+    private final ServiceService serviceService;
+    private final ServiceMapper serviceMapper; // CAMBIO AQUÍ: Añadimos la variable del Mapper
 
-    public ServiceController(UserRepository userRepository, ServiceRepository serviceRepository) {
+    // CAMBIO AQUÍ: Añadimos ServiceMapper al constructor
+    public ServiceController(UserRepository userRepository, ServiceService serviceService, ServiceMapper serviceMapper) {
         this.userRepository = userRepository;
-        this.serviceRepository = serviceRepository;
+        this.serviceService = serviceService;
+        this.serviceMapper = serviceMapper;
     }
 
     @GetMapping("/services")
     public String showServices(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
 
-        List<ServiceResponseDTO> allServices = serviceRepository.findAll().stream()
-                .map(s -> new ServiceResponseDTO(s, user.getEnrolledServices().contains(s)))
+        // CAMBIO AQUÍ: Usamos el serviceMapper en lugar del 'new ServiceDTO'
+        List<ServiceDTO> allServices = serviceService.findAll().stream()
+                .map(s -> serviceMapper.toDTOWithEnrolled(s, user.getEnrolledServices().contains(s)))
                 .collect(Collectors.toList());
 
         model.addAttribute("allServices", allServices);
@@ -42,7 +47,7 @@ public class ServiceController {
     @GetMapping("/extrapayment")
     public String showPaymentPage(@RequestParam Long serviceId, Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
-        ServiceEntity s = serviceRepository.findById(serviceId).orElseThrow();
+        ServiceEntity s = serviceService.findById(serviceId).orElseThrow();
 
         model.addAttribute("user", user);
         model.addAttribute("serviceName", s.getName());
@@ -58,7 +63,7 @@ public class ServiceController {
     @GetMapping("/unsubscribe")
     public String unsubscribe(@RequestParam Long serviceId, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
-        ServiceEntity s = serviceRepository.findById(serviceId).orElse(null);
+        ServiceEntity s = serviceService.findById(serviceId).orElse(null);
 
         if (s != null) {
             user.getEnrolledServices().remove(s);
