@@ -17,7 +17,7 @@ import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
-import es.codeurjc.proyecto_dws_grupo2.service.ServiceEntityService;
+import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 @RestController
@@ -27,10 +27,10 @@ public class ImageRestController {
     private final ImageService imageService;
     private final UserService userService;
     private final ClassService classService; 
-    private final ServiceEntityService serviceEntityService; 
+    private final ServiceService serviceEntityService; 
 
     public ImageRestController(ImageService imageService, UserService userService, 
-                               ClassService classService, ServiceEntityService serviceEntityService) {
+                               ClassService classService, ServiceService serviceEntityService) {
         this.imageService = imageService;
         this.userService = userService;
         this.classService = classService;
