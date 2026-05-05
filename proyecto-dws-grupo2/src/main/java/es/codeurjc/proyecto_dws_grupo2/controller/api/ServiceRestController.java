@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import es.codeurjc.proyecto_dws_grupo2.dto.ClassResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.ServiceRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO;
+import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 
@@ -96,14 +98,15 @@ public class ServiceRestController {
     // 5. BORRAR UN SERVICIO
     // ==========================================
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
+    public ResponseEntity<ServiceResponseDTO> deleteService(@PathVariable Long id) {
         Optional<ServiceEntity> serviceOpt = serviceService.findById(id);
         
         if (serviceOpt.isPresent()) {
             serviceService.deleteById(id);
-            return ResponseEntity.noContent().build();
+             return ResponseEntity.ok(new ServiceResponseDTO(serviceOpt.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

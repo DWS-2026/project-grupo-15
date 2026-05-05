@@ -20,7 +20,7 @@ import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserRestController {
 
     private final UserRepository userRepository;
