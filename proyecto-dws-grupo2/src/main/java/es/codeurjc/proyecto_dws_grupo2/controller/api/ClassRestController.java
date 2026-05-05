@@ -29,15 +29,11 @@ public class ClassRestController {
 
     // GET: Get all classes (with pagination)
     @GetMapping
-    public ResponseEntity<List<ClassResponseDTO>> getAllClasses(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
+    public ResponseEntity<Page<ClassResponseDTO>> getAllClasses(Pageable pageable) {
         Page<ClassResponseDTO> classPage = classService.findAll(pageable)
                 .map(ClassResponseDTO::new);
 
-        return ResponseEntity.ok(classPage.getContent());
+        return ResponseEntity.ok(classPage);
     }
 
     // GET: Get class by ID
