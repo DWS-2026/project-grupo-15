@@ -40,20 +40,20 @@
                         </thead>
 
                         <tbody>
-                            {{#clases}}
+                            <!-- CAMBIO AQUÍ: Ahora usamos #classes en lugar de #clases -->
+                            {{#classes}}
                             <tr>
                                 <td>
-                                    <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN DE LA CLASE -->
                                     {{#image}}
                                     <img src="/api/v1/images/{{id}}/media" 
-                                         onerror="this.onerror=null; this.src='/img/class.jpg';" 
+                                         onerror="this.onerror=null; this.src='/img/avatar.jpg';" 
                                          width="80" 
                                          class="rounded"
                                          style="object-fit: cover; height: 80px;">
                                     {{/image}}
 
                                     {{^image}}
-                                    <img src="/img/class.jpg" 
+                                    <img src="/img/avatar.jpg" 
                                          width="80" 
                                          class="rounded"
                                          style="object-fit: cover; height: 80px;">
@@ -72,15 +72,16 @@
                                     </a>
                                 </td>
                             </tr>
-                            {{/clases}}
+                            {{/classes}}
 
-                            {{^clases}}
+                            <!-- CAMBIO AQUÍ: Ahora usamos ^classes en lugar de ^clases -->
+                            {{^classes}}
                             <tr>
                                 <td colspan="5" class="text-center py-4">
                                     No hay clases disponibles en este momento.
                                 </td>
                             </tr>
-                            {{/clases}}
+                            {{/classes}}
                         </tbody>
                     </table>
                 </div>

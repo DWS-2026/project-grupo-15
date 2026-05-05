@@ -46,14 +46,14 @@
                                     <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN -->
                                     {{#image}}
                                     <img src="/api/v1/images/{{id}}/media" 
-                                         onerror="this.onerror=null; this.src='/img/service.jpg';" 
+                                         onerror="this.onerror=null; this.src='/img/avatar.jpg';" 
                                          width="80" 
                                          class="rounded"
                                          style="object-fit: cover; height: 80px;">
                                     {{/image}}
 
                                     {{^image}}
-                                    <img src="/img/service.jpg" 
+                                    <img src="/img/avatar.jpg" 
                                          width="80" 
                                          class="rounded"
                                          style="object-fit: cover; height: 80px;">
