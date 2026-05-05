@@ -20,9 +20,20 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image profileImage;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Document document;
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
