@@ -1,13 +1,17 @@
 package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
+import java.net.URI;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import es.codeurjc.proyecto_dws_grupo2.dto.ServiceDTO;
-import es.codeurjc.proyecto_dws_grupo2.dto.ServiceMapper;
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceRequestDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO;
+import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 
 @RestController
@@ -15,17 +19,91 @@ import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 public class ServiceRestController {
 
     private final ServiceService serviceService;
-    private final ServiceMapper serviceMapper; // <-- 1. Añadimos el Mapper
 
-    // 2. Lo inyectamos en el constructor
-    public ServiceRestController(ServiceService serviceService, ServiceMapper serviceMapper) {
+    // 1. Ya NO inyectamos ServiceMapper
+    public ServiceRestController(ServiceService serviceService) {
         this.serviceService = serviceService;
-        this.serviceMapper = serviceMapper;
     }
 
+    // ==========================================
+    // 1. OBTENER TODOS LOS SERVICIOS (Paginado)
+    // ==========================================
     @GetMapping("/")
-    public Page<ServiceDTO> getServices(Pageable pageable) {
-        // 3. Usamos el Mapper en lugar de ServiceDTO::new
-        return serviceService.findAllPaginated(pageable).map(serviceMapper::toDTO);
+    public Page<ServiceResponseDTO> getServices(Pageable pageable) {
+        // Usamos el constructor del ServiceResponseDTO
+        return serviceService.findAllPaginated(pageable).map(ServiceResponseDTO::new);
+    }
+
+    // ==========================================
+    // 2. OBTENER UN SOLO SERVICIO POR SU ID
+    // ==========================================
+    @GetMapping("/{id}")
+    public ResponseEntity<ServiceResponseDTO> getServiceById(@PathVariable Long id) {
+        Optional<ServiceEntity> serviceOpt = serviceService.findById(id);
+        
+        if (serviceOpt.isPresent()) {
+            // Usamos el constructor del ServiceResponseDTO
+            return ResponseEntity.ok(new ServiceResponseDTO(serviceOpt.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // ==========================================
+    // 3. CREAR UN NUEVO SERVICIO
+    // ==========================================
+    @PostMapping("/")
+    public ResponseEntity<ServiceResponseDTO> createService(@RequestBody ServiceRequestDTO requestDTO) {
+        
+        // 2. Usamos el método inteligente del DTO
+        ServiceEntity newService = requestDTO.toEntity();
+        
+        ServiceEntity savedService = serviceService.save(newService);
+        
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedService.getId())
+                .toUri();
+                
+        return ResponseEntity.created(location).body(new ServiceResponseDTO(savedService));
+    }
+
+    // ==========================================
+    // 4. ACTUALIZAR UN SERVICIO EXISTENTE
+    // ==========================================
+    @PutMapping("/{id}")
+    public ResponseEntity<ServiceResponseDTO> updateService(
+            @PathVariable Long id, 
+            @RequestBody ServiceRequestDTO requestDTO) {
+            
+        Optional<ServiceEntity> serviceOpt = serviceService.findById(id);
+        
+        if (serviceOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ServiceEntity existingService = serviceOpt.get();
+        
+        // 3. Usamos el método inteligente del DTO para actualizar
+        requestDTO.updateEntity(existingService);
+        
+        ServiceEntity updatedService = serviceService.save(existingService);
+        
+        return ResponseEntity.ok(new ServiceResponseDTO(updatedService));
+    }
+
+    // ==========================================
+    // 5. BORRAR UN SERVICIO
+    // ==========================================
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteService(@PathVariable Long id) {
+        Optional<ServiceEntity> serviceOpt = serviceService.findById(id);
+        
+        if (serviceOpt.isPresent()) {
+            serviceService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

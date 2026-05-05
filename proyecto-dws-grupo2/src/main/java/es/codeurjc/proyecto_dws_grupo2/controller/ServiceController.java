@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import es.codeurjc.proyecto_dws_grupo2.dto.ServiceDTO; 
-import es.codeurjc.proyecto_dws_grupo2.dto.ServiceMapper; // CAMBIO AQUÍ: Añadimos el import del Mapper
+import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO; // Usamos el nuevo DTO
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 
 @Controller
@@ -21,22 +20,20 @@ public class ServiceController {
 
     private final UserRepository userRepository;
     private final ServiceService serviceService;
-    private final ServiceMapper serviceMapper; // CAMBIO AQUÍ: Añadimos la variable del Mapper
 
-    // CAMBIO AQUÍ: Añadimos ServiceMapper al constructor
-    public ServiceController(UserRepository userRepository, ServiceService serviceService, ServiceMapper serviceMapper) {
+    // ¡Adiós Mapper!
+    public ServiceController(UserRepository userRepository, ServiceService serviceService) {
         this.userRepository = userRepository;
         this.serviceService = serviceService;
-        this.serviceMapper = serviceMapper;
     }
 
     @GetMapping("/services")
     public String showServices(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
 
-        // CAMBIO AQUÍ: Usamos el serviceMapper en lugar del 'new ServiceDTO'
-        List<ServiceDTO> allServices = serviceService.findAll().stream()
-                .map(s -> serviceMapper.toDTOWithEnrolled(s, user.getEnrolledServices().contains(s)))
+        // Mapeamos directamente usando el nuevo constructor del DTO
+        List<ServiceResponseDTO> allServices = serviceService.findAll().stream()
+                .map(s -> new ServiceResponseDTO(s, user.getEnrolledServices().contains(s)))
                 .collect(Collectors.toList());
 
         model.addAttribute("allServices", allServices);
