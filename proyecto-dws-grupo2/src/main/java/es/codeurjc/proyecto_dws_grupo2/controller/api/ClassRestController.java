@@ -18,7 +18,7 @@ import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
-@RequestMapping("/api/classes")
+@RequestMapping("/api/v1/classes")
 public class ClassRestController {
 
     private final ClassService classService;
