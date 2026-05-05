@@ -23,7 +23,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final UserDetailsService userDetailsService;
-
     private final JwtTokenProvider jwtTokenProvider;
 
     public JwtRequestFilter(UserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider) {
@@ -36,26 +35,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            Claims claims;
-            try {
-                claims = jwtTokenProvider.validateToken(request, true); // intenta cookie
-            } catch (Exception e) {
-                claims = jwtTokenProvider.validateToken(request, false); // intenta Bearer header
+            Claims claims = jwtTokenProvider.validateToken(request, true);
+
+            if (claims == null) {
+                claims = jwtTokenProvider.validateToken(request, false);
             }
 
-            var userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (claims != null && claims.getSubject() != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                
+
+                var userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
+                
+
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
 
         } catch (Exception ex) {
-            if (ex.getMessage() != null && !ex.getMessage().equals("No access token cookie found in request")) {
-                log.error("Exception processing JWT Token: ", ex);
-            }
-        }
 
+            log.error("No se pudo establecer la autenticación del usuario en el contexto de seguridad", ex);
+        }
         filterChain.doFilter(request, response);
     }
-
 }

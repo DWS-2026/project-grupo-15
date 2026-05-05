@@ -1,7 +1,6 @@
 package es.codeurjc.proyecto_dws_grupo2.dto;
 
-public record ReviewDTO(
-    Long id,
+public record ReviewRequestDTO(
     String about,
     int rating,
     String comment,
