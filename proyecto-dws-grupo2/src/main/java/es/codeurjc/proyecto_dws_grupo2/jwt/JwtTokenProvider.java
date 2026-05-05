@@ -20,82 +20,80 @@ import jakarta.servlet.http.HttpServletRequest;
 @Component
 public class JwtTokenProvider {
 
-	private final SecretKey jwtSecret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey jwtSecret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-	private final JwtParser jwtParser = Jwts.parserBuilder()
-			.setSigningKey(jwtSecret)
-			.build();
+    private final JwtParser jwtParser = Jwts.parserBuilder()
+            .setSigningKey(jwtSecret)
+            .build();
 
-	public String tokenStringFromHeaders(HttpServletRequest req) {
-		String bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION);
+    public String tokenStringFromHeaders(HttpServletRequest req) {
+        String bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION);
 
-		if (bearerToken == null) {
-			throw new IllegalArgumentException("Missing Authorization header");
-		}
+        // Si la cabecera existe y empieza por "Bearer ", devolvemos el token limpio
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null; // Si no hay token, devolvemos null tranquilamente
+    }
 
-		if (!bearerToken.startsWith("Bearer ")) {
-			throw new IllegalArgumentException(
-					"Authorization header does not start with Bearer: " + bearerToken);
-		}
+    private String tokenStringFromCookies(HttpServletRequest request) {
+        var cookies = request.getCookies();
 
-		return bearerToken.substring(7);
-	}
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (TokenType.ACCESS.cookieName.equals(cookie.getName())) {
+                    String accessToken = cookie.getValue();
+                    if (accessToken != null && !accessToken.isEmpty()) {
+                        return accessToken;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
-	private String tokenStringFromCookies(HttpServletRequest request) {
-		var cookies = request.getCookies();
+    public Claims validateToken(HttpServletRequest req, boolean fromCookie) {
+        var token = fromCookie
+                ? tokenStringFromCookies(req)
+                : tokenStringFromHeaders(req);
 
-		if (cookies == null) {
-			throw new IllegalArgumentException("No cookies found in request");
-		}
+        // Si no hay token (usuario anónimo), devolvemos null
+        if (token == null) {
+            return null;
+        }
 
-		for (Cookie cookie : cookies) {
-			if (TokenType.ACCESS.cookieName.equals(cookie.getName())) {
+        try {
+            // Intentamos validar el token
+            return validateToken(token);
+        } catch (Exception e) {
+            // Si expiró o es falso, devolvemos null sin romper la app
+            return null;
+        }
+    }
 
-				String accessToken = cookie.getValue();
+    public Claims validateToken(String token) {
+        return jwtParser.parseClaimsJws(token).getBody();
+    }
 
-				if (accessToken == null) {
-					throw new IllegalArgumentException(
-							"Cookie %s has null value".formatted(TokenType.ACCESS.cookieName));
-				}
+    public String generateAccessToken(UserDetails userDetails) {
+        return buildToken(TokenType.ACCESS, userDetails).compact();
+    }
 
-				return accessToken;
-			}
-		}
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(TokenType.REFRESH, userDetails).compact();
+    }
 
-		throw new IllegalArgumentException("No access token cookie found in request");
-	}
+    private JwtBuilder buildToken(TokenType tokenType, UserDetails userDetails) {
 
-	public Claims validateToken(HttpServletRequest req, boolean fromCookie) {
-		var token = fromCookie
-				? tokenStringFromCookies(req)
-				: tokenStringFromHeaders(req);
+        var currentDate = new Date();
+        var expiryDate = Date.from(currentDate.toInstant().plus(tokenType.duration));
 
-		return validateToken(token);
-	}
-
-	public Claims validateToken(String token) {
-		return jwtParser.parseClaimsJws(token).getBody();
-	}
-
-	public String generateAccessToken(UserDetails userDetails) {
-		return buildToken(TokenType.ACCESS, userDetails).compact();
-	}
-
-	public String generateRefreshToken(UserDetails userDetails) {
-		return buildToken(TokenType.REFRESH, userDetails).compact();
-	}
-
-	private JwtBuilder buildToken(TokenType tokenType, UserDetails userDetails) {
-
-		var currentDate = new Date();
-		var expiryDate = Date.from(currentDate.toInstant().plus(tokenType.duration));
-
-		return Jwts.builder()
-				.claim("roles", userDetails.getAuthorities())
-				.claim("type", tokenType.name())
-				.setSubject(userDetails.getUsername())
-				.setIssuedAt(currentDate)
-				.setExpiration(expiryDate)
-				.signWith(jwtSecret);
-	}
+        return Jwts.builder()
+                .claim("roles", userDetails.getAuthorities())
+                .claim("type", tokenType.name())
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(currentDate)
+                .setExpiration(expiryDate)
+                .signWith(jwtSecret);
+    }
 }

@@ -45,11 +45,19 @@
 
                                 {{#services}}
                                 <tr>
-                                    <td><img src="avatar.jpg" onerror="this.src='/img/avatar.jpg'" width="80"
-                                            class="rounded"></td>
+                                    <td>
+                                        <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN -->
+                                        {{#image}}
+                                        <img src="/api/v1/images/{{id}}/media" onerror="this.onerror=null; this.src='/img/avatar.jpg';" width="80" class="rounded" style="object-fit: cover; height: 80px;">
+                                        {{/image}}
+                                        
+                                        {{^image}}
+                                        <img src="/img/avatar.jpg" width="80" class="rounded" style="object-fit: cover; height: 80px;">
+                                        {{/image}}
+                                    </td>
+                                    
                                     <td class="font-weight-bold">{{name}}</td>
                                     <td>{{description}}</td>
-
 
                                     <td>
                                         <a href="/admin/services/{{id}}/miembros" class="btn btn-info btn-sm mr-2"
@@ -64,8 +72,9 @@
                                         <form action="/admin/services/delete/{{id}}" method="POST"
                                             style="display:inline;">
                                             <input type="hidden" name="_csrf" value="{{token}}" />
+                                            <!-- Pequeño detalle: en el mensaje de confirmación decía "clase" en lugar de "servicio", te lo he cambiado -->
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('¿Seguro que deseas eliminar la clase {{name}}?')"
+                                                onclick="return confirm('¿Seguro que deseas eliminar el servicio {{name}}?')"
                                                 title="Eliminar">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
@@ -85,3 +94,5 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

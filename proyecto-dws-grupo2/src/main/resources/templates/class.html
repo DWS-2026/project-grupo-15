@@ -5,38 +5,33 @@
     <meta charset="utf-8">
     <title>TITANGYM - ClasesListado</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <!-- Favicon -->
+
     <link href="/img/favicon.ico" rel="icon">
 
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Flaticon Font -->
     <link href="/lib/flaticon/font/flaticon.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-white">
     {{> partials/navbar}}
 
-
-    <!-- Page Header Start -->
+    <!-- Page Header -->
     <div class="container-fluid page-header mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5"
             style="min-height: 400px">
-            <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">Nuestras Clases</h4>
+            <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">
+                Nuestras Clases
+            </h4>
             <div class="d-inline-flex">
-                <p class="m-0 text-white"><a class="text-white" href="">Inicio</a></p>
+                <p class="m-0 text-white"><a class="text-white" href="/">Inicio</a></p>
                 <p class="m-0 text-white px-2">/</p>
                 <p class="m-0 text-white">Nuestras Clases</p>
             </div>
         </div>
     </div>
-    <!-- Page Header End -->
 
-    <!-- Horario de Clases Start -->
+    <!-- Clases -->
     <div class="container gym-feature py-5">
         <div class="d-flex flex-column text-center mb-5">
             <h4 class="text-primary font-weight-bold">Nuestras Clases</h4>
@@ -47,13 +42,33 @@
             {{#clases}}
             <div class="col-lg-4 col-md-6 mb-5">
                 <div class="card border-0 bg-light shadow-sm pb-2 h-100">
-                    <img class="card-img-top mb-2" src="{{imageUrl}}" alt="{{name}}" style="height: 250px; object-fit: cover;">
+
+                    <!-- Imagen -->
+                    {{#image}}
+                    <img class="card-img-top mb-2"
+                         src="/api/v1/images/{{id}}/media"
+                         alt="{{name}}"
+                         style="height: 250px; object-fit: cover;">
+                    {{/image}}
+
+                    {{^image}}
+                    <img class="card-img-top mb-2"
+                         src="/img/avatar.jpg"
+                         alt="{{name}}"
+                         style="height: 250px; object-fit: cover;">
+                    {{/image}}
+
+                    <!-- Contenido -->
                     <div class="card-body text-center d-flex flex-column">
                         <h4 class="card-title text-uppercase font-weight-bold">{{name}}</h4>
                         <p class="card-text text-muted flex-grow-1">{{description}}</p>
                     </div>
+
+                    <!-- Footer -->
                     <div class="card-footer bg-transparent border-top-0 text-center">
-                        <h5 class="text-primary"><i class="far fa-clock mr-2"></i>{{schedule}}</h5>
+                        <h5 class="text-primary">
+                            <i class="far fa-clock mr-2"></i>{{schedule}}
+                        </h5>
                         <a href="/login" class="btn btn-outline-primary mt-3">¡Me apunto!</a>
                     </div>
                 </div>
@@ -62,8 +77,8 @@
 
             {{^clases}}
             <div class="col-12 text-center">
-                <div class="alert alert-secondary" role="alert">
-                    <h5 class="alert-heading mb-0">¡Estamos preparando nuevas clases!</h5>
+                <div class="alert alert-secondary">
+                    <h5 class="mb-0">¡Estamos preparando nuevas clases!</h5>
                     <p class="mb-0 mt-2">Vuelve pronto para descubrir nuestras próximas actividades.</p>
                 </div>
             </div>
@@ -71,9 +86,7 @@
         </div>
     </div>
 
-
-
-    <!-- Footer Start -->
+    <!-- Footer -->
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
@@ -82,13 +95,15 @@
                 <p><i class="fa fa-phone-alt mr-2"></i>+52 123 456 7890</p>
                 <p><i class="fa fa-envelope mr-2"></i>info@gymnast.com</p>
             </div>
+
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Enlaces Rápidos</h4>
-                <a class="text-white mb-2 d-block" href="index.html">Inicio</a>
-                <a class="text-white mb-2 d-block" href="about.html">Sobre Nosotros</a>
-                <a class="text-white mb-2 d-block" href="feature.html">Que ofrecemos</a>
-                <a class="text-white d-block" href="contact.html">Contacto</a>
+                <a class="text-white mb-2 d-block" href="/">Inicio</a>
+                <a class="text-white mb-2 d-block" href="/about">Sobre Nosotros</a>
+                <a class="text-white mb-2 d-block" href="/feature">Que ofrecemos</a>
+                <a class="text-white d-block" href="/contact">Contacto</a>
             </div>
+
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Horario</h4>
                 <h5 class="text-white">Lunes a Viernes</h5>
@@ -97,31 +112,27 @@
                 <p>9:00 AM - 11:00 PM</p>
             </div>
         </div>
+
         <div class="container border-top border-dark pt-4">
             <p class="m-0 text-center text-white">
                 &copy; TITANGYM. Todos los derechos reservados.
             </p>
         </div>
     </div>
-    <!-- Footer End -->
 
+    <!-- Back to top -->
+    <a href="#" class="btn btn-outline-primary back-to-top">
+        <i class="fa fa-angle-double-up"></i>
+    </a>
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
+    <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/easing/easing.min.js"></script>
     <script src="/lib/waypoints/waypoints.min.js"></script>
-
-    <!-- Contact Javascript File -->
     <script src="/mail/jqBootstrapValidation.min.js"></script>
     <script src="/mail/contact.js"></script>
-
-    <!-- Template Javascript -->
     <script src="/js/main.js"></script>
-</body>
 
+</body>
 </html>

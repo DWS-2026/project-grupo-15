@@ -42,8 +42,16 @@
                             {{#members}}
                             <tr>
                                 <td>
-                                    <img src="{{photo}}" onerror="this.src='/img/avatar.jpg'" width="45" height="45" class="rounded-circle">
+                                    <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA FOTO DE PERFIL -->
+                                    {{#profileImage}}
+                                    <img src="/api/v1/images/{{id}}/media" onerror="this.onerror=null; this.src='/img/avatar.jpg';" width="45" height="45" class="rounded-circle" style="object-fit: cover;">
+                                    {{/profileImage}}
+
+                                    {{^profileImage}}
+                                    <img src="/img/avatar.jpg" width="45" height="45" class="rounded-circle" style="object-fit: cover;">
+                                    {{/profileImage}}
                                 </td>
+                                
                                 <td>{{nombre}}</td>
                                 <td>{{email}}</td>
                                 <td class="{{statusColor}}">{{estado}}</td>

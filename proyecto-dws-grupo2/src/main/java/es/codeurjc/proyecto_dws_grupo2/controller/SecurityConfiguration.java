@@ -76,37 +76,41 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-        // PUBLIC
-        .requestMatchers("/api/auth/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/v1/classes/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/v1/services/**").permitAll() // NUEVO: Ver servicios público
-        .requestMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll()   // NUEVO: Ver imágenes público
-        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll() 
+                        // PUBLIC
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/classes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/services/**").permitAll() // NUEVO: Ver servicios
+                                                                                            // público
+                        .requestMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll() // NUEVO: Ver imágenes público
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
 
-        // REVIEWS
-        .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-        .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasRole("ADMIN")
+                        // REVIEWS
+                        .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasRole("ADMIN")
 
-        // CLASSES 
-        .requestMatchers(HttpMethod.POST, "/api/v1/classes/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/v1/classes/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.DELETE, "/api/v1/classes/**").hasRole("ADMIN")
+                        // CLASSES
+                        .requestMatchers(HttpMethod.POST, "/api/v1/classes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/classes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/classes/**").hasRole("ADMIN")
 
-        // SERVICES (NUEVO)
-        .requestMatchers(HttpMethod.POST, "/api/v1/services/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.PUT, "/api/v1/services/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.DELETE, "/api/v1/services/**").hasRole("ADMIN")
+                        // SERVICES (NUEVO)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/services/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/services/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/services/**").hasRole("ADMIN")
 
-        // USERS & PROFILE IMAGES
-        .requestMatchers(HttpMethod.POST, "/api/v1/users/*/image").hasAnyRole("USER", "ADMIN") // NUEVO: Subir foto perfil
-        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("USER", "ADMIN")
-        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
-        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN")
+                        // USERS & PROFILE IMAGES
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/*/image").hasAnyRole("USER", "ADMIN") // NUEVO:
+                                                                                                               // Subir
+                                                                                                               // foto
+                                                                                                               // perfil
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN")
 
-        // Todo lo demás requiere autenticación
-        .anyRequest().authenticated());
+                        // Todo lo demás requiere autenticación
+                        .anyRequest().authenticated());
 
         http.formLogin(formLogin -> formLogin.disable());
         http.csrf(csrf -> csrf.disable());
@@ -127,9 +131,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/lib/**", "/mail/**")
-                        .permitAll()
-
-                        .requestMatchers("/admin/classes/image/**", "/admin/services/image/**", "/profile/image/**")
                         .permitAll()
 
                         .requestMatchers("/", "/login", "/loginerror", "/register", "/error",

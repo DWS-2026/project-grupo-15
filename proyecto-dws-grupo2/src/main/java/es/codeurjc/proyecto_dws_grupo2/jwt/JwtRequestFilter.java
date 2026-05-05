@@ -35,18 +35,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
+            // 1. Intentamos obtener los claims desde la Cookie primero
             Claims claims = jwtTokenProvider.validateToken(request, true);
 
+            // 2. Si en la Cookie no hay nada, probamos en la cabecera (Bearer)
             if (claims == null) {
                 claims = jwtTokenProvider.validateToken(request, false);
             }
 
+            // 3. Solo autenticamos si tenemos claims válidos
             if (claims != null && claims.getSubject() != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 
-
                 var userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
                 
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 
@@ -55,9 +56,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception ex) {
-
             log.error("No se pudo establecer la autenticación del usuario en el contexto de seguridad", ex);
         }
+
+        // 4. Continuamos con la petición siempre
         filterChain.doFilter(request, response);
     }
 }

@@ -43,19 +43,30 @@
                             {{#clases}}
                             <tr>
                                 <td>
-                                    <img src="avatar.jpg" 
-                                         onerror="this.src='/img/class.jpg'" 
+                                    <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN DE LA CLASE -->
+                                    {{#image}}
+                                    <img src="/api/v1/images/{{id}}/media" 
+                                         onerror="this.onerror=null; this.src='/img/class.jpg';" 
                                          width="80" 
-                                         class="rounded">
+                                         class="rounded"
+                                         style="object-fit: cover; height: 80px;">
+                                    {{/image}}
+
+                                    {{^image}}
+                                    <img src="/img/class.jpg" 
+                                         width="80" 
+                                         class="rounded"
+                                         style="object-fit: cover; height: 80px;">
+                                    {{/image}}
                                 </td>
 
-                                <td>{{name}}</td>
+                                <td class="align-middle font-weight-bold">{{name}}</td>
 
-                                <td>{{description}}</td>
+                                <td class="align-middle">{{description}}</td>
 
-                                <td>{{schedule}}</td>
+                                <td class="align-middle">{{schedule}}</td>
 
-                                <td>
+                                <td class="align-middle text-right">
                                     <a href="/classes/{{id}}" class="btn btn-outline-light btn-block">
                                         Ver detalles
                                     </a>
@@ -65,8 +76,8 @@
 
                             {{^clases}}
                             <tr>
-                                <td colspan="5" class="text-center">
-                                    No hay clases disponibles
+                                <td colspan="5" class="text-center py-4">
+                                    No hay clases disponibles en este momento.
                                 </td>
                             </tr>
                             {{/clases}}

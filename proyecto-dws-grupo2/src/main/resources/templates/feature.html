@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Servicios - TITANGYM</title>
-    <title>TITANGYM - INDICE DE LA PAGINA</title>
+    <title>Servicios | TITANGYM</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -30,7 +29,7 @@
             style="min-height: 400px">
             <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">Qué ofrecemos</h4>
             <div class="d-inline-flex">
-                <p class="m-0 text-white"><a class="text-white" href="">Inicio</a></p>
+                <p class="m-0 text-white"><a class="text-white" href="/">Inicio</a></p>
                 <p class="m-0 text-white px-2">/</p>
                 <p class="m-0 text-white">Qué ofrecemos</p>
             </div>
@@ -52,8 +51,17 @@
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="avatar.jpg" onerror="this.src='/img/avatar.jpg'" alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
-                        </div>
+                        
+                        <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN DEL SERVICIO -->
+                        {{#image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/api/v1/images/{{id}}/media" onerror="this.onerror=null; this.src='/img/avatar.jpg';" alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
+                        {{^image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/img/avatar.jpg" alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
+                    </div>
                     <div class="col-sm-7">
                         <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
                         <p>{{description}}</p>
@@ -65,9 +73,6 @@
         </div> 
         
     </div>
-
-
-
 
     <!-- Testimonial Start -->
     <div class="container-fluid position-relative testimonial my-5">
@@ -165,10 +170,10 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Enlaces Rápidos</h4>
-                <a class="text-white mb-2 d-block" href="index.html">Inicio</a>
-                <a class="text-white mb-2 d-block" href="about.html">Sobre Nosotros</a>
-                <a class="text-white mb-2 d-block" href="class.html">Clases</a>
-                <a class="text-white d-block" href="contact.html">Contacto</a>
+                <a class="text-white mb-2 d-block" href="/">Inicio</a>
+                <a class="text-white mb-2 d-block" href="/about">Sobre Nosotros</a>
+                <a class="text-white mb-2 d-block" href="/classes">Clases</a>
+                <a class="text-white d-block" href="/contact">Contacto</a>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Horario</h4>

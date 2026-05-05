@@ -22,12 +22,24 @@
                 </div>
 
                 <div class="card bg-secondary text-white p-5 text-center">
-                    <img src="avatar.jpg" 
+                    
+                    <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA FOTO DE PERFIL -->
+                    {{#user.profileImage}}
+                    <img src="/api/v1/images/{{id}}/media" 
+                         onerror="this.onerror=null; this.src='/img/avatar.jpg';"
                          class="rounded-circle mb-3 border border-primary" 
                          width="150" height="150" 
                          style="object-fit: cover;" 
-                         onerror="this.src='/img/avatar.jpg'" 
                          alt="Foto de perfil">
+                    {{/user.profileImage}}
+
+                    {{^user.profileImage}}
+                    <img src="/img/avatar.jpg" 
+                         class="rounded-circle mb-3 border border-primary" 
+                         width="150" height="150" 
+                         style="object-fit: cover;" 
+                         alt="Foto de perfil">
+                    {{/user.profileImage}}
 
                     <h2 class="font-weight-bold">{{user.firstName}} {{user.lastName}}</h2>
                     <p class="text-white-50">{{user.email}}</p>

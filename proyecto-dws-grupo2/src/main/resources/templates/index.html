@@ -153,8 +153,17 @@
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="avatar.jpg" onerror="this.src='/img/avatar.jpg'"
-                            alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
+
+                        {{#image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/api/v1/images/{{id}}/media" alt="{{name}}"
+                            style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
+                        {{^image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/img/avatar.jpg" alt="{{name}}"
+                            style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
                     </div>
                     <div class="col-sm-7">
                         <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
@@ -175,8 +184,17 @@
             <div class="col-md-6 mb-5">
                 <div class="row align-items-center">
                     <div class="col-sm-5">
-                        <img class="img-fluid mb-3 mb-sm-0" src="avatar.jpg" onerror="this.src='/img/avatar.jpg'"
-                            alt="{{name}}" style="width: 100%; height: 220px; object-fit: cover;">
+
+                        {{#image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/api/v1/images/{{id}}/media" alt="{{name}}"
+                            style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
+                        {{^image}}
+                        <img class="img-fluid mb-3 mb-sm-0" src="/img/avatar.jpg" alt="{{name}}"
+                            style="width: 100%; height: 220px; object-fit: cover;">
+                        {{/image}}
+
                     </div>
                     <div class="col-sm-7">
                         <h4 class="font-weight-bold text-uppercase">{{name}}</h4>
@@ -321,14 +339,29 @@
                                 {{#reviews}}
                                 <div class="carousel-item">
                                     <div class="d-flex align-items-center mb-4 text-white">
+
+                                        {{#user}}
+                                        {{#profileImage}}
                                         <img width="80" height="80" class="rounded-circle bg-dark p-2"
-                                            src="avatar.jpg" style="object-fit: cover;"
-                                            onerror="this.src='/img/avatar.jpg'" alt="Avatar">
+                                            src="/api/v1/images/{{id}}/media" style="object-fit: cover;" alt="Avatar">
+                                        {{/profileImage}}
+
+                                        {{^profileImage}}
+                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
+                                            src="/img/avatar.jpg" style="object-fit: cover;" alt="Avatar">
+                                        {{/profileImage}}
+                                        {{/user}}
+
+                                        {{^user}}
+                                        <img width="80" height="80" class="rounded-circle bg-dark p-2"
+                                            src="/img/avatar.jpg" style="object-fit: cover;" alt="Avatar">
+                                        {{/user}}
 
                                         <div class="pl-4">
                                             {{#user}}
                                             <h4 class="text-primary text-capitalize">{{firstName}} {{lastName}}</h4>
                                             {{/user}}
+
                                             {{^user}}
                                             <h4 class="text-primary text-capitalize">Usuario Anónimo</h4>
                                             {{/user}}
@@ -338,6 +371,7 @@
                                             </p>
                                         </div>
                                     </div>
+
                                     <div class="testimonial-text position-relative border bg-dark text-white mb-5 p-4">
                                         {{comment}}
                                     </div>
@@ -357,18 +391,21 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="pl-md-3 d-none d-md-block">
                         <h4 class="text-primary">Testimonios</h4>
                         <h4 class="display-4 mb-4 text-white font-weight-bold">Reviews de nuestros clientes</h4>
-                        <p class="m-0 text-white">Lo más importante para el crecimiento de nuestro gimnasio como marca
-                            es la opinión de nuestros clientes</p>
+                        <p class="m-0 text-white">
+                            Lo más importante para el crecimiento de nuestro gimnasio como marca
+                            es la opinión de nuestros clientes
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">

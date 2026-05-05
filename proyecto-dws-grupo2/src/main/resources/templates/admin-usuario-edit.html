@@ -25,9 +25,20 @@
                     
                     <div class="row">
                         <div class="col-md-4 text-center">
-                            <img src="{{#user.profileImageUrl}}{{user.profileImageUrl}}{{/user.profileImageUrl}}{{^user.profileImageUrl}}/img/avatar.jpg{{/user.profileImageUrl}}" 
+                            
+                            <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN DE PERFIL -->
+                            {{#user.profileImage}}
+                            <img src="/api/v1/images/{{id}}/media" 
+                                 onerror="this.onerror=null; this.src='/img/avatar.jpg';"
                                  class="rounded-circle mb-3 border border-primary" 
                                  width="180" height="180" style="object-fit: cover;">
+                            {{/user.profileImage}}
+
+                            {{^user.profileImage}}
+                            <img src="/img/avatar.jpg" 
+                                 class="rounded-circle mb-3 border border-primary" 
+                                 width="180" height="180" style="object-fit: cover;">
+                            {{/user.profileImage}}
                             
                             <div class="form-group">
                                 <label class="btn btn-sm btn-dark btn-block">
@@ -78,5 +89,8 @@
         </main>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

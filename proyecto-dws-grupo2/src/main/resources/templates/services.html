@@ -43,13 +43,24 @@
                             {{#allServices}}
                             <tr>
                                 <td class="align-middle">
-                                    <img src="avatar.jpg" 
-                                         onerror="this.src='/img/service.jpg'" 
+                                    <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN -->
+                                    {{#image}}
+                                    <img src="/api/v1/images/{{id}}/media" 
+                                         onerror="this.onerror=null; this.src='/img/service.jpg';" 
                                          width="80" 
-                                         class="rounded">
+                                         class="rounded"
+                                         style="object-fit: cover; height: 80px;">
+                                    {{/image}}
+
+                                    {{^image}}
+                                    <img src="/img/service.jpg" 
+                                         width="80" 
+                                         class="rounded"
+                                         style="object-fit: cover; height: 80px;">
+                                    {{/image}}
                                 </td>
 
-                                <td class="align-middle">{{name}}</td>
+                                <td class="align-middle font-weight-bold">{{name}}</td>
 
                                 <td class="align-middle">{{description}}</td>
 

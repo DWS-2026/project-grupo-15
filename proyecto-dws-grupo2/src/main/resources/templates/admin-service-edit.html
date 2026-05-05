@@ -43,8 +43,17 @@
 
                     <div class="form-group mb-4">
                         <label class="font-weight-bold">Imagen actual</label><br>
-                        <img src="avatar.jpg" onerror="this.src='/img/avatar.jpg'" width="150" class="rounded mb-3">
-                        <input type="file" name="imageFile" class="form-control bg-dark text-white border-0" accept="image/*">
+                        
+                        <!-- AQUÍ ESTÁ LA CORRECCIÓN DE LA IMAGEN -->
+                        {{#service.image}}
+                        <img src="/api/v1/images/{{id}}/media" onerror="this.onerror=null; this.src='/img/avatar.jpg';" width="150" class="rounded mb-3 d-block" style="object-fit: cover; height: 150px;">
+                        {{/service.image}}
+                        
+                        {{^service.image}}
+                        <img src="/img/avatar.jpg" width="150" class="rounded mb-3 d-block" style="object-fit: cover; height: 150px;">
+                        {{/service.image}}
+
+                        <input type="file" name="imageFile" class="form-control bg-dark text-white border-0 mt-2" accept="image/*">
                     </div>
 
                     <button type="submit" class="btn btn-primary mr-3">
