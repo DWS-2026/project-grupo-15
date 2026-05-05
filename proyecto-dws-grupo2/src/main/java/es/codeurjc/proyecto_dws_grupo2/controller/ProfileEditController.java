@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,20 +18,27 @@ import org.springframework.security.core.Authentication;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.model.Image;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.DocumentService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
-
+import es.codeurjc.proyecto_dws_grupo2.model.Document;
 import java.io.IOException;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 
 @Controller
 public class ProfileEditController {
 
     private final UserRepository userRepository;
     private final ImageService imageService;
+    private final DocumentService documentService;
     private final PasswordEncoder passwordEncoder;
 
-    public ProfileEditController(UserRepository userRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
+    public ProfileEditController(UserRepository userRepository, ImageService imageService,
+            DocumentService documentService,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.imageService = imageService;
+        this.documentService = documentService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -45,7 +53,8 @@ public class ProfileEditController {
     @PostMapping("/profile/edit")
     public String saveProfile(User updatedUser,
             @RequestParam(value = "profilePicture", required = false) MultipartFile imageFile,
-            Principal principal) throws IOException { 
+            @RequestParam(value = "personalDocument", required = false) MultipartFile personalDocument,
+            Principal principal) throws IOException {
 
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
@@ -69,27 +78,54 @@ public class ProfileEditController {
                 userRepository.save(user); // Desvinculamos antes de borrar
                 imageService.deleteImage(oldImageId);
             }
-            
+
             // Creamos la nueva imagen en BBDD
             Image savedImage = imageService.createImage(imageFile.getInputStream());
             user.setProfileImage(savedImage);
         }
+        if (personalDocument != null && !personalDocument.isEmpty()) {
+            Document doc = documentService.saveDocument(personalDocument);
+            user.setDocument(doc);
+        }
 
         userRepository.save(user);
 
-        // 4. ACTUALIZAR SESIÓN (Tu "magia" para que Spring Security se entere del nuevo email)
+        // 4. ACTUALIZAR SESIÓN (Tu "magia" para que Spring Security se entere del nuevo
+        // email)
         if (!email.equals(updatedUser.getEmail())) {
             Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-            
+
             Authentication newAuth = new UsernamePasswordAuthenticationToken(
-                    updatedUser.getEmail(), 
-                    currentAuth.getCredentials(), 
-                    currentAuth.getAuthorities()
-            );
-            
+                    updatedUser.getEmail(),
+                    currentAuth.getCredentials(),
+                    currentAuth.getAuthorities());
+
             SecurityContextHolder.getContext().setAuthentication(newAuth);
         }
 
         return "redirect:/profile";
     }
+
+    // ── GET /profile/document → sirve el documento en el navegador ───
+    @GetMapping("/profile/document")
+    public ResponseEntity<Resource> getDocument(Principal principal) throws IOException {
+
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email).orElseThrow();
+
+        Document doc = user.getDocument();
+
+        if (doc == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource = documentService.loadDocumentAsResource(doc.getId());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, doc.getContentType())
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" + doc.getOriginalFileName() + "\"")
+                .body(resource);
+    }
+
 }
