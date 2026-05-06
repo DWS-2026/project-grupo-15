@@ -2,13 +2,17 @@ package es.codeurjc.proyecto_dws_grupo2.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class RegisterController {
@@ -20,30 +24,39 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String showRegisterForm() {
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User()); 
         return "registro";
     }
 
     @PostMapping("/register")
-    public String pagar(User user, 
-                        @RequestParam(defaultValue = "false") boolean extraPhysio,
-                        @RequestParam(defaultValue = "false") boolean extraNutrition,
-                        @RequestParam(defaultValue = "false") boolean extraDrinks,
-                        Model model, 
-                        HttpSession session) {
+    public String pagar(
+            @Valid @ModelAttribute("user") User user, 
+            BindingResult bindingResult, 
+            @RequestParam(defaultValue = "false") boolean extraPhysio,
+            @RequestParam(defaultValue = "false") boolean extraNutrition,
+            @RequestParam(defaultValue = "false") boolean extraDrinks,
+            Model model, 
+            HttpSession session) {
 
-        double total = 29.99; // Cuota base mensual
+        
+        if (bindingResult.hasErrors()) {
+            // IF ERROR, WE RETURN TO THE REGISTRATION PAGE WITH ERROR MESSAGES
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            }
+            
+            return "registro"; 
+        }
+        // -----------------------------------
 
-        // 1. Calculamos el total usando los parámetros del formulario
+        double total = 29.99; 
+
         if (extraPhysio) total += 39.99;
         if (extraNutrition) total += 29.99;
         if (extraDrinks) total += 2.99;
 
-        // 2. Guardamos el usuario en la sesión
         session.setAttribute("usuarioPendiente", user);
-        
-        // 3. Guardamos TAMBIÉN qué servicios ha elegido para poder añadirlos a la lista 
-        // ManyToMany una vez que el pago se confirme en el PaymentController.
         session.setAttribute("seleccionPhysio", extraPhysio);
         session.setAttribute("seleccionNutrition", extraNutrition);
         session.setAttribute("seleccionDrinks", extraDrinks);

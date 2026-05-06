@@ -52,24 +52,27 @@
                                     <label for="firstName" class="text-white">Nombre</label>
                                     <input type="text" class="form-control" id="firstName" name="firstName"
                                         value="{{user.firstName}}" required>
+                                    {{#firstNameError}}<small class="text-danger font-weight-bold">{{firstNameError}}</small>{{/firstNameError}}
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="lastName" class="text-white">Apellidos</label>
                                     <input type="text" class="form-control" id="lastName" name="lastName"
                                         value="{{user.lastName}}" required>
+                                    {{#lastNameError}}<small class="text-danger font-weight-bold">{{lastNameError}}</small>{{/lastNameError}}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="email" class="text-white">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{user.email}}"
-                                    required>
+                                <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" required>
+                                {{#emailError}}<small class="text-danger font-weight-bold">{{emailError}}</small>{{/emailError}}
                             </div>
 
                             <div class="form-group">
                                 <label for="password" class="text-white">Nueva Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Déjalo en blanco si no quieres cambiarla">
+                                    placeholder="Déjalo en blanco si no quieres cambiarla" minlength="8">
+                                {{#passwordError}}<small class="text-danger font-weight-bold">{{passwordError}}</small>{{/passwordError}}
                             </div>
 
                             <div class="form-group mt-4">

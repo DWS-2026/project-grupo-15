@@ -47,26 +47,33 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="form-group col-md-6">
+                       <div class="row">
+                            <div class="form-group col-md-6">
                                     <label>Nombre</label>
                                     <input type="text" name="firstName" class="form-control" value="{{user.firstName}}" required>
+                                    <!-- Mensaje de error -->
+                                    {{#firstNameError}}<small class="text-danger font-weight-bold">{{firstNameError}}</small>{{/firstNameError}}
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Apellido</label>
                                     <input type="text" name="lastName" class="form-control" value="{{user.lastName}}" required>
+                                    <!-- Mensaje de error -->
+                                    {{#lastNameError}}<small class="text-danger font-weight-bold">{{lastNameError}}</small>{{/lastNameError}}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="email" name="email" class="form-control" value="{{user.email}}" required>
+                                <!-- Mensaje de error -->
+                                {{#emailError}}<small class="text-danger font-weight-bold">{{emailError}}</small>{{/emailError}}
                             </div>
 
                             <div class="form-group">
                                 <label>Cambiar Contraseña (dejar vacío para mantener actual)</label>
-                                <input type="password" name="newPassword" class="form-control" placeholder="••••••••">
+                                <input type="password" name="newPassword" class="form-control" placeholder="••••••••" minlength="8">
+                                <!-- Mensaje de error de la contraseña -->
+                                {{#newPasswordError}}<small class="text-danger font-weight-bold">{{newPasswordError}}</small>{{/newPasswordError}}
                             </div>
 
                             <hr class="bg-dark">

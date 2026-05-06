@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -16,9 +19,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String firstName;
+
+    @NotBlank(message = "El apellido no puede estar vacío")
     private String lastName;
+
+    @Email(message = "El email debe ser válido")
+    @NotBlank(message = "Email obligatorio")
     private String email;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 8, message = "La contraseña debe tener minimo 8 caracteres")
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -97,7 +109,6 @@ public class User {
         this.password = password;
     }
 
-    // --- NUEVOS Getters y Setters para Image ---
     public Image getProfileImage() {
         return profileImage;
     }

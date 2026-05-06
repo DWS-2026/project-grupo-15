@@ -9,7 +9,10 @@ import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,7 @@ import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
+import jakarta.validation.Valid;
 
 @Controller
 public class AdminController {
@@ -124,51 +128,86 @@ public class AdminController {
 
     @PostMapping("/admin/members/edit/{id}")
     public String updateUser(@PathVariable Long id,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String email,
+            @Valid @ModelAttribute("user") User formUser,
+            BindingResult bindingResult, // ⚠️ Recuerda: siempre detrás del objeto validado
             @RequestParam(required = false) String newPassword,
             @RequestParam(defaultValue = "false") boolean extraPhysio,
             @RequestParam(defaultValue = "false") boolean extraNutrition,
             @RequestParam(defaultValue = "false") boolean extraDrinks,
-            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException { 
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+            Model model) throws IOException { 
 
-        User user = userRepository.findById(id).orElseThrow();
+        User dbUser = userRepository.findById(id).orElseThrow();
 
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
+        // --- 1. VALIDACIÓN ---
+        boolean hasRealErrors = false;
+        for (FieldError error : bindingResult.getFieldErrors()) {
+            // Ignoramos la contraseña porque el admin puede dejarla en blanco si no quiere cambiarla
+            if (error.getField().equals("password")) {
+                continue; 
+            }
+            // Mapeamos firstname y lastname a firstNameError y lastNameError (cuidado con las mayúsculas)
+            model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            hasRealErrors = true;
+        }
 
-        user.getEnrolledServices().clear();
+        if (hasRealErrors) {
+            // Si hay errores, reconstruimos la vista para que Mustache pinte todo bien
+            formUser.setId(id);
+            formUser.setProfileImage(dbUser.getProfileImage());
+            model.addAttribute("user", formUser);
+            model.addAttribute("hasPhysio", extraPhysio);
+            model.addAttribute("hasNutrition", extraNutrition);
+            model.addAttribute("hasDrinks", extraDrinks);
+            return "admin-usuario-edit"; // Devolvemos el HTML con los fallos pintados
+        }
+
+        // --- 2. ACTUALIZACIÓN (Si no hay errores) ---
+        dbUser.setFirstName(formUser.getFirstName());
+        dbUser.setLastName(formUser.getLastName());
+        dbUser.setEmail(formUser.getEmail());
+
+        // Lógica de servicios extras
+        dbUser.getEnrolledServices().clear();
         if (extraPhysio) {
             ServiceEntity s = serviceRepository.findByName("Fisioterapia");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null) dbUser.getEnrolledServices().add(s);
         }
         if (extraNutrition) {
             ServiceEntity s = serviceRepository.findByName("Nutrición");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null) dbUser.getEnrolledServices().add(s);
         }
         if (extraDrinks) {
             ServiceEntity s = serviceRepository.findByName("Bebidas Extra");
-            if (s != null) user.getEnrolledServices().add(s);
+            if (s != null) dbUser.getEnrolledServices().add(s);
         }
 
-        if (newPassword != null && !newPassword.isEmpty()) {
-            user.setPassword(passwordEncoder.encode(newPassword));
+        // Si el admin escribió algo en nueva contraseña, se actualiza
+        if (newPassword != null && !newPassword.trim().isEmpty()) {
+            // Validamos a mano que tenga mínimo 8 caracteres ya que no es el campo principal
+            if (newPassword.length() < 8) {
+                model.addAttribute("newPasswordError", "La contraseña debe tener al menos 8 caracteres");
+                formUser.setId(id);
+                formUser.setProfileImage(dbUser.getProfileImage());
+                model.addAttribute("user", formUser);
+                return "admin-usuario-edit";
+            }
+            dbUser.setPassword(passwordEncoder.encode(newPassword));
         }
 
+        // Lógica de imágenes
         if (imageFile != null && !imageFile.isEmpty()) {
-            if (user.getProfileImage() != null) {
-                Long oldImageId = user.getProfileImage().getId();
-                user.setProfileImage(null);
-                userRepository.save(user); 
+            if (dbUser.getProfileImage() != null) {
+                Long oldImageId = dbUser.getProfileImage().getId();
+                dbUser.setProfileImage(null);
+                userRepository.save(dbUser); 
                 imageService.deleteImage(oldImageId);
             }
             Image savedImage = imageService.createImage(imageFile.getInputStream());
-            user.setProfileImage(savedImage);
+            dbUser.setProfileImage(savedImage);
         }
 
-        userRepository.save(user);
+        userRepository.save(dbUser);
         return "redirect:/admin/members";
     }
 

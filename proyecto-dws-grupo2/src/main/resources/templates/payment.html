@@ -93,36 +93,40 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Titular de la tarjeta</label>
-                    <input type="text" class="form-control bg-dark text-white border-0"
-                        placeholder="{{user.firstName}} {{user.lastName}}" required>
-                </div>
+    <label>Titular de la tarjeta</label>
+    <input type="text" name="cardHolder" class="form-control bg-dark text-white border-0"
+        placeholder="Nombre y Apellidos" required>
+    {{#cardHolderError}}<small class="text-danger font-weight-bold">{{cardHolderError}}</small>{{/cardHolderError}}
+</div>
 
-                <div class="form-group">
-                    <label>Número de tarjeta</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-dark text-white border-0"
-                            placeholder="0000 0000 0000 0000" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-dark border-0 text-primary">
-                                <i class="fas fa-credit-card"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+<div class="form-group">
+    <label>Número de tarjeta</label>
+    <div class="input-group">
+        <input type="text" name="cardNumber" class="form-control bg-dark text-white border-0"
+            placeholder="0000 0000 0000 0000" required pattern="\d{16}" title="Debe contener 16 números">
+        <div class="input-group-append">
+            <span class="input-group-text bg-dark border-0 text-primary">
+                <i class="fas fa-credit-card"></i>
+            </span>
+        </div>
+    </div>
+    {{#cardNumberError}}<small class="text-danger font-weight-bold">{{cardNumberError}}</small>{{/cardNumberError}}
+</div>
 
-                <div class="form-row">
-                    <div class="col-md-6 form-group">
-                        <label>Fecha de caducidad</label>
-                        <input type="text" class="form-control bg-dark text-white border-0" placeholder="MM / AA"
-                            required>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>CVV <i class="fas fa-question-circle text-white-50 ml-1"></i></label>
-                        <input type="password" class="form-control bg-dark text-white border-0" placeholder="123"
-                            maxlength="3" required>
-                    </div>
-                </div>
+<div class="form-row">
+    <div class="col-md-6 form-group">
+        <label>Fecha de caducidad</label>
+        <input type="text" name="expiry" class="form-control bg-dark text-white border-0" placeholder="MM/AA"
+            required pattern="(0[1-9]|1[0-2])\/\d{2}" title="Formato MM/AA">
+        {{#expiryError}}<small class="text-danger font-weight-bold">{{expiryError}}</small>{{/expiryError}}
+    </div>
+    <div class="col-md-6 form-group">
+        <label>CVV <i class="fas fa-question-circle text-white-50 ml-1"></i></label>
+        <input type="password" name="cvv" class="form-control bg-dark text-white border-0" placeholder="123"
+            maxlength="4" required pattern="\d{3,4}">
+        {{#cvvError}}<small class="text-danger font-weight-bold">{{cvvError}}</small>{{/cvvError}}
+    </div>
+</div>
 
                 <button type="submit" class="btn btn-primary btn-lg btn-block font-weight-bold mt-4">
                     <i class="fas fa-lock mr-2"></i> PAGAR {{total}}€

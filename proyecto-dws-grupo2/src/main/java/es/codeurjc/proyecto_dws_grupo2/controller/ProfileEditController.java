@@ -2,7 +2,10 @@ package es.codeurjc.proyecto_dws_grupo2.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +23,7 @@ import es.codeurjc.proyecto_dws_grupo2.model.Image;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.DocumentService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
+import jakarta.validation.Valid;
 import es.codeurjc.proyecto_dws_grupo2.model.Document;
 import java.io.IOException;
 import org.springframework.core.io.Resource;
@@ -50,48 +54,71 @@ public class ProfileEditController {
         return "profile-edit";
     }
 
-    @PostMapping("/profile/edit")
-    public String saveProfile(User updatedUser,
+@PostMapping("/profile/edit")
+    public String saveProfile(
+            @Valid @ModelAttribute("user") User updatedUser,
+            BindingResult bindingResult, // ⚠️
             @RequestParam(value = "profilePicture", required = false) MultipartFile imageFile,
             @RequestParam(value = "personalDocument", required = false) MultipartFile personalDocument,
-            Principal principal) throws IOException {
+            Principal principal, Model model) throws IOException {
 
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        // Lo llamamos dbUser (Database User)
+        User dbUser = userRepository.findByEmail(email).orElseThrow();
 
-        // 1. Actualizamos datos básicos
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-
-        // 2. Actualizamos contraseña si se ha rellenado
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        // --- 1. VALIDACIÓN ---
+        boolean hasRealErrors = false;
+        for (FieldError error : bindingResult.getFieldErrors()) {
+            // Ignoramos el error de la contraseña si el usuario la ha dejado en blanco intencionadamente
+            if (error.getField().equals("password") && (updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty())) {
+                continue; 
+            }
+            model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            hasRealErrors = true;
         }
 
-        // 3. NUEVA LÓGICA DE IMAGEN: Guardar en Base de Datos (byte[])
+        if (hasRealErrors) {
+            // Restauramos las imágenes/documentos antiguos para que la vista Mustache no se rompa al recargar
+            updatedUser.setProfileImage(dbUser.getProfileImage());
+            updatedUser.setDocument(dbUser.getDocument());
+            model.addAttribute("user", updatedUser);
+            return "profile-edit"; 
+        }
+
+        // --- 2. ACTUALIZAMOS DATOS (Usando dbUser) ---
+        dbUser.setFirstName(updatedUser.getFirstName());
+        dbUser.setLastName(updatedUser.getLastName());
+        dbUser.setEmail(updatedUser.getEmail());
+
+        // Actualizamos contraseña si se ha rellenado
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            dbUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+
+        // --- 3. LÓGICA DE IMAGEN Y DOCUMENTO ---
         if (imageFile != null && !imageFile.isEmpty()) {
             // Si ya tenía imagen, borramos la antigua de la BBDD para no dejar huérfanos
-            if (user.getProfileImage() != null) {
-                Long oldImageId = user.getProfileImage().getId();
-                user.setProfileImage(null);
-                userRepository.save(user); // Desvinculamos antes de borrar
+            if (dbUser.getProfileImage() != null) {
+                Long oldImageId = dbUser.getProfileImage().getId();
+                dbUser.setProfileImage(null);
+                userRepository.save(dbUser); // Desvinculamos antes de borrar
                 imageService.deleteImage(oldImageId);
             }
 
             // Creamos la nueva imagen en BBDD
             Image savedImage = imageService.createImage(imageFile.getInputStream());
-            user.setProfileImage(savedImage);
+            dbUser.setProfileImage(savedImage);
         }
+        
         if (personalDocument != null && !personalDocument.isEmpty()) {
             Document doc = documentService.saveDocument(personalDocument);
-            user.setDocument(doc);
+            dbUser.setDocument(doc);
         }
 
-        userRepository.save(user);
+        // Guardamos los cambios finales en la base de datos
+        userRepository.save(dbUser);
 
-        // 4. ACTUALIZAR SESIÓN (Tu "magia" para que Spring Security se entere del nuevo
-        // email)
+        // --- 4. ACTUALIZAR SESIÓN DE SPRING SECURITY ---
         if (!email.equals(updatedUser.getEmail())) {
             Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -105,27 +132,4 @@ public class ProfileEditController {
 
         return "redirect:/profile";
     }
-
-    // ── GET /profile/document → sirve el documento en el navegador ───
-    @GetMapping("/profile/document")
-    public ResponseEntity<Resource> getDocument(Principal principal) throws IOException {
-
-        String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
-
-        Document doc = user.getDocument();
-
-        if (doc == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Resource resource = documentService.loadDocumentAsResource(doc.getId());
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, doc.getContentType())
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "inline; filename=\"" + doc.getOriginalFileName() + "\"")
-                .body(resource);
-    }
-
 }
