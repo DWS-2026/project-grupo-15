@@ -1,0 +1,3 @@
+$kind: collection
+description: Gestión de documentos personales del usuario (DNI, contratos, etc.). Requiere autenticación.
+order: 7000

@@ -1,0 +1,5 @@
+$kind: http-request
+description: Elimina permanentemente un usuario. Solo ADMIN.
+url: "{{baseUrl}}/api/v1/users/1"
+method: DELETE
+order: 6000

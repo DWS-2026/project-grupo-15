@@ -1,0 +1,5 @@
+$kind: http-request
+description: Devuelve una reseña concreta por su ID. Público.
+url: "{{baseUrl}}/api/v1/reviews/1"
+method: GET
+order: 2000

@@ -1,0 +1,3 @@
+$kind: collection
+description: Endpoints de autenticación. Los tokens se guardan en cookies HttpOnly automáticamente.
+order: 1000

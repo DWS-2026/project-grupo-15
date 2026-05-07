@@ -1,0 +1,12 @@
+$kind: http-request
+description: Sube/reemplaza la foto de perfil del usuario con ID 1. Solo el propio usuario o ADMIN.
+url: "{{baseUrl}}/api/v1/users/1/image"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imageFile
+      src: []
+      description: Selecciona una imagen JPG o PNG
+order: 1000

@@ -1,0 +1,5 @@
+$kind: http-request
+description: Elimina el documento personal del usuario autenticado. Requiere login.
+url: "{{baseUrl}}/api/v1/users/me/document"
+method: DELETE
+order: 4000

@@ -1,0 +1,5 @@
+$kind: http-request
+description: Descarga el documento de cualquier usuario por su ID. Solo ADMIN.
+url: "{{baseUrl}}/api/v1/users/1/document"
+method: GET
+order: 3000

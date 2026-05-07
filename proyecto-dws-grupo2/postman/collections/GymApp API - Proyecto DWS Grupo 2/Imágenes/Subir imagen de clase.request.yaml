@@ -1,0 +1,12 @@
+$kind: http-request
+description: Sube/reemplaza la imagen representativa de una clase. Solo ADMIN.
+url: "{{baseUrl}}/api/v1/classes/1/image"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imageFile
+      src: []
+      description: Selecciona una imagen JPG o PNG
+order: 2000

@@ -1,0 +1,18 @@
+$kind: http-request
+name: Crear reseña (USER / ADMIN)
+description: Publica una nueva reseña. Requiere USER o ADMIN. 'classEntityId' puede ser null si no está ligada a una clase.
+url: "{{baseUrl}}/api/v1/reviews/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "about": "Instalaciones",
+      "rating": 5,
+      "comment": "El gimnasio tiene unas instalaciones excelentes y el personal es muy amable.",
+      "userId": 1,
+      "classEntityId": null
+    }
+order: 3000

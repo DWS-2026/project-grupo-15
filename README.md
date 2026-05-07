@@ -362,29 +362,29 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](profile_images/ca68f518-6218-43c2-8523-97a6147cd70d.jfif)
 
 #### **Credenciales de Usuarios de Ejemplo**
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
-| Administrador | admin | admin123 |
-| Usuario Registrado | user1 | user123 |
-| Usuario Registrado | user2 | user123 |
+| Administrador | admin@titangym.com | admin123 |
+| Usuario Registrado | paco@gmail.com | 1234 |
+
 
 ### **Participación de Miembros en la Práctica 3**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [MANUEL GARCÍA MUÑOZ]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[TAREAS COMO REALIZACION GENEREAL DE LAS APIS Y SECURIZACION DE APIS]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [API ERRORES](https://github.com/DWS-2026/project-grupo-15/commit/ec88292aa44f4cbb56285c20a45520033b3cce78)  | [GlobalExceptionHandler.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/api/GlobalExceptionHandler.java)   |
+|2| [DOCUMENTOS DISCO](https://github.com/DWS-2026/project-grupo-15/commit/d7e04c33974473979f6bd06f6b01c88a865d5714)  | [ProfileEditController.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/ProfileEditController.java)   |
+|3| [SEGURIDAD APIS](https://github.com/DWS-2026/project-grupo-15/commit/d9e53cfa0afb30159a2b881668559ab9b837b7af)  | [SecurityConfiguration.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/SecurityConfiguration.java)   |
+|4| [API REVIEWS](https://github.com/DWS-2026/project-grupo-15/commit/859f3bf72d996dde0c817b10ba46a494c8514671)  | [ReviewRestController.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/api/ReviewRestController.java)   |
+|5| [JWT](https://github.com/DWS-2026/project-grupo-15/commit/d9e53cfa0afb30159a2b881668559ab9b837b7af)  | [jwt carpeta](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/jwt)   |
 
 ---
 
