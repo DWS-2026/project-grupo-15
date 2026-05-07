@@ -1,4 +1,5 @@
 package es.codeurjc.proyecto_dws_grupo2.service;
+
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.Review;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
@@ -43,9 +44,8 @@ public class DocumentService {
     public Document saveDocument(MultipartFile file) throws IOException {
         // 1. Guardamos en BD para obtener el ID
         Document doc = new Document(
-            file.getOriginalFilename(),
-            file.getContentType()
-        );
+                file.getOriginalFilename(),
+                file.getContentType());
         documentRepository.save(doc);
 
         // 2. Guardamos en disco con el ID como nombre interno
@@ -67,5 +67,19 @@ public class DocumentService {
 
     public Optional<Document> findById(Long id) {
         return documentRepository.findById(id);
+    }
+
+    public void deleteDocument(Long id) {
+        // 1. Borramos el fichero del disco
+        try {
+            Path filePath = uploadDir.resolve("doc_" + id);
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            // Log del error pero no interrumpimos el flujo
+            System.err.println("No se pudo borrar el fichero del documento " + id + ": " + e.getMessage());
+        }
+
+        // 2. Borramos el registro de la BBDD
+        documentRepository.deleteById(id);
     }
 }
