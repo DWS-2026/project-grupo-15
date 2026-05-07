@@ -368,15 +368,15 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
-| Administrador | admin | admin123 |
-| Usuario Registrado | user1 | user123 |
-| Usuario Registrado | user2 | user123 |
+| Administrador | admin@titangym.com | admin123 |
+| Usuario Registrado | paco@gmail.com | 1234 |
+
 
 ### **Participación de Miembros en la Práctica 3**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [MANUEL GARCÍA MUÑOZ]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[TAREAS COMO REALIZACION GENEREAL DE LAS APIS Y SECURIZACION DE APIS]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
