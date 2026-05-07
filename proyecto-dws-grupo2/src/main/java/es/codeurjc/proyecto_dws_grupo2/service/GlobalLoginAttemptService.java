@@ -21,8 +21,6 @@ public class GlobalLoginAttemptService {
 
     private final int maxAttempts;
     private final int blockDurationMinutes;
-
-    // FIX: Caffeine cache with TTL prevents memory leak from entries never cleaned up
     private final Cache<String, LoginAttemptInfo> attemptsCache;
 
     public GlobalLoginAttemptService(
@@ -38,8 +36,6 @@ public class GlobalLoginAttemptService {
 
     private static class LoginAttemptInfo {
 
-        // FIX: AtomicInteger + synchronized methods prevent race conditions
-        // under concurrent login attempts for the same email
         private final AtomicInteger attempts = new AtomicInteger(0);
         private volatile LocalDateTime blockedUntil = null;
 
@@ -50,13 +46,11 @@ public class GlobalLoginAttemptService {
             }
         }
 
-        // FIX: isBlocked() is now a pure read — no hidden side effects
         public synchronized boolean isBlocked() {
             if (blockedUntil == null) return false;
             return LocalDateTime.now().isBefore(blockedUntil);
         }
 
-        // FIX: Expiry check separated from block check — caller decides what to do
         public synchronized boolean hasExpired() {
             return blockedUntil != null && LocalDateTime.now().isAfter(blockedUntil);
         }
@@ -89,13 +83,17 @@ public class GlobalLoginAttemptService {
     public boolean isBlocked(String email) {
         LoginAttemptInfo info = attemptsCache.getIfPresent(email);
         if (info == null) return false;
-
-        // FIX: If the block period has naturally expired, evict it now
         if (info.hasExpired()) {
             attemptsCache.invalidate(email);
             return false;
         }
-
         return info.isBlocked();
+    }
+
+    // NEW: used by the failure handler to tell the user how many tries remain
+    public int getRemainingAttempts(String email) {
+        LoginAttemptInfo info = attemptsCache.getIfPresent(email);
+        if (info == null) return maxAttempts;
+        return Math.max(0, maxAttempts - info.getAttempts());
     }
 }

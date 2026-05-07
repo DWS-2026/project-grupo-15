@@ -3,6 +3,7 @@ package es.codeurjc.proyecto_dws_grupo2.controller;
 import es.codeurjc.proyecto_dws_grupo2.jwt.JwtRequestFilter;
 import es.codeurjc.proyecto_dws_grupo2.jwt.JwtTokenProvider;
 import es.codeurjc.proyecto_dws_grupo2.jwt.UnauthorizedHandlerJwt;
+import es.codeurjc.proyecto_dws_grupo2.service.GlobalLoginAttemptService;
 import es.codeurjc.proyecto_dws_grupo2.service.RepositoryUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -32,9 +33,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration implements WebMvcConfigurer {
-
-    // FIX: Removed unused @Autowired GlobalLoginAttemptService —
-    // the block check lives in RepositoryUserDetailsService, not here.
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -48,36 +46,44 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    // Re-added: needed by the failure handler to compute remaining attempts
+    @Autowired
+    private GlobalLoginAttemptService loginAttemptService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-   @Bean
-public DaoAuthenticationProvider authenticationProvider() {
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailService);
-    authProvider.setPasswordEncoder(passwordEncoder());
-    authProvider.setHideUserNotFoundExceptions(false);
-    return authProvider;
-}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setHideUserNotFoundExceptions(false);
+        return authProvider;
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public SimpleUrlAuthenticationFailureHandler authenticationFailureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler() {
-            @Override
-            public void onAuthenticationFailure(HttpServletRequest request,
-                    HttpServletResponse response,
-                    org.springframework.security.core.AuthenticationException exception)
-                    throws java.io.IOException {
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return (HttpServletRequest request, HttpServletResponse response,
+                org.springframework.security.core.AuthenticationException exception) -> {
 
-                if (exception instanceof LockedException) {
-                    getRedirectStrategy().sendRedirect(request, response, "/loginerror?locked=true");
+            if (exception instanceof LockedException) {
+                // Account is already locked — show locked message
+                response.sendRedirect("/loginerror?locked=true");
+            } else {
+                String email = request.getParameter("email");
+
+                if (loginAttemptService.isBlocked(email)) {
+                    response.sendRedirect("/loginerror?locked=true");
                 } else {
-                    getRedirectStrategy().sendRedirect(request, response, "/loginerror");
+                    int remaining = loginAttemptService.getRemainingAttempts(email);
+                    response.sendRedirect("/loginerror?remaining=" + remaining);
                 }
             }
         };
@@ -96,7 +102,6 @@ public DaoAuthenticationProvider authenticationProvider() {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        // PUBLIC
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/classes/**").permitAll()
@@ -105,22 +110,18 @@ public DaoAuthenticationProvider authenticationProvider() {
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
 
-                        // REVIEWS
                         .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasRole("ADMIN")
 
-                        // CLASSES
                         .requestMatchers(HttpMethod.POST, "/api/v1/classes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/classes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/classes/**").hasRole("ADMIN")
 
-                        // SERVICES
                         .requestMatchers(HttpMethod.POST, "/api/v1/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/services/**").hasRole("ADMIN")
 
-                        // USERS & PROFILE IMAGES
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/*/image").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
@@ -131,10 +132,8 @@ public DaoAuthenticationProvider authenticationProvider() {
         http.formLogin(formLogin -> formLogin.disable());
         http.csrf(csrf -> csrf.disable());
         http.httpBasic(httpBasic -> httpBasic.disable());
-
         http.sessionManagement(management -> management
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -158,8 +157,6 @@ public DaoAuthenticationProvider authenticationProvider() {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .usernameParameter("email")
-                        // FIX: Use custom failure handler instead of plain failureUrl
-                        // so LockedException redirects to /loginerror?locked=true
                         .failureHandler(authenticationFailureHandler())
                         .successHandler((request, response, authentication) -> {
                             boolean isAdmin = authentication.getAuthorities().stream()
@@ -184,8 +181,6 @@ public DaoAuthenticationProvider authenticationProvider() {
     }
 }
 
-// FIX: Moved to its own top-level class in the same file (package-private is
-// fine here)
 class CSRFHandlerInterceptor implements HandlerInterceptor {
 
     @Override

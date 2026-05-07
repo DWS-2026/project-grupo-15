@@ -20,10 +20,24 @@
             <p class="text-white-50">Entra con tu cuenta</p>
         </div>
 
-        <!-- Mensaje de error -->
+        <!-- Cuenta bloqueada -->
+        {{#errorLocked}}
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>Cuenta bloqueada.</strong><br>
+            Demasiados intentos fallidos. Inténtalo de nuevo en 15 minutos.
+        </div>
+        {{/errorLocked}}
+
+        <!-- Credenciales incorrectas + intentos restantes -->
         {{#error}}
         <div class="alert alert-danger text-center" role="alert">
             {{error}}
+            {{#remaining}}
+            <br><small>Te quedan <strong>{{remaining}}</strong> intento(s) antes de que tu cuenta sea bloqueada.</small>
+            {{/remaining}}
+            {{#remainingZero}}
+            <br><small><strong>⚠️ Próximo intento incorrecto bloqueará tu cuenta 15 minutos.</strong></small>
+            {{/remainingZero}}
         </div>
         {{/error}}
 
@@ -47,7 +61,7 @@
                 Iniciar sesión
             </button>
         </form>
-        
+
         <div class="text-center mt-4">
             <a href="/recuperar-contrasena" class="text-white-50">¿No recuerdas tu contraseña?</a><br>
             <a href="/register" class="text-primary font-weight-bold">Registrarse</a>
