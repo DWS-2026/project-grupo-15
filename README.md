@@ -362,7 +362,7 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](profile_images/ca68f518-6218-43c2-8523-97a6147cd70d.jfif)
 
 #### **Credenciales de Usuarios de Ejemplo**
 
