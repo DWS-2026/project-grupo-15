@@ -1,0 +1,5 @@
+$kind: http-request
+description: Devuelve las reseñas asociadas a una clase concreta.
+url: "{{baseUrl}}/api/v1/classes/1/reviews"
+method: GET
+order: 4000

@@ -1,0 +1,12 @@
+$kind: http-request
+description: Sube/reemplaza la imagen de un servicio. Solo ADMIN.
+url: "{{baseUrl}}/api/v1/services/1/image"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imageFile
+      src: []
+      description: Selecciona una imagen JPG o PNG
+order: 3000

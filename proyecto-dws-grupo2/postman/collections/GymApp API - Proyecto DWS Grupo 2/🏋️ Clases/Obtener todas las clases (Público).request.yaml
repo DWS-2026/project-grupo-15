@@ -1,0 +1,8 @@
+$kind: http-request
+description: Lista paginada de todas las clases disponibles. Público, no requiere login.
+url: "{{baseUrl}}/api/v1/classes?page=0&size=10"
+method: GET
+queryParams:
+  page: "0"
+  size: "10"
+order: 1000

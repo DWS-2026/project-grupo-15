@@ -1,0 +1,3 @@
+$kind: collection
+description: Gestión de valoraciones. GETs son públicos. POST/PUT requieren USER o ADMIN. DELETE requiere ser el autor o ADMIN.
+order: 5000

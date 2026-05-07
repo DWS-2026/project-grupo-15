@@ -1,0 +1,5 @@
+$kind: http-request
+description: Renueva el AccessToken usando la cookie RefreshToken. Úsalo cuando el AuthToken haya expirado (tras 5 minutos).
+url: "{{baseUrl}}/api/auth/refresh"
+method: POST
+order: 2000

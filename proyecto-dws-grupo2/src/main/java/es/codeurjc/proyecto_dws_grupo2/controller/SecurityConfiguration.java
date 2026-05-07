@@ -147,6 +147,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/lib/**", "/mail/**")
                         .permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll() 
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/", "/login", "/loginerror", "/register", "/error",
                                 "/classes/info", "/classes", "/about", "/contact", "/feature",
                                 "/payment_success")
