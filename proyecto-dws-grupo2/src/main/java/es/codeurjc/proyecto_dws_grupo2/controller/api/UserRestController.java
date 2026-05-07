@@ -19,8 +19,16 @@ import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+// --- Imports de Swagger / OpenAPI ---
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "Usuarios", description = "Gestión de los miembros y perfiles del gimnasio")
 public class UserRestController {
 
     private final UserRepository userRepository;
@@ -31,16 +39,40 @@ public class UserRestController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // GET: Todos los usuarios
+    // ==========================================
+    // 1. OBTENER TODOS LOS USUARIOS (Paginado)
+    // ==========================================
+    @Operation(summary = "Obtener todos los usuarios", description = "Devuelve una página con la lista de todos los miembros registrados. Requiere permisos de administrador.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de usuarios recuperada con éxito")
+    })
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
-        Page<UserResponseDTO> pageResult = userRepository.findAll(pageable)
-                .map(UserResponseDTO::new);
-        
-        return ResponseEntity.ok(pageResult);
+        Page<UserResponseDTO> users = userRepository.findAll(pageable).map(UserResponseDTO::new);
+        return ResponseEntity.ok(users);
     }
 
-    // GET: Usuario por ID
+    // ==========================================
+    // 2. OBTENER PERFIL DEL USUARIO ACTUAL
+    // ==========================================
+    @Operation(summary = "Obtener mi perfil", description = "Devuelve los datos del usuario que ha iniciado sesión actualmente.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Perfil recuperado con éxito"),
+        @ApiResponse(responseCode = "401", description = "No autorizado / No hay sesión activa", content = @Content)
+    })
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getMe(@RequestAttribute("user") User user) {
+        return ResponseEntity.ok(new UserResponseDTO(user));
+    }
+
+    // ==========================================
+    // 3. OBTENER USUARIO POR ID
+    // ==========================================
+    @Operation(summary = "Obtener usuario por ID", description = "Busca la información de un miembro específico mediante su identificador.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+        @ApiResponse(responseCode = "404", description = "No existe ningún usuario con ese ID", content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         return userRepository.findById(id)
@@ -48,22 +80,33 @@ public class UserRestController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST: Crear usuario
-    @PostMapping
+    // ==========================================
+    // 4. CREAR UN NUEVO USUARIO
+    // ==========================================
+    @Operation(summary = "Registrar un nuevo usuario", description = "Crea una nueva cuenta de usuario en el sistema.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Usuario creado con éxito"),
+        @ApiResponse(responseCode = "400", description = "Datos de registro inválidos", content = @Content)
+    })
+    @PostMapping("/")
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
-        // 1. Encriptamos la contraseña extraída del DTO
-        String encodedPassword = passwordEncoder.encode(userDTO.password());
-        
-        // 2. El DTO nos devuelve la entidad limpia y segura
-        User user = userDTO.toEntity(encodedPassword);
-        
+        User user = new User();
+        userDTO.updateEntity(user, passwordEncoder.encode(userDTO.password()));
         User saved = userRepository.save(user);
 
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).body(new UserResponseDTO(saved));
     }
 
-    // PUT: Actualizar usuario
+    // ==========================================
+    // 5. ACTUALIZAR UN USUARIO
+    // ==========================================
+    @Operation(summary = "Actualizar un usuario", description = "Modifica los datos de un miembro existente. Si se envía una contraseña, será encriptada.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content),
+        @ApiResponse(responseCode = "400", description = "Datos de actualización inválidos", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO userDTO) {
         Optional<User> existing = userRepository.findById(id);
@@ -73,7 +116,6 @@ public class UserRestController {
 
         User user = existing.get();
         
-        // Solo encriptamos si el usuario envió una contraseña nueva
         String encodedPassword = null;
         if (userDTO.password() != null && !userDTO.password().isBlank()) {
             encodedPassword = passwordEncoder.encode(userDTO.password());
@@ -85,7 +127,14 @@ public class UserRestController {
         return ResponseEntity.ok(new UserResponseDTO(saved));
     }
 
-    // DELETE: Eliminar usuario
+    // ==========================================
+    // 6. ELIMINAR UN USUARIO
+    // ==========================================
+    @Operation(summary = "Eliminar un usuario", description = "Borra permanentemente la cuenta de un miembro.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuario eliminado con éxito"),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);

@@ -20,8 +20,16 @@ import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
+// --- Imports de Swagger / OpenAPI ---
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1")
+@Tag(name = "Imágenes", description = "Gestión de subida y descarga de imágenes del sistema (Usuarios, Clases y Servicios)")
 public class ImageRestController {
 
     private final ImageService imageService;
@@ -37,8 +45,16 @@ public class ImageRestController {
         this.serviceEntityService = serviceEntityService;
     }
 
-    // 1. UPLOAD USER IMAGE
-    @PostMapping("/users/{userId}/image")
+    // ==========================================
+    // 1. SUBIR IMAGEN DE USUARIO
+    // ==========================================
+    @Operation(summary = "Subir foto de perfil de usuario", description = "Sube una imagen y la asocia como foto de perfil de un usuario existente.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
+        @ApiResponse(responseCode = "400", description = "El archivo enviado está vacío o es inválido", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+    })
+    @PostMapping(value = "/users/{userId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadProfileImage(
             @PathVariable Long userId, 
             @RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -64,8 +80,15 @@ public class ImageRestController {
         return ResponseEntity.created(location).build();
     }
 
-    // 2. UPLOAD CLASS IMAGE
-    @PostMapping("/classes/{classId}/image")
+    // ==========================================
+    // 2. SUBIR IMAGEN DE CLASE
+    // ==========================================
+    @Operation(summary = "Subir imagen de una clase", description = "Sube una imagen representativa para una clase o actividad del gimnasio.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
+        @ApiResponse(responseCode = "404", description = "Clase no encontrada", content = @Content)
+    })
+    @PostMapping(value = "/classes/{classId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadClassImage(
             @PathVariable Long classId, 
             @RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -91,8 +114,15 @@ public class ImageRestController {
         return ResponseEntity.created(location).build();
     }
 
-    // 3. UPLOAD SERVICE IMAGE
-    @PostMapping("/services/{serviceId}/image")
+    // ==========================================
+    // 3. SUBIR IMAGEN DE SERVICIO
+    // ==========================================
+    @Operation(summary = "Subir imagen de un servicio", description = "Sube una imagen representativa para un servicio o suplemento.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
+        @ApiResponse(responseCode = "404", description = "Servicio no encontrado", content = @Content)
+    })
+    @PostMapping(value = "/services/{serviceId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadServiceImage(
             @PathVariable Long serviceId, 
             @RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -118,7 +148,14 @@ public class ImageRestController {
         return ResponseEntity.created(location).build();
     }
 
-    // 4. DOWNLOAD ANY IMAGE (Universal)
+    // ==========================================
+    // 4. DESCARGAR IMAGEN (Universal)
+    // ==========================================
+    @Operation(summary = "Descargar una imagen", description = "Descarga los datos binarios de una imagen a partir de su ID.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Imagen descargada con éxito"),
+        @ApiResponse(responseCode = "404", description = "Imagen no encontrada", content = @Content)
+    })
     @GetMapping("/images/{id}/media")
     public ResponseEntity<byte[]> downloadImage(@PathVariable Long id) {
         byte[] imageBytes = imageService.getImageFile(id);
@@ -130,7 +167,7 @@ public class ImageRestController {
                 .body(imageBytes);
     }
 
-    // Helper method to avoid repeating URI creation code
+    // Método auxiliar (No se documenta porque no tiene mapeo HTTP)
     private URI buildImageUri(Long imageId) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/v1/images/{id}/media")
