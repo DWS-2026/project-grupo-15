@@ -84,6 +84,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                                                                             // público
                         .requestMatchers(HttpMethod.GET, "/api/v1/images/**").permitAll() // NUEVO: Ver imágenes público
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/v1/auth/**").permitAll()
 
                         // REVIEWS
                         .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
