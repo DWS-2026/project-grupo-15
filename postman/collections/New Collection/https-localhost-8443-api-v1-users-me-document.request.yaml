@@ -1,0 +1,19 @@
+$kind: http-request
+name: https://localhost:8443/api/v1/users/me/document
+url: https://localhost:8443/api/v1/users/me/document
+method: GET
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - postman-cloud:///1f14a144-7041-4fd0-9cba-58ce33cc5a39
+      description: ""
+      disabled: false
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJ0eXBlIjoiQUNDRVNTIiwic3ViIjoicGVkcm9AZ21haWwuY29tIiwiaWF0IjoxNzc4MTU5Mzk5LCJleHAiOjE3NzgxNTk2OTl9.SIcyg5u56DJ_2FWgYuJwNo_5oyeCRKQpSzKRHQvHchQ
+examples: .resources/https-localhost-8443-api-v1-users-me-document.resources/examples
+order: 1778159766199

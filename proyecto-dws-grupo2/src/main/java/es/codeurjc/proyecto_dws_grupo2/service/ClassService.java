@@ -13,6 +13,9 @@ import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
+
 @Service
 public class ClassService {
 
@@ -40,11 +43,13 @@ public class ClassService {
         return classRepository.existsById(id);
     }
 
-
     public ClassEntity save(ClassEntity classEntity) {
+        if (classEntity.getDescription() != null) {
+            String safeDescription = Jsoup.clean(classEntity.getDescription(), Safelist.relaxed());
+            classEntity.setDescription(safeDescription);
+        }
         return classRepository.save(classEntity);
     }
-
 
     public void deleteById(Long id) {
         classRepository.deleteById(id);
