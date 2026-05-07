@@ -61,7 +61,7 @@
 
             <main class="col-md-9 col-lg-10 ml-sm-auto px-4 py-5">
 
-                {{#clase}}
+                {{#class}}
                 <div class="card bg-secondary p-5" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                     <div class="row">
                         <div class="col-md-5 mb-4 mb-md-0">
@@ -116,16 +116,16 @@
                         </div>
                     </div>
                 </div>
-                {{/clase}}
+                {{/class}}
                 
-                {{^clase}}
+                {{^class}}
                 <div class="alert alert-danger mt-4 p-5 text-center" style="border-radius: 15px;">
                     <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
                     <h3>¡Ups! Clase no encontrada</h3>
                     <p>Parece que la clase que buscas no existe o ha sido cancelada.</p>
                     <a href="/classes" class="btn btn-outline-light mt-3">Volver a la lista de clases</a>
                 </div>
-                {{/clase}}
+                {{/class}}
 
             </main>
         </div>
