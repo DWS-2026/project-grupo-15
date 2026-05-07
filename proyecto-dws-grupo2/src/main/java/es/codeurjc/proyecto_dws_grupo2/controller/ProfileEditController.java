@@ -54,79 +54,77 @@ public class ProfileEditController {
         return "profile-edit";
     }
 
-@PostMapping("/profile/edit")
+    @PostMapping("/profile/edit")
     public String saveProfile(
             @Valid @ModelAttribute("user") User updatedUser,
-            BindingResult bindingResult, // ⚠️
+            BindingResult bindingResult,
             @RequestParam(value = "profilePicture", required = false) MultipartFile imageFile,
             @RequestParam(value = "personalDocument", required = false) MultipartFile personalDocument,
             Principal principal, Model model) throws IOException {
 
         String email = principal.getName();
-        // Lo llamamos dbUser (Database User)
         User dbUser = userRepository.findByEmail(email).orElseThrow();
 
         // --- 1. VALIDACIÓN ---
         boolean hasRealErrors = false;
         for (FieldError error : bindingResult.getFieldErrors()) {
-            // Ignoramos el error de la contraseña si el usuario la ha dejado en blanco intencionadamente
             if (error.getField().equals("password") && (updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty())) {
-                continue; 
+                continue;
             }
             model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
             hasRealErrors = true;
         }
 
         if (hasRealErrors) {
-            // Restauramos las imágenes/documentos antiguos para que la vista Mustache no se rompa al recargar
             updatedUser.setProfileImage(dbUser.getProfileImage());
             updatedUser.setDocument(dbUser.getDocument());
             model.addAttribute("user", updatedUser);
-            return "profile-edit"; 
+            return "profile-edit";
         }
 
-        // --- 2. ACTUALIZAMOS DATOS (Usando dbUser) ---
+        // --- 2. ACTUALIZAMOS DATOS ---
         dbUser.setFirstName(updatedUser.getFirstName());
         dbUser.setLastName(updatedUser.getLastName());
         dbUser.setEmail(updatedUser.getEmail());
 
-        // Actualizamos contraseña si se ha rellenado
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             dbUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
 
         // --- 3. LÓGICA DE IMAGEN Y DOCUMENTO ---
         if (imageFile != null && !imageFile.isEmpty()) {
-            // Si ya tenía imagen, borramos la antigua de la BBDD para no dejar huérfanos
             if (dbUser.getProfileImage() != null) {
                 Long oldImageId = dbUser.getProfileImage().getId();
                 dbUser.setProfileImage(null);
-                userRepository.save(dbUser); // Desvinculamos antes de borrar
+                userRepository.save(dbUser);
                 imageService.deleteImage(oldImageId);
             }
-
-            // Creamos la nueva imagen en BBDD
             Image savedImage = imageService.createImage(imageFile.getInputStream());
             dbUser.setProfileImage(savedImage);
         }
-        
+
         if (personalDocument != null && !personalDocument.isEmpty()) {
+            // Si ya tenía documento, borramos el antiguo para no dejar huérfanos
+            if (dbUser.getDocument() != null) {
+                Long oldDocId = dbUser.getDocument().getId();
+                dbUser.setDocument(null);
+                userRepository.save(dbUser); // Desvinculamos antes de borrar
+                documentService.deleteDocument(oldDocId);
+            }
             Document doc = documentService.saveDocument(personalDocument);
             dbUser.setDocument(doc);
         }
 
-        // Guardamos los cambios finales en la base de datos
+        // --- 4. GUARDAR ---
         userRepository.save(dbUser);
 
-        // --- 4. ACTUALIZAR SESIÓN DE SPRING SECURITY ---
+        // --- 5. ACTUALIZAR SESIÓN DE SPRING SECURITY ---
         if (!email.equals(updatedUser.getEmail())) {
             Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-
             Authentication newAuth = new UsernamePasswordAuthenticationToken(
                     updatedUser.getEmail(),
                     currentAuth.getCredentials(),
                     currentAuth.getAuthorities());
-
             SecurityContextHolder.getContext().setAuthentication(newAuth);
         }
 
