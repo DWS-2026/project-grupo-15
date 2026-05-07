@@ -4,6 +4,7 @@ package es.codeurjc.proyecto_dws_grupo2.jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,7 +71,7 @@ public class UserLoginService {
 			log.error("Error while processing refresh token", e);
 			AuthResponse loginResponse = new AuthResponse(AuthResponse.Status.FAILURE,
 					"Failure while processing refresh token");
-			return ResponseEntity.ok().body(loginResponse);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
 		}
 	}
 
@@ -95,6 +96,7 @@ public class UserLoginService {
 		cookie.setMaxAge(0);
 		cookie.setHttpOnly(true);
 		cookie.setPath("/");
+		cookie.setSecure(true);
 		return cookie;
 	}
 }
