@@ -44,7 +44,7 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Obtener todos los usuarios", description = "Devuelve una página con la lista de todos los miembros registrados. Requiere permisos de administrador.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista de usuarios recuperada con éxito")
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios recuperada con éxito")
     })
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
@@ -57,8 +57,8 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Obtener mi perfil", description = "Devuelve los datos del usuario que ha iniciado sesión actualmente.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Perfil recuperado con éxito"),
-        @ApiResponse(responseCode = "401", description = "No autorizado / No hay sesión activa", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Perfil recuperado con éxito"),
+            @ApiResponse(responseCode = "401", description = "No autorizado / No hay sesión activa", content = @Content)
     })
     @GetMapping("/me")
     public ResponseEntity<UserResponseDTO> getMe(@RequestAttribute("user") User user) {
@@ -70,8 +70,8 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Obtener usuario por ID", description = "Busca la información de un miembro específico mediante su identificador.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
-        @ApiResponse(responseCode = "404", description = "No existe ningún usuario con ese ID", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+            @ApiResponse(responseCode = "404", description = "No existe ningún usuario con ese ID", content = @Content)
     })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
@@ -85,8 +85,8 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Registrar un nuevo usuario", description = "Crea una nueva cuenta de usuario en el sistema.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Usuario creado con éxito"),
-        @ApiResponse(responseCode = "400", description = "Datos de registro inválidos", content = @Content)
+            @ApiResponse(responseCode = "201", description = "Usuario creado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Datos de registro inválidos", content = @Content)
     })
     @PostMapping("/")
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
@@ -103,19 +103,27 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Actualizar un usuario", description = "Modifica los datos de un miembro existente. Si se envía una contraseña, será encriptada.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content),
-        @ApiResponse(responseCode = "400", description = "Datos de actualización inválidos", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Datos de actualización inválidos", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserRequestDTO userDTO,
+            @RequestAttribute("user") User currentUser) {
+
+        boolean isAdmin = currentUser.getRoles().contains("ADMIN");
+        if (!currentUser.getId().equals(id) && !isAdmin)
+            return ResponseEntity.status(403).build();
+        
         Optional<User> existing = userRepository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         User user = existing.get();
-        
+
         String encodedPassword = null;
         if (userDTO.password() != null && !userDTO.password().isBlank()) {
             encodedPassword = passwordEncoder.encode(userDTO.password());
@@ -132,8 +140,8 @@ public class UserRestController {
     // ==========================================
     @Operation(summary = "Eliminar un usuario", description = "Borra permanentemente la cuenta de un miembro.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Usuario eliminado con éxito"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Usuario eliminado con éxito"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
@@ -141,7 +149,7 @@ public class UserRestController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
+
         userRepository.deleteById(id);
         return ResponseEntity.ok(new UserResponseDTO(user.get()));
     }

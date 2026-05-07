@@ -57,7 +57,13 @@ public class ImageRestController {
     @PostMapping(value = "/users/{userId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadProfileImage(
             @PathVariable Long userId, 
-            @RequestParam("imageFile") MultipartFile file) throws IOException {
+            @RequestParam("imageFile") MultipartFile file,
+            @RequestAttribute("user") User currentUser) throws IOException { // <-- INYECCIÓN
+        
+        boolean isAdmin = currentUser.getRoles().contains("ADMIN");
+        if (!currentUser.getId().equals(userId) && !isAdmin) {
+            return ResponseEntity.status(403).build(); // 403 Forbidden
+        }
         
         Optional<User> userOpt = userService.getUserById(userId); 
         if (userOpt.isEmpty()) return ResponseEntity.notFound().build();

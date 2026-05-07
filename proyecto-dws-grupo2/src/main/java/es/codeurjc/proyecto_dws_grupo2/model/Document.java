@@ -16,20 +16,38 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String originalFileName;  // "contrato_juan.pdf"
-    private String contentType;       // "application/pdf"
+    private String originalFileName; // "contrato_juan.pdf"
+    private String contentType; // "application/pdf"
 
-    public Document() {}
+    public Document() {
+    }
 
     public Document(String originalFileName, String contentType) {
         this.originalFileName = originalFileName;
         this.contentType = contentType;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getOriginalFileName() { return originalFileName; }
-    public void setOriginalFileName(String n) { this.originalFileName = n; }
-    public String getContentType() { return contentType; }
-    public void setContentType(String ct) { this.contentType = ct; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String n) {
+        this.originalFileName = n;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String ct) {
+        this.contentType = ct;
+    }
 }

@@ -88,7 +88,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         // REVIEWS
                         .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
 
                         // CLASSES
                         .requestMatchers(HttpMethod.POST, "/api/v1/classes/**").hasRole("ADMIN")
@@ -106,6 +106,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                                                                                                                // foto
                                                                                                                // perfil
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN")
 
