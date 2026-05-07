@@ -1,6 +1,7 @@
 package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.proyecto_dws_grupo2.dto.ServiceRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.ServiceResponseDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 
@@ -127,5 +129,27 @@ public class ServiceRestController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // ==========================================
+    // 6. GET: OBTENER USUARIOS APUNTADOS A UN SERVICIO
+    // ==========================================
+    @Operation(summary = "Obtener usuarios apuntados a un servicio", description = "Recupera la lista de todos los usuarios inscritos en un servicio específico.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de usuarios recuperada con éxito"),
+        @ApiResponse(responseCode = "404", description = "Servicio no encontrado", content = @Content)
+    })
+    @GetMapping("/{id}/users")
+    public ResponseEntity<?> getServiceUsers(@PathVariable Long id) {
+        if (!serviceService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<UserResponseDTO> users = serviceService.getEnrolledUsers(id)
+            .stream()
+            .map(UserResponseDTO::new)
+            .toList();
+
+        return ResponseEntity.ok(users);
     }
 }

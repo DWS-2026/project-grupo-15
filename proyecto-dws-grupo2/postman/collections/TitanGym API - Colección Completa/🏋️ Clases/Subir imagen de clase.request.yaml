@@ -1,0 +1,13 @@
+$kind: http-request
+url: '{{base_url}}/api/{{api_version}}/classes/1/image
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imageFile
+      src:
+        - ""
+order: 8000

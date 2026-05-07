@@ -1,0 +1,16 @@
+$kind: http-request
+url: '{{base_url}}/api/{{api_version}}/users/1'
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "firstName": "Carlos",
+      "lastName": "López",
+      "email": "carlos.updated@example.com",
+      "password": "newpass123456"
+    }
+order: 5000

@@ -1,3 +1,0 @@
-$kind: collection
-description: Catálogo de servicios (Fisioterapia, Nutrición, Bebidas Extra, etc.). GETs son públicos. POST/PUT/DELETE requieren rol ADMIN.
-order: 4000

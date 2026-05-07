@@ -1,4 +1,0 @@
-$kind: collection
-description: "Colección completa de la REST API de la aplicación de gestión de gimnasio. Base URL: https://localhost:8443. Autenticación por cookie JWT (AuthToken). Ejecuta primero 'Login' para obtener la cookie automáticamente."
-variables:
-  baseUrl: https://localhost:8443

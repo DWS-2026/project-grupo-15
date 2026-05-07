@@ -1,6 +1,7 @@
 package es.codeurjc.proyecto_dws_grupo2.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet; 
 import java.util.Set;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class ClassEntity {
     @ManyToMany(mappedBy = "enrolledClasses")
     private Set<User> attendees = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 

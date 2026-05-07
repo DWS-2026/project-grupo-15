@@ -5,8 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
+import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +44,18 @@ public class ServiceService {
     // 5. Web method to delete a service by its ID
     public void deleteById(Long id) {
         serviceRepository.deleteById(id);
+    }
+
+    // 6. Web method to check if a service exists
+    public boolean existsById(Long id) {
+        return serviceRepository.existsById(id);
+    }
+
+    // 7. Web method to get all users enrolled in a service
+    public List<User> getEnrolledUsers(Long serviceId) {
+        return serviceRepository.findById(serviceId)
+                .map(ServiceEntity::getEnrolledUsers)
+                .map(users -> new ArrayList<>(users))
+                .orElse(new ArrayList<>());
     }
 }

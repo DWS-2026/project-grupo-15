@@ -1,6 +1,7 @@
 package es.codeurjc.proyecto_dws_grupo2.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Review {
@@ -16,6 +17,7 @@ public class Review {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     private ClassEntity classEntity;
 

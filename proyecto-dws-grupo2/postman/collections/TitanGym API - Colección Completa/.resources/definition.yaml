@@ -1,0 +1,4 @@
+$kind: collection
+description: Colección completa de endpoints para la API REST de TitanGym
+variables:
+  token: ""

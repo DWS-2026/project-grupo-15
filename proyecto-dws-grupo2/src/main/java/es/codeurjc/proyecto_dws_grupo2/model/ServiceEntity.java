@@ -1,6 +1,8 @@
 package es.codeurjc.proyecto_dws_grupo2.model;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.HashSet;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -8,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -29,6 +32,9 @@ public class ServiceEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image image;
+
+    @ManyToMany(mappedBy = "enrolledServices")
+    private Set<User> enrolledUsers = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -90,5 +96,13 @@ public class ServiceEntity {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Set<User> getEnrolledUsers() {
+        return enrolledUsers;
+    }
+
+    public void setEnrolledUsers(Set<User> enrolledUsers) {
+        this.enrolledUsers = enrolledUsers;
     }
 }

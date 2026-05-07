@@ -1,6 +1,0 @@
-$kind: http-request
-name: Eliminar reseña (Autor / ADMIN)
-description: Borra una reseña. Solo el autor o ADMIN. Devuelve 403 si no tienes permisos.
-url: "{{baseUrl}}/api/v1/reviews/1"
-method: DELETE
-order: 5000

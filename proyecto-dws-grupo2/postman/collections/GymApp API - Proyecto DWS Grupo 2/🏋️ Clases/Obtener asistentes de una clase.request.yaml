@@ -1,5 +1,0 @@
-$kind: http-request
-description: Lista todos los usuarios inscritos en una clase.
-url: "{{baseUrl}}/api/v1/classes/1/attendees"
-method: GET
-order: 3000

@@ -1,0 +1,15 @@
+$kind: http-request
+url: '{{base_url}}/api/{{api_version}}/classes'
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "name": "Yoga Avanzado",
+      "description": "Clase de yoga orientada a usuarios avanzados",
+      "schedule": "Lunes, Miércoles y Viernes de 18:00 a 19:00"
+    }
+order: 2000

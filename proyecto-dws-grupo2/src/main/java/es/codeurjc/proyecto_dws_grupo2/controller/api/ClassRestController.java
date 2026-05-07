@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import es.codeurjc.proyecto_dws_grupo2.dto.ClassResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.ClassRequestDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
+import es.codeurjc.proyecto_dws_grupo2.dto.ReviewResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 
@@ -150,7 +152,12 @@ public class ClassRestController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(classService.getAttendees(id));
+        List<UserResponseDTO> attendees = classService.getAttendees(id)
+            .stream()
+            .map(UserResponseDTO::new)
+            .toList();
+
+        return ResponseEntity.ok(attendees);
     }
 
     // ==========================================
@@ -167,7 +174,12 @@ public class ClassRestController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(classService.getReviews(id));
+        List<ReviewResponseDTO> reviews = classService.getReviews(id)
+            .stream()
+            .map(ReviewResponseDTO::new)
+            .toList();
+
+        return ResponseEntity.ok(reviews);
     }
 }
 

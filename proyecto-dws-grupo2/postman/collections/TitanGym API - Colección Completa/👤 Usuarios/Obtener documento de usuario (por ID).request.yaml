@@ -1,0 +1,6 @@
+$kind: http-request
+url: '{{base_url}}/api/{{api_version}}/users/1/document
+method: GET
+headers:
+  Authorization: Bearer {{token}}
+order: 8000

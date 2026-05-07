@@ -1,3 +1,0 @@
-$kind: collection
-description: Subida y descarga de imágenes para usuarios, clases y servicios. Usa form-data con la clave 'imageFile'.
-order: 6000

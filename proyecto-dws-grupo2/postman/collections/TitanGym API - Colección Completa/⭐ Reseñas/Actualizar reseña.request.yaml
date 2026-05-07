@@ -1,0 +1,17 @@
+$kind: http-request
+url: '{{base_url}}/api/{{api_version}}/reviews/1'
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: json
+  content: |-
+    {
+      "about": "Clase de yoga",
+      "rating": 4,
+      "comment": "Buena clase, instructora muy atenta",
+      "userId": 1,
+      "classEntityId": 1
+    }
+order: 4000

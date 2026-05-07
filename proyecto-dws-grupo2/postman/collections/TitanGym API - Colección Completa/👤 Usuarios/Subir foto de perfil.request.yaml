@@ -1,0 +1,15 @@
+$kind: http-request
+name: Subir foto de perfil
+url: '{{base_url}}/api/{{api_version}}/users/1/image
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: file
+      key: imageFile
+      src:
+        - /C:/Users/danie/PRACTICA DWS/project-grupo-15/proyecto-dws-grupo2/src/main/resources/static/img/avatar.jpg
+      disabled: false
+order: 7000

@@ -1,3 +1,0 @@
-$kind: collection
-description: CRUD completo de usuarios/miembros. GET (lista e individual) requiere rol ADMIN. POST es público. PUT requiere ser el propio usuario o ADMIN.
-order: 2000

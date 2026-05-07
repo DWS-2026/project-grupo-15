@@ -1,0 +1,13 @@
+$kind: http-request
+url: https://localhost:8443/api/v1/users/me/document
+method: POST
+headers:
+  Authorization: Bearer {{token}}
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - ""
+order: 2000

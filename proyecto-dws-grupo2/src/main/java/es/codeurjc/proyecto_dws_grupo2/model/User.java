@@ -3,6 +3,7 @@ package es.codeurjc.proyecto_dws_grupo2.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,17 +53,20 @@ public class User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> roles = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_classes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ClassEntity> enrolledClasses = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_services", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "service_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
             "user_id", "service_id" }))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ServiceEntity> enrolledServices = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
