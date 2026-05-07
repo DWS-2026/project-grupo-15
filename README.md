@@ -388,17 +388,17 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Genshen Lin]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[Elaborar APIs (Users,Clases,Imagenes,Servicios), arreglar sistema de imagenes, auditar seguridad de la web y ayudar en el arreglo de errores]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Imagenes en Bases de Datos y API Imagenes](https://github.com/DWS-2026/project-grupo-15/commit/de6a3a59dd8b5b7f70f8087859488fa11e094e06)  | [ImageRestController.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/api/ImageRestController.java)   |
+|2| [API Clases](https://github.com/DWS-2026/project-grupo-15/commit/70e0969dcae56cbaa8ab8286561b6ac68a695b58)  | [ClassRestController.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/api/ClassRestController.java)   |
+|3| [Seguridad ante Vuln](https://github.com/DWS-2026/project-grupo-15/commit/942af41ba9ef2765fd41b2ac6338f1361349b6cf)  | [GlobalLoginAttemptService.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/service/GlobalLoginAttemptService.java)   |
+|4| [Seguridad ante Vuln 2](https://github.com/DWS-2026/project-grupo-15/commit/7131a729fc207eeb832eb773e8426337e6e98c2e)  | [Varios Archivos]  |
+|5| [API Servicios](https://github.com/DWS-2026/project-grupo-15/commit/19b7b717e5922395677150c1ed85be9df3c29ae1)  | [ServiceRestController.java](proyecto-dws-grupo2/src/main/java/es/codeurjc/proyecto_dws_grupo2/controller/api/SecurityConfiguration.java)   |
 
 ---
 
