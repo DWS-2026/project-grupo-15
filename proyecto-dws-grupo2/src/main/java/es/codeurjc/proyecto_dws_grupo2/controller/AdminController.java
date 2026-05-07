@@ -26,6 +26,7 @@ import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
 import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import jakarta.validation.Valid;
@@ -39,12 +40,13 @@ public class AdminController {
     private final ServiceRepository serviceRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ImageService imageService; // Nuestro superhéroe de las imágenes
+    private final ImageService imageService; 
+    private final ClassService classService;
 
     public AdminController(UserRepository userRepository, ClassRepository classRepository,
             ServiceRepository serviceRepository, UserService userService,
             ReviewRepository reviewRepository, PasswordEncoder passwordEncoder,
-            ImageService imageService) { 
+            ImageService imageService, ClassService classService) { 
         this.userRepository = userRepository;
         this.classRepository = classRepository;
         this.serviceRepository = serviceRepository;
@@ -52,6 +54,7 @@ public class AdminController {
         this.reviewRepository = reviewRepository;
         this.passwordEncoder = passwordEncoder;
         this.imageService = imageService;
+        this.classService = classService;
     }
 
     // --- PANEL DASHBOARD ---
@@ -242,7 +245,7 @@ public class AdminController {
             newClass.setImage(savedImage);
         }
 
-        classRepository.save(newClass);
+        classService.save(newClass);
         return "redirect:/admin/classes";
     }
 
@@ -277,7 +280,7 @@ public class AdminController {
             clase.setImage(savedImage);
         }
 
-        classRepository.save(clase);
+        classService.save(clase);
         return "redirect:/admin/classes";
     }
 
