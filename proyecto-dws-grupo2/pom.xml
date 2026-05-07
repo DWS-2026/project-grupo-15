@@ -131,11 +131,9 @@
 							<artifactId>mapstruct-processor</artifactId>
 							<version>1.6.3</version>
 						</path>
-						<!-- other annotation processors -->
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-		<!-- Plugin to export REST API doc to files -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -176,7 +174,6 @@
 					<outputDir>${project.basedir}/api-docs</outputDir>
 				</configuration>
 			</plugin>
-			<!-- DESHABILITADO TEMPORALMENTE: El archivo api-docs.yaml no se genera correctamente
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
@@ -196,8 +193,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
-			<!-- DESHABILITADO TEMPORALMENTE: Depende del archivo generado por openapi-generator-maven-plugin
+			
+			
 			<plugin>
 				<groupId>com.coderplus.maven.plugins</groupId>
 				<artifactId>copy-rename-maven-plugin</artifactId>
@@ -216,7 +213,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+			
 		</plugins>
 	</build>
 

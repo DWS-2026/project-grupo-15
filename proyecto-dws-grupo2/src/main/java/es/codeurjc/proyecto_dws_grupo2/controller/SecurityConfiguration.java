@@ -151,7 +151,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/", "/login", "/loginerror", "/register", "/error",
                                 "/classes/info", "/classes", "/about", "/contact", "/feature",
-                                "/payment_success")
+                                "/payment_success", "/v3/api-docs.yaml")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
