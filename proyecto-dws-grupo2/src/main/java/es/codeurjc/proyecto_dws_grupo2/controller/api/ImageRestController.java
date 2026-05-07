@@ -2,9 +2,11 @@ package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.io.IOException;
 import java.net.URI;
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +22,17 @@ import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
 import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
-// --- Imports de Swagger / OpenAPI ---
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/api/v1")
-@Tag(name = "Imágenes", description = "Gestión de subida y descarga de imágenes del sistema (Usuarios, Clases y Servicios)")
+@Tag(name = "Imágenes", description = "Gestión de subida y descarga de imágenes")
 public class ImageRestController {
 
     private final ImageService imageService;
@@ -46,62 +49,64 @@ public class ImageRestController {
     }
 
     // ==========================================
-    // 1. SUBIR IMAGEN DE USUARIO
+    // 1. SUBIR IMAGEN DE USUARIO (CON PROTECCIÓN IDOR)
     // ==========================================
-    @Operation(summary = "Subir foto de perfil de usuario", description = "Sube una imagen y la asocia como foto de perfil de un usuario existente.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
-        @ApiResponse(responseCode = "400", description = "El archivo enviado está vacío o es inválido", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
-    })
+    @Operation(summary = "Subir foto de perfil de usuario")
     @PostMapping(value = "/users/{userId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadProfileImage(
             @PathVariable Long userId, 
             @RequestParam("imageFile") MultipartFile file,
-            @RequestAttribute("user") User currentUser) throws IOException { // <-- INYECCIÓN
+            Principal principal) throws IOException {
         
+        if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        // Obtener usuario autenticado desde el token
+        Optional<User> currentUserOpt = userService.getUserByEmail(principal.getName());
+        if (currentUserOpt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        User currentUser = currentUserOpt.get();
+
+        // Verificación de seguridad: Solo el dueño o el ADMIN
         boolean isAdmin = currentUser.getRoles().contains("ADMIN");
         if (!currentUser.getId().equals(userId) && !isAdmin) {
-            return ResponseEntity.status(403).build(); // 403 Forbidden
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         
-        Optional<User> userOpt = userService.getUserById(userId); 
-        if (userOpt.isEmpty()) return ResponseEntity.notFound().build();
-        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo no puede estar vacío");
+        Optional<User> targetUserOpt = userService.getUserById(userId); 
+        if (targetUserOpt.isEmpty()) return ResponseEntity.notFound().build();
+        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
-        User user = userOpt.get();
+        User targetUser = targetUserOpt.get();
 
-        if (user.getProfileImage() != null) {
-            Long oldImageId = user.getProfileImage().getId();
-            user.setProfileImage(null);
-            userService.saveUser(user); 
+        // Lógica de reemplazo de imagen
+        if (targetUser.getProfileImage() != null) {
+            Long oldImageId = targetUser.getProfileImage().getId();
+            targetUser.setProfileImage(null);
+            userService.saveUser(targetUser); 
             imageService.deleteImage(oldImageId);
         }
 
         Image savedImage = imageService.createImage(file.getInputStream());
-        user.setProfileImage(savedImage);
-        userService.saveUser(user);
+        targetUser.setProfileImage(savedImage);
+        userService.saveUser(targetUser);
 
-        URI location = buildImageUri(savedImage.getId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(buildImageUri(savedImage.getId())).build();
     }
 
     // ==========================================
-    // 2. SUBIR IMAGEN DE CLASE
+    // 2. SUBIR IMAGEN DE CLASE (SOLO ADMIN)
     // ==========================================
-    @Operation(summary = "Subir imagen de una clase", description = "Sube una imagen representativa para una clase o actividad del gimnasio.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
-        @ApiResponse(responseCode = "404", description = "Clase no encontrada", content = @Content)
-    })
+    @Operation(summary = "Subir imagen de una clase")
     @PostMapping(value = "/classes/{classId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadClassImage(
             @PathVariable Long classId, 
-            @RequestParam("imageFile") MultipartFile file) throws IOException {
+            @RequestParam("imageFile") MultipartFile file,
+            Principal principal) throws IOException {
         
+        if (!checkIsAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
         Optional<ClassEntity> classOpt = classService.findById(classId); 
         if (classOpt.isEmpty()) return ResponseEntity.notFound().build();
-        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo no puede estar vacío");
+        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
         ClassEntity classEntity = classOpt.get();
 
@@ -116,26 +121,24 @@ public class ImageRestController {
         classEntity.setImage(savedImage);
         classService.save(classEntity);
 
-        URI location = buildImageUri(savedImage.getId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(buildImageUri(savedImage.getId())).build();
     }
 
     // ==========================================
-    // 3. SUBIR IMAGEN DE SERVICIO
+    // 3. SUBIR IMAGEN DE SERVICIO (SOLO ADMIN)
     // ==========================================
-    @Operation(summary = "Subir imagen de un servicio", description = "Sube una imagen representativa para un servicio o suplemento.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Imagen subida y asociada con éxito"),
-        @ApiResponse(responseCode = "404", description = "Servicio no encontrado", content = @Content)
-    })
+    @Operation(summary = "Subir imagen de un servicio")
     @PostMapping(value = "/services/{serviceId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadServiceImage(
             @PathVariable Long serviceId, 
-            @RequestParam("imageFile") MultipartFile file) throws IOException {
+            @RequestParam("imageFile") MultipartFile file,
+            Principal principal) throws IOException {
         
+        if (!checkIsAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
         Optional<ServiceEntity> serviceOpt = serviceEntityService.findById(serviceId); 
         if (serviceOpt.isEmpty()) return ResponseEntity.notFound().build();
-        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo no puede estar vacío");
+        if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
         ServiceEntity service = serviceOpt.get();
 
@@ -150,22 +153,15 @@ public class ImageRestController {
         service.setImage(savedImage);
         serviceEntityService.save(service);
 
-        URI location = buildImageUri(savedImage.getId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(buildImageUri(savedImage.getId())).build();
     }
 
     // ==========================================
-    // 4. DESCARGAR IMAGEN (Universal)
+    // 4. DESCARGAR IMAGEN
     // ==========================================
-    @Operation(summary = "Descargar una imagen", description = "Descarga los datos binarios de una imagen a partir de su ID.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Imagen descargada con éxito"),
-        @ApiResponse(responseCode = "404", description = "Imagen no encontrada", content = @Content)
-    })
     @GetMapping("/images/{id}/media")
     public ResponseEntity<byte[]> downloadImage(@PathVariable Long id) {
         byte[] imageBytes = imageService.getImageFile(id);
-        
         if (imageBytes == null) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok()
@@ -173,11 +169,18 @@ public class ImageRestController {
                 .body(imageBytes);
     }
 
-    // Método auxiliar (No se documenta porque no tiene mapeo HTTP)
+    // --- MÉTODOS AUXILIARES ---
+
     private URI buildImageUri(Long imageId) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/v1/images/{id}/media")
                 .buildAndExpand(imageId)
                 .toUri();
+    }
+
+    private boolean checkIsAdmin(Principal principal) {
+        if (principal == null) return false;
+        Optional<User> user = userService.getUserByEmail(principal.getName());
+        return user.isPresent() && user.get().getRoles().contains("ADMIN");
     }
 }
