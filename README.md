@@ -354,7 +354,7 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 📄 **[Especificación OpenAPI (YAML)](/api-docs/api-docs.yaml)**
 
 #### **Documentación HTML**
-📖 **[Documentación API REST (HTML)](https://raw.githack.com/[D-Puga]/[project-grupo-15]/main/api-docs/api-docs.html)**
+📖 **[Documentación API REST (HTML)](https://raw.githack.com/D-Puga/project-grupo-15/main/api-docs/api-docs.html)**
 
 > La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
@@ -394,11 +394,11 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Documentacion api](https://github.com/DWS-2026/project-grupo-15/blob/c05f4f89941152201576e0c967e5755905678f21/proyecto-dws-grupo2/api-docs/api-docs.html)  | [api-docs](URL_archivo_1https://github.com/DWS-2026/project-grupo-15/tree/c05f4f89941152201576e0c967e5755905678f21/proyecto-dws-grupo2/api-docs)   |
+|2| [Video](https://github.com/DWS-2026/project-grupo-15/commit/e4f98a56021878a9a8a66f60fefbba6bfb94ff63)  | [Archivo2](URL_archivo_2)   |
+|3| [Texto enriquecido](https://github.com/DWS-2026/project-grupo-15/commit/9a68c2bc6250a9761c3a96aebfd19119a6a5ae83)  | [Archvios class_edit y class_new](https://github.com/DWS-2026/project-grupo-15/blob/9a68c2bc6250a9761c3a96aebfd19119a6a5ae83/proyecto-dws-grupo2/src/main/resources/templates/admin-class-create.html)   |
+|4| [Postman](https://github.com/DWS-2026/project-grupo-15/commit/8876b2aa5665562a4ef6efa60b88857c3d89dd18)  | [todos los archivos en la carpeta postman](URL_archivo_4)   |
+|5| [Validacion de campos](https://github.com/DWS-2026/project-grupo-15/commit/3e6467a52f5fa0f4ed73c6c0d48896e1741eaa9a)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
