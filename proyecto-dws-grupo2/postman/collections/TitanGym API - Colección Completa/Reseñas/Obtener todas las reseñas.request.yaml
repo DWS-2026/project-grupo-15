@@ -1,5 +1,5 @@
 $kind: http-request
-url: '{{base_url}}/api/{{api_version}}/reviews/?page=0&size=20'
+url: https://localhost:8443/api/v1/reviews/?page=0&size=20
 method: GET
 headers:
   Authorization: Bearer {{token}}

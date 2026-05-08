@@ -1,5 +1,0 @@
-$kind: http-request
-description: Elimina permanentemente una clase. Solo ADMIN.
-url: "{{baseUrl}}/api/v1/classes/1"
-method: DELETE
-order: 7000

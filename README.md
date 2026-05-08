@@ -345,7 +345,7 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 ## 🛠 **Práctica 3: Incorporación de una API REST a la aplicación web, análisis de vulnerabilidades y contramedidas**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/cmyqhVc9zqs)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Documentación de la API REST**
@@ -354,7 +354,7 @@ Encargado de todo lo relacionado con la entidad clases y algunas cosas de seguri
 📄 **[Especificación OpenAPI (YAML)](/api-docs/api-docs.yaml)**
 
 #### **Documentación HTML**
-📖 **[Documentación API REST (HTML)](https://raw.githack.com/[usuario]/[repositorio]/main/api-docs/api-docs.html)**
+📖 **[Documentación API REST (HTML)](https://raw.githack.com/[D-Puga]/[project-grupo-15]/main/api-docs/api-docs.html)**
 
 > La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
@@ -388,9 +388,9 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Daniel Puga Blanco]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[Creacion del postman.json, el video, correcion de errores en apis y dtos, documentacion api.]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|

@@ -1,5 +1,0 @@
-$kind: http-request
-description: Cierra sesión. Borra las cookies AuthToken y RefreshToken del servidor.
-url: "{{baseUrl}}/api/auth/logout"
-method: POST
-order: 3000

@@ -1,5 +1,0 @@
-$kind: http-request
-description: Devuelve los detalles de un servicio específico. Público.
-url: "{{baseUrl}}/api/v1/services/1"
-method: GET
-order: 2000
