@@ -1,5 +1,0 @@
-$kind: http-request
-description: Devuelve los datos del usuario que tiene la sesión activa (cookie AuthToken).
-url: "{{baseUrl}}/api/v1/users/me"
-method: GET
-order: 2000

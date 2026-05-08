@@ -1,5 +1,0 @@
-$kind: http-request
-description: Descarga el documento personal del usuario autenticado. Requiere login.
-url: "{{baseUrl}}/api/v1/users/me/document"
-method: GET
-order: 2000

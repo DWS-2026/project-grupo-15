@@ -1,5 +1,5 @@
 $kind: http-request
-url: '{{base_url}}/api/{{api_version}}/classes/1/attendees'
+url: https://localhost:8443/api/v1/classes/1/attendees
 method: GET
 headers:
   Authorization: Bearer {{token}}

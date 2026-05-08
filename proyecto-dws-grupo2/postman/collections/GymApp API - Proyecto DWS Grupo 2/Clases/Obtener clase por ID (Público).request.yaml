@@ -1,5 +1,0 @@
-$kind: http-request
-description: Devuelve los datos de una clase específica. Público.
-url: "{{baseUrl}}/api/v1/classes/1"
-method: GET
-order: 2000

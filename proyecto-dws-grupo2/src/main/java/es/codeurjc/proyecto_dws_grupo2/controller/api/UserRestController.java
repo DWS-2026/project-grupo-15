@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,18 +110,29 @@ public class UserRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Datos de actualización inválidos", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Datos de actualización inválidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "No tienes permisos para editar este usuario", content = @Content)
     })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Long id,
             @RequestBody UserRequestDTO userDTO,
-            @RequestAttribute("user") User currentUser) {
+            @AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
 
+        // 1. Sacamos el usuario actual de la BD usando el email que viene en el token (userDetails)
+        Optional<User> currentUserOpt = userRepository.findByEmail(userDetails.getUsername());
+        if (currentUserOpt.isEmpty()) {
+            return ResponseEntity.status(401).build(); // Por si acaso el usuario fue borrado
+        }
+        User currentUser = currentUserOpt.get();
+
+        // 2. Tu lógica de permisos intacta: ¿Es admin o es su propio perfil?
         boolean isAdmin = currentUser.getRoles().contains("ADMIN");
-        if (!currentUser.getId().equals(id) && !isAdmin)
+        if (!currentUser.getId().equals(id) && !isAdmin) {
             return ResponseEntity.status(403).build();
+        }
 
+        // 3. Buscar el usuario a modificar
         Optional<User> existing = userRepository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -128,6 +140,7 @@ public class UserRestController {
 
         User user = existing.get();
 
+        // 4. Actualización de datos y contraseña
         String encodedPassword = null;
         if (userDTO.password() != null && !userDTO.password().isBlank()) {
             encodedPassword = passwordEncoder.encode(userDTO.password());

@@ -30,23 +30,33 @@ public class DocumentRestController {
     }
 
     // POST: Subir documento ligado al usuario autenticado
+    // POST: Subir documento ligado al usuario autenticado
     @PostMapping("/me/document")
     public ResponseEntity<?> uploadDocument(
             @RequestParam("file") MultipartFile file,
-            Principal principal) throws IOException {
+            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) throws IOException {
+
+        // 🛡️ ESCUDO: Si Spring Security lo deja pasar sin token (por culpa de la configuración), lo bloqueamos aquí.
+        if (userDetails == null) {
+            return ResponseEntity.status(401).body(java.util.Map.of(
+                "error", "No autenticado",
+                "message", "Falta el token de sesión o ha caducado. Vuelve a hacer Login."
+            ));
+        }
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("El fichero no puede estar vacío");
         }
 
-        String email = principal.getName();
+        // Ya es 100% seguro obtener el usuario
+        String email = userDetails.getUsername();
         User user = userRepository.findByEmail(email).orElseThrow();
 
         Document doc = documentService.saveDocument(file);
         user.setDocument(doc);
         userRepository.save(user);
 
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(doc.getId()).toUri();
+        URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(doc.getId()).toUri();
         return ResponseEntity.created(location).body(
             java.util.Map.of(
                 "id", doc.getId(),

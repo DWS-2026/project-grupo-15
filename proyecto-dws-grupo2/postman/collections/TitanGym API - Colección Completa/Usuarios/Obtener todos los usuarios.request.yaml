@@ -1,5 +1,5 @@
 $kind: http-request
-url: '{{base_url}}/api/{{api_version}}/users?page=0&size=20&sort=id,desc'
+url: https://localhost:8443/api/v1/users?page=0&size=20&sort=id,desc
 method: GET
 headers:
   Authorization: Bearer {{token}}

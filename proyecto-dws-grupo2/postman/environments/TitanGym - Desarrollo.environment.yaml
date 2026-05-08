@@ -16,3 +16,7 @@ values:
     value: '1'
   - key: image_id
     value: '1'
+  - key: token_admin
+    value: ''
+  - key: paco
+    value: ''

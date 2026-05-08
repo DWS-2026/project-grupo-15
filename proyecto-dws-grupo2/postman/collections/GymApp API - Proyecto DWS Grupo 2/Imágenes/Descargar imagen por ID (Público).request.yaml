@@ -1,5 +1,0 @@
-$kind: http-request
-description: Descarga los bytes de una imagen por su ID. Devuelve image/jpeg. Público.
-url: "{{baseUrl}}/api/v1/images/1/media"
-method: GET
-order: 4000

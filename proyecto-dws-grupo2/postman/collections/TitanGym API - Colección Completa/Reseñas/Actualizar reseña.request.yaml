@@ -1,11 +1,11 @@
 $kind: http-request
-url: '{{base_url}}/api/{{api_version}}/reviews/1'
+url: https://localhost:8443/api/v1/reviews/1
 method: PUT
 headers:
   Content-Type: application/json
   Authorization: Bearer {{token}}
 body:
-  type: json
+  type: text
   content: |-
     {
       "about": "Clase de yoga",
