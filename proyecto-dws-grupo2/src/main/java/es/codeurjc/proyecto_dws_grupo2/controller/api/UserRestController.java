@@ -1,6 +1,7 @@
 package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -61,8 +62,11 @@ public class UserRestController {
             @ApiResponse(responseCode = "401", description = "No autorizado / No hay sesión activa", content = @Content)
     })
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDTO> getMe(@RequestAttribute("user") User user) {
-        return ResponseEntity.ok(new UserResponseDTO(user));
+    public ResponseEntity<UserResponseDTO> getMe(Principal principal) {
+        String email = principal.getName();
+        return userRepository.findByEmail(email)
+                .map(user -> ResponseEntity.ok(new UserResponseDTO(user)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // ==========================================
@@ -116,7 +120,7 @@ public class UserRestController {
         boolean isAdmin = currentUser.getRoles().contains("ADMIN");
         if (!currentUser.getId().equals(id) && !isAdmin)
             return ResponseEntity.status(403).build();
-        
+
         Optional<User> existing = userRepository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
