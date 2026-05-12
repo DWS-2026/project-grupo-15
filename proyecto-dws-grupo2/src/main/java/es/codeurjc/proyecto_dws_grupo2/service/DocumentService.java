@@ -42,25 +42,27 @@ public class DocumentService {
     }
 
     public Document saveDocument(MultipartFile file) throws IOException {
-        // 1. Guardamos en BD para obtener el ID
         Document doc = new Document(
                 file.getOriginalFilename(),
                 file.getContentType());
         documentRepository.save(doc);
 
-        // 2. Guardamos en disco con el ID como nombre interno
-        Path filePath = uploadDir.resolve("doc_" + doc.getId());
+        // Save with the original name
+        Path filePath = uploadDir.resolve(file.getOriginalFilename());
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         return doc;
     }
 
     public Resource loadDocumentAsResource(Long docId) throws IOException {
-        Path filePath = uploadDir.resolve("doc_" + docId);
+        Document doc = documentRepository.findById(docId)
+                .orElseThrow(() -> new RuntimeException("Documento no encontrado: " + docId));
+
+        Path filePath = uploadDir.resolve(doc.getOriginalFileName());
         Resource resource = new UrlResource(filePath.toUri());
 
         if (!resource.exists()) {
-            throw new RuntimeException("Fichero no encontrado: " + docId);
+            throw new RuntimeException("Fichero no encontrado: " + doc.getOriginalFileName());
         }
         return resource;
     }
@@ -70,16 +72,15 @@ public class DocumentService {
     }
 
     public void deleteDocument(Long id) {
-        // 1. Borramos el fichero del disco
-        try {
-            Path filePath = uploadDir.resolve("doc_" + id);
-            Files.deleteIfExists(filePath);
-        } catch (IOException e) {
-            // Log del error pero no interrumpimos el flujo
-            System.err.println("No se pudo borrar el fichero del documento " + id + ": " + e.getMessage());
-        }
+        documentRepository.findById(id).ifPresent(doc -> {
+            try {
+                Path filePath = uploadDir.resolve(doc.getOriginalFileName());
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                System.err.println("No se pudo borrar el fichero del documento " + id + ": " + e.getMessage());
+            }
+        });
 
-        // 2. Borramos el registro de la BBDD
         documentRepository.deleteById(id);
     }
 }
