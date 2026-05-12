@@ -12,23 +12,23 @@ import java.security.Principal;
 import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.service.ClassService; 
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository; 
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 @Controller
 public class ClassController {
 
     private final ClassService classService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public ClassController(ClassService classService, UserRepository userRepository) {
+    public ClassController(ClassService classService, UserService userService) {
         this.classService = classService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
 
     private void loadUserIntoMenu(Model model, Principal principal) {
         if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
+            User user = userService.findByEmail(principal.getName());
             if (user != null) {
                 model.addAttribute("loggedUser", user); 
             }

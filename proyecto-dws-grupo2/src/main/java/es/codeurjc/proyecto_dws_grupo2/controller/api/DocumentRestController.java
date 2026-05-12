@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.proyecto_dws_grupo2.model.Document;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.DocumentService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -22,11 +22,11 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 public class DocumentRestController {
 
     private final DocumentService documentService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public DocumentRestController(DocumentService documentService, UserRepository userRepository) {
+    public DocumentRestController(DocumentService documentService, UserService userService) {
         this.documentService = documentService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     // POST: Upload document linked to the authenticated user
@@ -49,11 +49,11 @@ public class DocumentRestController {
 
         // Safe to retrieve the user at this point
         String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
 
         Document doc = documentService.saveDocument(file);
         user.setDocument(doc);
-        userRepository.save(user);
+        userService.saveUser(user);
 
         URI location = org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(doc.getId()).toUri();
         return ResponseEntity.created(location).body(
@@ -70,7 +70,7 @@ public class DocumentRestController {
     public ResponseEntity<Resource> getMyDocument(Principal principal) throws IOException {
 
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
 
         if (user.getDocument() == null) {
             return ResponseEntity.notFound().build();
@@ -91,7 +91,7 @@ public class DocumentRestController {
     public ResponseEntity<Resource> getDocumentByUserId(
             @PathVariable Long userId) throws IOException {
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userService.getUserById(userId).orElseThrow();
 
         if (user.getDocument() == null) {
             return ResponseEntity.notFound().build();
@@ -112,14 +112,14 @@ public class DocumentRestController {
     public ResponseEntity<?> deleteDocument(Principal principal) {
 
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
 
         if (user.getDocument() == null) {
             return ResponseEntity.notFound().build();
         }
 
         user.setDocument(null);
-        userRepository.save(user);
+        userService.saveUser(user);
 
         return ResponseEntity.ok().body(java.util.Map.of("message", "Document deleted successfully"));
     }

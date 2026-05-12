@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,10 @@ public class ReviewService {
 
     public Collection<Review> getReviews() {
         return reviewRepository.findAll();
+    }
+
+    public List<Review> getReviewsByUser(User user) {
+        return reviewRepository.findByUser(user);
     }
 
     public Page<Review> getReviews(Pageable pageable) {
@@ -52,6 +57,18 @@ public class ReviewService {
                     .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
             review.setClassEntity(classEntity);
         }
+
+        return reviewRepository.save(review);
+    }
+
+    public Review createReviewForUser(String about, int rating, String comment, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+
+        Review review = new Review();
+        review.setAbout(about);
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setUser(user);
 
         return reviewRepository.save(review);
     }
@@ -84,5 +101,19 @@ public class ReviewService {
         Optional<Review> review = reviewRepository.findById(id);
         review.ifPresent(r -> reviewRepository.deleteById(id));
         return review;
+    }
+
+    public boolean isOwnerOrAdmin(Review review, String email) {
+        User currentUser = userRepository.findByEmail(email).orElseThrow();
+        boolean isAdmin = currentUser.getRoles().contains("ADMIN");
+        boolean isOwner = review.getUser() != null && review.getUser().getId().equals(currentUser.getId());
+        return isOwner || isAdmin;
+    }
+
+    public void deleteReviewIfAllowed(Long id, String email) {
+        Optional<Review> review = reviewRepository.findById(id);
+        if (review.isPresent() && isOwnerOrAdmin(review.get(), email)) {
+            reviewRepository.deleteById(id);
+        }
     }
 }

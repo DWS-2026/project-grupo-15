@@ -22,36 +22,29 @@ import es.codeurjc.proyecto_dws_grupo2.model.ClassEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.Image;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
+import es.codeurjc.proyecto_dws_grupo2.service.ReviewService;
+import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import jakarta.validation.Valid;
 
 @Controller
 public class AdminController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final ClassRepository classRepository;
-    private final ServiceRepository serviceRepository;
-    private final ReviewRepository reviewRepository;
+    private final ServiceService serviceService;
+    private final ReviewService reviewService;
     private final PasswordEncoder passwordEncoder;
     private final ImageService imageService; 
     private final ClassService classService;
 
-    public AdminController(UserRepository userRepository, ClassRepository classRepository,
-            ServiceRepository serviceRepository, UserService userService,
-            ReviewRepository reviewRepository, PasswordEncoder passwordEncoder,
+    public AdminController(UserService userService, ServiceService serviceService,
+            ReviewService reviewService, PasswordEncoder passwordEncoder,
             ImageService imageService, ClassService classService) { 
-        this.userRepository = userRepository;
-        this.classRepository = classRepository;
-        this.serviceRepository = serviceRepository;
         this.userService = userService;
-        this.reviewRepository = reviewRepository;
+        this.serviceService = serviceService;
+        this.reviewService = reviewService;
         this.passwordEncoder = passwordEncoder;
         this.imageService = imageService;
         this.classService = classService;
@@ -60,10 +53,10 @@ public class AdminController {
     // --- PANEL DASHBOARD ---
     @GetMapping("/admin")
     public String adminPanel(Model model) {
-        model.addAttribute("totalMembers", userRepository.count());
-        model.addAttribute("totalClasses", classRepository.count());
+        model.addAttribute("totalMembers", userService.countUsers());
+        model.addAttribute("totalClasses", classService.countClasses());
 
-        List<User> ultimosUsuarios = userRepository.findTop5ByOrderByIdDesc();
+        List<User> ultimosUsuarios = userService.getLatestUsers();
         List<Map<String, Object>> recentMembers = new ArrayList<>();
 
         for (User u : ultimosUsuarios) {
@@ -82,7 +75,7 @@ public class AdminController {
     // --- GESTIÓN DE MIEMBROS ---
     @GetMapping("/admin/members")
     public String adminMembers(Model model) {
-        List<User> allMembers = userRepository.findAll();
+        List<User> allMembers = userService.getAllUsers();
         List<Map<String, Object>> members = new ArrayList<>();
 
         for (User u : allMembers) {
@@ -105,7 +98,7 @@ public class AdminController {
 
     @GetMapping("/admin/members/{id}")
     public String viewMemberDetail(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userService.getUserById(id).orElse(null);
         if (user == null) return "redirect:/admin/members";
 
         model.addAttribute("user", user);
@@ -121,7 +114,7 @@ public class AdminController {
 
     @GetMapping("/admin/members/edit/{id}")
     public String showEditUserForm(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userService.getUserById(id).orElseThrow();
         model.addAttribute("user", user);
         model.addAttribute("hasPhysio", hasService(user, "Fisioterapia"));
         model.addAttribute("hasNutrition", hasService(user, "Nutrición"));
@@ -140,7 +133,7 @@ public class AdminController {
             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
             Model model) throws IOException { 
 
-        User dbUser = userRepository.findById(id).orElseThrow();
+        User dbUser = userService.getUserById(id).orElseThrow();
 
         // --- 1. VALIDACIÓN ---
         boolean hasRealErrors = false;
@@ -173,15 +166,15 @@ public class AdminController {
         // Lógica de servicios extras
         dbUser.getEnrolledServices().clear();
         if (extraPhysio) {
-            ServiceEntity s = serviceRepository.findByName("Fisioterapia");
+            ServiceEntity s = serviceService.findByName("Fisioterapia");
             if (s != null) dbUser.getEnrolledServices().add(s);
         }
         if (extraNutrition) {
-            ServiceEntity s = serviceRepository.findByName("Nutrición");
+            ServiceEntity s = serviceService.findByName("Nutrición");
             if (s != null) dbUser.getEnrolledServices().add(s);
         }
         if (extraDrinks) {
-            ServiceEntity s = serviceRepository.findByName("Bebidas Extra");
+            ServiceEntity s = serviceService.findByName("Bebidas Extra");
             if (s != null) dbUser.getEnrolledServices().add(s);
         }
 
@@ -203,14 +196,14 @@ public class AdminController {
             if (dbUser.getProfileImage() != null) {
                 Long oldImageId = dbUser.getProfileImage().getId();
                 dbUser.setProfileImage(null);
-                userRepository.save(dbUser); 
+                userService.saveUser(dbUser); 
                 imageService.deleteImage(oldImageId);
             }
             Image savedImage = imageService.createImage(imageFile.getInputStream());
             dbUser.setProfileImage(savedImage);
         }
 
-        userRepository.save(dbUser);
+        userService.saveUser(dbUser);
         return "redirect:/admin/members";
     }
 
@@ -223,7 +216,7 @@ public class AdminController {
     // --- GESTIÓN DE CLASES ---
     @GetMapping("/admin/classes")
     public String adminClasses(Model model) {
-        model.addAttribute("classes", classRepository.findAll());
+        model.addAttribute("classes", classService.findAll());
         return "admin-classes";
     }
 
@@ -251,7 +244,7 @@ public class AdminController {
 
     @GetMapping("/admin/classes/edit/{id}")
     public String editClass(@PathVariable Long id, Model model) {
-        ClassEntity clase = classRepository.findById(id).orElse(null);
+        ClassEntity clase = classService.findById(id).orElse(null);
         if (clase == null) return "redirect:/admin/classes";
         model.addAttribute("clase", clase);
         return "admin-class-edit";
@@ -264,7 +257,7 @@ public class AdminController {
             @RequestParam String schedule,
             @RequestParam(value = "classPicture", required = false) MultipartFile imageFile) throws IOException { 
 
-        ClassEntity clase = classRepository.findById(id).orElseThrow();
+        ClassEntity clase = classService.findById(id).orElseThrow();
         clase.setName(name);
         clase.setDescription(description);
         clase.setSchedule(schedule);
@@ -273,7 +266,7 @@ public class AdminController {
             if (clase.getImage() != null) {
                 Long oldImageId = clase.getImage().getId();
                 clase.setImage(null);
-                classRepository.save(clase);
+                classService.save(clase);
                 imageService.deleteImage(oldImageId);
             }
             Image savedImage = imageService.createImage(imageFile.getInputStream());
@@ -286,17 +279,17 @@ public class AdminController {
 
     @PostMapping("/admin/classes/delete/{id}")
     public String deleteClass(@PathVariable Long id) {
-        classRepository.deleteById(id);
+        classService.deleteById(id);
         return "redirect:/admin/classes";
     }
 
     // --- ASISTENTES DE CLASES ---
     @GetMapping("/admin/classes/{id}/asistentes")
     public String viewClassAttendees(@PathVariable Long id, Model model) {
-        ClassEntity clase = classRepository.findById(id).orElse(null);
+        ClassEntity clase = classService.findById(id).orElse(null);
         if (clase == null) return "redirect:/admin/classes";
 
-        List<User> todosLosUsuarios = userRepository.findAll();
+        List<User> todosLosUsuarios = userService.getAllUsers();
         List<User> asistentes = new ArrayList<>();
         List<User> disponibles = new ArrayList<>();
 
@@ -318,22 +311,14 @@ public class AdminController {
 
     @PostMapping("/admin/classes/{id}/asistentes/add")
     public String addAttendee(@PathVariable Long id, @RequestParam Long userId) {
-        ClassEntity clase = classRepository.findById(id).orElse(null);
-        User usuario = userRepository.findById(userId).orElse(null);
-
-        if (clase != null && usuario != null) {
-            if (!usuario.getEnrolledClasses().contains(clase)) { 
-                usuario.getEnrolledClasses().add(clase);
-                userRepository.save(usuario);
-            }
-        }
+        classService.enrollUser(id, userId);
         return "redirect:/admin/classes/" + id + "/asistentes";
     }
 
     // --- GESTIÓN DE SERVICIOS ---
     @GetMapping("/admin/services")
     public String adminServices(Model model) {
-        model.addAttribute("services", serviceRepository.findAll());
+        model.addAttribute("services", serviceService.findAll());
         return "admin-services";
     }
 
@@ -358,13 +343,13 @@ public class AdminController {
             newService.setImage(savedImage);
         }
 
-        serviceRepository.save(newService);
+        serviceService.save(newService);
         return "redirect:/admin/services";
     }
 
     @GetMapping("/admin/services/edit/{id}")
     public String editService(@PathVariable Long id, Model model) {
-        ServiceEntity service = serviceRepository.findById(id).orElse(null);
+        ServiceEntity service = serviceService.findById(id).orElse(null);
         if (service == null) return "redirect:/admin/services";
         model.addAttribute("service", service);
         return "admin-service-edit";
@@ -375,7 +360,7 @@ public class AdminController {
             ServiceEntity updatedService,
             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
 
-        ServiceEntity service = serviceRepository.findById(id).orElseThrow();
+        ServiceEntity service = serviceService.findById(id).orElseThrow();
         service.setName(updatedService.getName());
         service.setDescription(updatedService.getDescription());
         service.setPrice(updatedService.getPrice()); 
@@ -384,29 +369,29 @@ public class AdminController {
             if (service.getImage() != null) {
                 Long oldImageId = service.getImage().getId();
                 service.setImage(null);
-                serviceRepository.save(service);
+                serviceService.save(service);
                 imageService.deleteImage(oldImageId);
             }
             Image savedImage = imageService.createImage(imageFile.getInputStream());
             service.setImage(savedImage);
         }
 
-        serviceRepository.save(service);
+        serviceService.save(service);
         return "redirect:/admin/services";
     }
 
     @PostMapping("/admin/services/delete/{id}")
     public String deleteService(@PathVariable Long id) {
-        serviceRepository.deleteById(id);
+        serviceService.deleteById(id);
         return "redirect:/admin/services";
     }
 
     @GetMapping("/admin/services/{id}/miembros")
     public String viewServiceMembers(@PathVariable Long id, Model model) {
-        ServiceEntity service = serviceRepository.findById(id).orElse(null);
+        ServiceEntity service = serviceService.findById(id).orElse(null);
         if (service == null) return "redirect:/admin/services";
 
-        List<User> todos = userRepository.findAll();
+        List<User> todos = userService.getAllUsers();
         List<User> inscritos = todos.stream()
                 .filter(u -> u.getEnrolledServices().contains(service))
                 .collect(java.util.stream.Collectors.toList());
@@ -420,13 +405,13 @@ public class AdminController {
     // --- REVIEWS ---
     @GetMapping("/admin/reviews")
     public String adminReviews(Model model) {
-        model.addAttribute("reviews", reviewRepository.findAll());
+        model.addAttribute("reviews", reviewService.getReviews());
         return "admin-reviews";
     }
 
     @PostMapping("/admin/reviews/delete/{id}")
     public String deleteReview(@PathVariable Long id) {
-        reviewRepository.deleteById(id);
+        reviewService.deleteReview(id);
         return "redirect:/admin/reviews";
     }
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,18 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    public long countUsers() {
+        return userRepository.count();
+    }
+
+    public List<User> getLatestUsers() {
+        return userRepository.findTop5ByOrderByIdDesc();
+    }
+
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
@@ -30,6 +44,10 @@ public class UserService {
     }
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 
     
@@ -51,6 +69,10 @@ public void deleteUser(Long id) {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public User findByEmailOrThrow(String email) {
+        return userRepository.findByEmail(email).orElseThrow();
     }
 
     public User addProfileImageToUser(long userId, Image image) {

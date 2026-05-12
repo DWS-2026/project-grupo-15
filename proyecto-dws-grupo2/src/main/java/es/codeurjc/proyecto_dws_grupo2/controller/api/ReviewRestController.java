@@ -4,8 +4,6 @@ import es.codeurjc.proyecto_dws_grupo2.dto.ReviewRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.ReviewResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.Review;
-import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,9 +31,6 @@ public class ReviewRestController {
     @Autowired
     private ReviewService reviewService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     private ReviewResponseDTO toResponseDTO(Review review) {
         if (review == null) return null;
         return new ReviewResponseDTO(
@@ -48,11 +43,7 @@ public class ReviewRestController {
     }
 
     private boolean isOwnerOrAdmin(Review review, Principal principal) {
-        String email = principal.getName();
-        User currentUser = userRepository.findByEmail(email).orElseThrow();
-        boolean isAdmin = currentUser.getRoles().contains("ADMIN");
-        boolean isOwner = review.getUser() != null && review.getUser().getId().equals(currentUser.getId());
-        return isOwner || isAdmin;
+        return reviewService.isOwnerOrAdmin(review, principal.getName());
     }
 
     @Operation(summary = "Obtener todas las reseñas", description = "Devuelve una página con todas las valoraciones de los clientes.")

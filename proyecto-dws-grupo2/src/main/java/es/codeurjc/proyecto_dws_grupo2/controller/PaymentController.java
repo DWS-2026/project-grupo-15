@@ -15,97 +15,94 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.proyecto_dws_grupo2.dto.PaymentDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.ServiceEntity;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
 public class PaymentController {
 
-    private final UserRepository userRepository;
-    private final ServiceRepository serviceRepository;
+    private final UserService userService;
+    private final ServiceService serviceService;
     private final PasswordEncoder passwordEncoder;
 
-    public PaymentController(UserRepository userRepository,
-            ServiceRepository serviceRepository,
-            PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.serviceRepository = serviceRepository;
+    public PaymentController(UserService userService, ServiceService serviceService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.serviceService = serviceService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/payment_success")
     public String pagoExitoso(
-            @Valid @ModelAttribute PaymentDTO paymentData, 
-            BindingResult bindingResult, 
+            @Valid @ModelAttribute PaymentDTO paymentData,
+            BindingResult bindingResult,
             @RequestParam String origin,
             @RequestParam(required = false) Long serviceId,
             HttpSession session, Principal principal, Model model) {
 
-        
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
             }
 
-            
             model.addAttribute("origin", origin);
             if ("register".equals(origin)) {
                 User user = (User) session.getAttribute("usuarioPendiente");
                 model.addAttribute("user", user);
                 model.addAttribute("fromRegister", true);
                 double total = 29.99;
-                if (Boolean.TRUE.equals(session.getAttribute("seleccionPhysio"))) { total += 39.99; model.addAttribute("selPhysio", true); }
-                if (Boolean.TRUE.equals(session.getAttribute("seleccionNutrition"))) { total += 29.99; model.addAttribute("selNutrition", true); }
-                if (Boolean.TRUE.equals(session.getAttribute("seleccionDrinks"))) { total += 2.99; model.addAttribute("selDrinks", true); }
+                if (Boolean.TRUE.equals(session.getAttribute("seleccionPhysio"))) {
+                    total += 39.99;
+                    model.addAttribute("selPhysio", true);
+                }
+                if (Boolean.TRUE.equals(session.getAttribute("seleccionNutrition"))) {
+                    total += 29.99;
+                    model.addAttribute("selNutrition", true);
+                }
+                if (Boolean.TRUE.equals(session.getAttribute("seleccionDrinks"))) {
+                    total += 2.99;
+                    model.addAttribute("selDrinks", true);
+                }
                 model.addAttribute("total", total);
             } else {
-                ServiceEntity s = serviceRepository.findById(serviceId).orElse(null);
+                ServiceEntity service = serviceService.findById(serviceId).orElseThrow();
                 model.addAttribute("fromRegister", false);
-                model.addAttribute("serviceName", s.getName());
-                model.addAttribute("servicePrice", s.getPrice());
-                model.addAttribute("total", s.getPrice());
+                model.addAttribute("serviceName", service.getName());
+                model.addAttribute("servicePrice", service.getPrice());
+                model.addAttribute("total", service.getPrice());
                 model.addAttribute("serviceId", serviceId);
             }
-            return "payment"; 
+            return "payment";
         }
 
         if ("register".equals(origin)) {
             User user = (User) session.getAttribute("usuarioPendiente");
-            if (user == null)
+            if (user == null) {
                 return "redirect:/register";
+            }
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(List.of("USER"));
+            serviceService.addSelectedServices(
+                    user,
+                    Boolean.TRUE.equals(session.getAttribute("seleccionPhysio")),
+                    Boolean.TRUE.equals(session.getAttribute("seleccionNutrition")),
+                    Boolean.TRUE.equals(session.getAttribute("seleccionDrinks")));
 
-            // Añadir servicios desde las banderas de la sesión
-            if (Boolean.TRUE.equals(session.getAttribute("selPhysio")))
-                user.getEnrolledServices().add(serviceRepository.findByName("Fisioterapia"));
-            if (Boolean.TRUE.equals(session.getAttribute("selNutrition")))
-                user.getEnrolledServices().add(serviceRepository.findByName("Nutrición"));
-            if (Boolean.TRUE.equals(session.getAttribute("selDrinks")))
-                user.getEnrolledServices().add(serviceRepository.findByName("Bebidas Extra"));
-
-            userRepository.save(user);
-            session.invalidate(); 
+            userService.saveUser(user);
+            session.invalidate();
 
             model.addAttribute("user", user);
             return "successful";
         }
 
-        
-        if (principal == null)
+        if (principal == null) {
             return "redirect:/login";
-
-        User user = userRepository.findByEmail(principal.getName()).orElseThrow();
+        }
 
         if (serviceId != null) {
-            ServiceEntity s = serviceRepository.findById(serviceId).orElse(null);
-            if (s != null) {
-                user.getEnrolledServices().add(s);
-                userRepository.save(user);
-            }
+            serviceService.enrollUser(serviceId, principal.getName());
         }
 
         return "redirect:/services";

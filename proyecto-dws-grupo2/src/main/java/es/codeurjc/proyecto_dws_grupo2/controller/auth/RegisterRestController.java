@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.jwt.JwtTokenProvider;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -28,14 +28,14 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RequestMapping("/api/v1/auth")
 public class RegisterRestController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
 
-    public RegisterRestController(UserRepository userRepository, PasswordEncoder passwordEncoder,
+    public RegisterRestController(UserService userService, PasswordEncoder passwordEncoder,
             JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userDetailsService = userDetailsService;
@@ -65,7 +65,7 @@ public class RegisterRestController {
         }
 
         // 2. Check if email already exists
-        if (userRepository.findByEmail(request.email()).isPresent()) {
+        if (userService.existsByEmail(request.email())) {
             return ResponseEntity.badRequest().body(
                     Map.of("email", "Ya existe una cuenta con este email"));
         }
@@ -78,7 +78,7 @@ public class RegisterRestController {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRoles(List.of("USER"));
 
-        User saved = userRepository.save(user);
+        User saved = userService.saveUser(user);
 
         // 4. Generate tokens and store them in cookies
         UserDetails userDetails = userDetailsService.loadUserByUsername(saved.getEmail());

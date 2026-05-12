@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.model.Document;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.DocumentService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import java.io.IOException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,18 +17,18 @@ import java.security.Principal;
 @Controller
 public class ProfileController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final DocumentService documentService;
 
-    public ProfileController(UserRepository userRepository, DocumentService documentService) {
-        this.userRepository = userRepository;
+    public ProfileController(UserService userService, DocumentService documentService) {
+        this.userService = userService;
         this.documentService = documentService;
     }
 
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
         model.addAttribute("user", user);
         return "perfil";
     }
@@ -36,7 +36,7 @@ public class ProfileController {
     @GetMapping("/profile/document")
     public ResponseEntity<Resource> downloadDocument(Principal principal) throws IOException {
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
 
         if (user.getDocument() == null) {
             return ResponseEntity.notFound().build();

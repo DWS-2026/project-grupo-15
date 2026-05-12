@@ -1,89 +1,73 @@
 package es.codeurjc.proyecto_dws_grupo2.controller;
 
-import java.security.Principal; // El nuevo portero
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.ServiceRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.ClassRepository;
-import es.codeurjc.proyecto_dws_grupo2.repository.ReviewRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.ClassService;
+import es.codeurjc.proyecto_dws_grupo2.service.ReviewService;
+import es.codeurjc.proyecto_dws_grupo2.service.ServiceService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 @Controller
 public class IndexController {
 
-    private final UserRepository userRepository;
-    
-    private final ServiceRepository serviceRepository; 
+    private final UserService userService;
+    private final ServiceService serviceService;
+    private final ClassService classService;
+    private final ReviewService reviewService;
 
-    private final ClassRepository classRepository; 
-
-    private final ReviewRepository reviewRepository;
-
-    public IndexController(UserRepository userRepository, ServiceRepository serviceRepository, ClassRepository classRepository, ReviewRepository reviewRepository) {
-        this.userRepository = userRepository;
-        this.serviceRepository = serviceRepository;
-        this.classRepository = classRepository;
-        this.reviewRepository = reviewRepository;
+    public IndexController(UserService userService, ServiceService serviceService, ClassService classService,
+            ReviewService reviewService) {
+        this.userService = userService;
+        this.serviceService = serviceService;
+        this.classService = classService;
+        this.reviewService = reviewService;
     }
 
-   @GetMapping("/")
+    @GetMapping("/")
     public String index(Model model, Principal principal) {
-        
-        if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
-            
-            if (user != null) {
-            
-                model.addAttribute("usuarioSesion", user);
-            }
-        }
-
-        model.addAttribute("services", serviceRepository.findAll());
-        model.addAttribute("classes", classRepository.findAll());
-        model.addAttribute("reviews", reviewRepository.findAll());
+        addSessionUser(model, principal);
+        model.addAttribute("services", serviceService.findAll());
+        model.addAttribute("classes", classService.findAll());
+        model.addAttribute("reviews", reviewService.getReviews());
         model.addAttribute("activeInicio", true);
         return "index";
     }
 
-
     @GetMapping("/about")
     public String showAboutPage(Model model, Principal principal) {
-        if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
-            if (user != null) {
-                model.addAttribute("usuarioSesion", user);
-            }
-        }
+        addSessionUser(model, principal);
         model.addAttribute("activeAbout", true);
         return "about";
     }
 
     @GetMapping("/contact")
     public String showContactPage(Model model, Principal principal) {
-        if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
-            if (user != null) {
-                model.addAttribute("usuarioSesion", user);
-            }
-        }
-
+        addSessionUser(model, principal);
         model.addAttribute("activeContact", true);
         return "contact";
     }
 
     @GetMapping("/feature")
     public String showFeaturePage(Model model, Principal principal) {
-        if (principal != null) {
-            User user = userRepository.findByEmail(principal.getName()).orElse(null);
-            if (user != null) {
-                model.addAttribute("usuarioSesion", user);
-            }
-        }
-         model.addAttribute("services", serviceRepository.findAll());
-         model.addAttribute("activeFeature", true);
+        addSessionUser(model, principal);
+        model.addAttribute("services", serviceService.findAll());
+        model.addAttribute("activeFeature", true);
         return "feature";
+    }
+
+    private void addSessionUser(Model model, Principal principal) {
+        if (principal == null) {
+            return;
+        }
+
+        User user = userService.findByEmail(principal.getName());
+        if (user != null) {
+            model.addAttribute("usuarioSesion", user);
+        }
     }
 }

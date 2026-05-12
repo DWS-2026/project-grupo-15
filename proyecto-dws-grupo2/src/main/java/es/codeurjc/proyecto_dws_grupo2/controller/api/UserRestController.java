@@ -2,8 +2,6 @@ package es.codeurjc.proyecto_dws_grupo2.controller.api;
 
 import java.net.URI;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -32,11 +30,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Usuarios", description = "Gestión de los miembros y perfiles del gimnasio")
 public class UserRestController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserRestController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserRestController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -49,7 +47,7 @@ public class UserRestController {
     })
     @GetMapping
     public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable) {
-        Page<UserResponseDTO> users = userRepository.findAll(pageable).map(UserResponseDTO::new);
+        Page<UserResponseDTO> users = userService.getAllUsers(pageable).map(UserResponseDTO::new);
         return ResponseEntity.ok(users);
     }
 
@@ -64,7 +62,7 @@ public class UserRestController {
     @GetMapping("/me")
     public ResponseEntity<UserResponseDTO> getMe(Principal principal) {
         String email = principal.getName();
-        return userRepository.findByEmail(email)
+        return userService.getUserByEmail(email)
                 .map(user -> ResponseEntity.ok(new UserResponseDTO(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -79,7 +77,7 @@ public class UserRestController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
+        return userService.getUserById(id)
                 .map(user -> ResponseEntity.ok(new UserResponseDTO(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -96,7 +94,7 @@ public class UserRestController {
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
         User user = new User();
         userDTO.updateEntity(user, passwordEncoder.encode(userDTO.password()));
-        User saved = userRepository.save(user);
+        User saved = userService.saveUser(user);
 
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).body(new UserResponseDTO(saved));
@@ -119,7 +117,7 @@ public class UserRestController {
             @AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
 
         // 1. Get the current user from the DB using the email from the token (userDetails)
-        Optional<User> currentUserOpt = userRepository.findByEmail(userDetails.getUsername());
+        Optional<User> currentUserOpt = userService.getUserByEmail(userDetails.getUsername());
         if (currentUserOpt.isEmpty()) {
             return ResponseEntity.status(401).build(); // In case the user was deleted
         }
@@ -132,7 +130,7 @@ public class UserRestController {
         }
 
         // 3. Find the user to update
-        Optional<User> existing = userRepository.findById(id);
+        Optional<User> existing = userService.getUserById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -147,7 +145,7 @@ public class UserRestController {
 
         userDTO.updateEntity(user, encodedPassword);
 
-        User saved = userRepository.save(user);
+        User saved = userService.saveUser(user);
         return ResponseEntity.ok(new UserResponseDTO(saved));
     }
 
@@ -161,12 +159,12 @@ public class UserRestController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<User> user = userService.getUserById(id);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
         return ResponseEntity.ok(new UserResponseDTO(user.get()));
     }
 }

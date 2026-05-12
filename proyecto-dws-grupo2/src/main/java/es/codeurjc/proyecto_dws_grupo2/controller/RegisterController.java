@@ -10,18 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
 public class RegisterController {
-
-    private final UserRepository userRepository;
-
-    public RegisterController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {

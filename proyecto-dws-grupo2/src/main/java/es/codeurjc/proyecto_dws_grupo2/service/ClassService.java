@@ -31,6 +31,10 @@ public class ClassService {
         return classRepository.findAll();
     }
 
+    public long countClasses() {
+        return classRepository.count();
+    }
+
     public Page<ClassEntity> findAll(Pageable pageable) {
         return classRepository.findAll(pageable);
     }
@@ -76,6 +80,29 @@ public class ClassService {
         
         user.getEnrolledClasses().add(classEntity);
         userRepository.save(user);
+    }
+
+    public void enrollUser(Long classId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow();
+
+        if (!user.getEnrolledClasses().contains(classEntity)) {
+            user.getEnrolledClasses().add(classEntity);
+            userRepository.save(user);
+        }
+    }
+
+    public List<User> getAvailableUsers(Long classId) {
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow();
+        List<User> availableUsers = new ArrayList<>();
+
+        for (User user : userRepository.findAll()) {
+            if (!user.getEnrolledClasses().contains(classEntity) && !user.getRoles().contains("ADMIN")) {
+                availableUsers.add(user);
+            }
+        }
+
+        return availableUsers;
     }
 
     public void unenrollUser(Long classId, String email) {

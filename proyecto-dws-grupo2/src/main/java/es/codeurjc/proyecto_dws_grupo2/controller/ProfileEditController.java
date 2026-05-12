@@ -20,9 +20,9 @@ import org.springframework.security.core.Authentication;
 
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.model.Image;
-import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 import es.codeurjc.proyecto_dws_grupo2.service.DocumentService;
 import es.codeurjc.proyecto_dws_grupo2.service.ImageService;
+import es.codeurjc.proyecto_dws_grupo2.service.UserService;
 import jakarta.validation.Valid;
 import es.codeurjc.proyecto_dws_grupo2.model.Document;
 import java.io.IOException;
@@ -32,15 +32,15 @@ import org.springframework.http.HttpHeaders;
 @Controller
 public class ProfileEditController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ImageService imageService;
     private final DocumentService documentService;
     private final PasswordEncoder passwordEncoder;
 
-    public ProfileEditController(UserRepository userRepository, ImageService imageService,
+    public ProfileEditController(UserService userService, ImageService imageService,
             DocumentService documentService,
             PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.imageService = imageService;
         this.documentService = documentService;
         this.passwordEncoder = passwordEncoder;
@@ -49,7 +49,7 @@ public class ProfileEditController {
     @GetMapping("/profile/edit")
     public String editProfile(Principal principal, Model model) {
         String email = principal.getName();
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userService.findByEmailOrThrow(email);
         model.addAttribute("user", user);
         return "profile-edit";
     }
@@ -63,7 +63,7 @@ public class ProfileEditController {
             Principal principal, Model model) throws IOException {
 
         String email = principal.getName();
-        User dbUser = userRepository.findByEmail(email).orElseThrow();
+        User dbUser = userService.findByEmailOrThrow(email);
 
         // --- 1. VALIDATION ---
         boolean hasRealErrors = false;
@@ -96,7 +96,7 @@ public class ProfileEditController {
             if (dbUser.getProfileImage() != null) {
                 Long oldImageId = dbUser.getProfileImage().getId();
                 dbUser.setProfileImage(null);
-                userRepository.save(dbUser);
+                userService.saveUser(dbUser);
                 imageService.deleteImage(oldImageId);
             }
             Image savedImage = imageService.createImage(imageFile.getInputStream());
@@ -108,7 +108,7 @@ public class ProfileEditController {
             if (dbUser.getDocument() != null) {
                 Long oldDocId = dbUser.getDocument().getId();
                 dbUser.setDocument(null);
-                userRepository.save(dbUser); // Unlink before deleting
+                userService.saveUser(dbUser); // Unlink before deleting
                 documentService.deleteDocument(oldDocId);
             }
             Document doc = documentService.saveDocument(personalDocument);
@@ -116,7 +116,7 @@ public class ProfileEditController {
         }
 
         // --- 4. SAVE ---
-        userRepository.save(dbUser);
+        userService.saveUser(dbUser);
 
         // --- 5. UPDATE SPRING SECURITY SESSION ---
         if (!email.equals(updatedUser.getEmail())) {
