@@ -79,7 +79,7 @@ public class ClassEntity {
         this.description = description;
     }
 
-    // CAMBIO: Getter y Setter adaptados a la nueva entidad Image
+    
     public Image getImage() {
         return image;
     }

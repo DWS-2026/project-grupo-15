@@ -29,26 +29,25 @@ public class DocumentRestController {
         this.userRepository = userRepository;
     }
 
-    // POST: Subir documento ligado al usuario autenticado
-    // POST: Subir documento ligado al usuario autenticado
+    // POST: Upload document linked to the authenticated user
     @PostMapping("/me/document")
     public ResponseEntity<?> uploadDocument(
             @RequestParam("file") MultipartFile file,
             @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) throws IOException {
 
-        // 🛡️ ESCUDO: Si Spring Security lo deja pasar sin token (por culpa de la configuración), lo bloqueamos aquí.
+        // 🛡️ Safety check: if Spring Security lets the request through without a token, we block it here
         if (userDetails == null) {
             return ResponseEntity.status(401).body(java.util.Map.of(
-                "error", "No autenticado",
-                "message", "Falta el token de sesión o ha caducado. Vuelve a hacer Login."
+                "error", "Not authenticated",
+                "message", "Session token is missing or has expired. Please log in again."
             ));
         }
 
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("El fichero no puede estar vacío");
+            return ResponseEntity.badRequest().body("The file cannot be empty");
         }
 
-        // Ya es 100% seguro obtener el usuario
+        // Safe to retrieve the user at this point
         String email = userDetails.getUsername();
         User user = userRepository.findByEmail(email).orElseThrow();
 
@@ -66,7 +65,7 @@ public class DocumentRestController {
         );
     }
 
-    // GET: Descargar/visualizar documento del usuario autenticado
+    // GET: Download/view document of the authenticated user
     @GetMapping("/me/document")
     public ResponseEntity<Resource> getMyDocument(Principal principal) throws IOException {
 
@@ -87,7 +86,7 @@ public class DocumentRestController {
             .body(resource);
     }
 
-    // GET: Descargar documento por ID (solo ADMIN)
+    // GET: Download document by user ID (ADMIN only)
     @GetMapping("/{userId}/document")
     public ResponseEntity<Resource> getDocumentByUserId(
             @PathVariable Long userId) throws IOException {
@@ -108,7 +107,7 @@ public class DocumentRestController {
             .body(resource);
     }
 
-    // DELETE: Eliminar documento del usuario autenticado
+    // DELETE: Remove document of the authenticated user
     @DeleteMapping("/me/document")
     public ResponseEntity<?> deleteDocument(Principal principal) {
 
@@ -122,6 +121,6 @@ public class DocumentRestController {
         user.setDocument(null);
         userRepository.save(user);
 
-        return ResponseEntity.ok().body(java.util.Map.of("message", "Documento eliminado correctamente"));
+        return ResponseEntity.ok().body(java.util.Map.of("message", "Document deleted successfully"));
     }
 }

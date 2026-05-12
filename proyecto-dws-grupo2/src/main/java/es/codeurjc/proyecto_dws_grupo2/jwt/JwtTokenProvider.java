@@ -57,16 +57,16 @@ public class JwtTokenProvider {
                 ? tokenStringFromCookies(req)
                 : tokenStringFromHeaders(req);
 
-        // Si no hay token (usuario anónimo), devolvemos null
+        // If there is no token (anonymous user), return null
         if (token == null) {
             return null;
         }
 
         try {
-            // Intentamos validar el token
+            // Try validate the token
             return validateToken(token);
         } catch (Exception e) {
-            // Si expiró o es falso, devolvemos null sin romper la app
+            // If the token has expired or is false, return null
             return null;
         }
     }

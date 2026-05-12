@@ -38,18 +38,18 @@ public class PaymentController {
     @PostMapping("/payment_success")
     public String pagoExitoso(
             @Valid @ModelAttribute PaymentDTO paymentData, 
-            BindingResult bindingResult, // ⚠️ Siempre justo después del objeto a validar
+            BindingResult bindingResult, 
             @RequestParam String origin,
             @RequestParam(required = false) Long serviceId,
             HttpSession session, Principal principal, Model model) {
 
-        // --- 1. VALIDACIÓN DEL PAGO ---
+        
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
             }
 
-            // Reconstruimos la vista para que no de error al recargar
+            
             model.addAttribute("origin", origin);
             if ("register".equals(origin)) {
                 User user = (User) session.getAttribute("usuarioPendiente");
@@ -68,7 +68,7 @@ public class PaymentController {
                 model.addAttribute("total", s.getPrice());
                 model.addAttribute("serviceId", serviceId);
             }
-            return "payment"; // Volvemos a la pantalla de pago marcando el error
+            return "payment"; 
         }
 
         if ("register".equals(origin)) {
@@ -94,7 +94,7 @@ public class PaymentController {
             return "successful";
         }
 
-        // --- CASO 2: COMPRA DE EXTRA (USUARIO YA LOGEADO) ---
+        
         if (principal == null)
             return "redirect:/login";
 

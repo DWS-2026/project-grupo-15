@@ -17,7 +17,7 @@ public class PaymentDTO {
     @Pattern(regexp = "^\\d{3}$", message = "El CVV debe tener 3 dígitos")
     private String cvv;
 
-    // Genera aquí los Getters y Setters
+    
     public String getCardHolder() { return cardHolder; }
     public void setCardHolder(String cardHolder) { this.cardHolder = cardHolder; }
     public String getCardNumber() { return cardNumber; }

@@ -7,7 +7,7 @@ public record ClassResponseDTO(
     String name,
     String description,
     String schedule,
-    ImageResponseDTO image // Usamos el DTO de imagen
+    ImageResponseDTO image 
 ) {
     public ClassResponseDTO(ClassEntity entity) {
         this(

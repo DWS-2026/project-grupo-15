@@ -21,7 +21,6 @@ import es.codeurjc.proyecto_dws_grupo2.repository.UserRepository;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-// --- Imports de Swagger / OpenAPI ---
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,7 +41,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 1. OBTENER TODOS LOS USUARIOS (Paginado)
+    // 1. GET ALL USERS (Paginated)
     // ==========================================
     @Operation(summary = "Obtener todos los usuarios", description = "Devuelve una página con la lista de todos los miembros registrados. Requiere permisos de administrador.")
     @ApiResponses(value = {
@@ -55,7 +54,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 2. OBTENER PERFIL DEL USUARIO ACTUAL
+    // 2. GET CURRENT USER PROFILE
     // ==========================================
     @Operation(summary = "Obtener mi perfil", description = "Devuelve los datos del usuario que ha iniciado sesión actualmente.")
     @ApiResponses(value = {
@@ -71,7 +70,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 3. OBTENER USUARIO POR ID
+    // 3. GET USER BY ID
     // ==========================================
     @Operation(summary = "Obtener usuario por ID", description = "Busca la información de un miembro específico mediante su identificador.")
     @ApiResponses(value = {
@@ -86,7 +85,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 4. CREAR UN NUEVO USUARIO
+    // 4. CREATE A NEW USER
     // ==========================================
     @Operation(summary = "Registrar un nuevo usuario", description = "Crea una nueva cuenta de usuario en el sistema.")
     @ApiResponses(value = {
@@ -104,7 +103,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 5. ACTUALIZAR UN USUARIO
+    // 5. UPDATE A USER
     // ==========================================
     @Operation(summary = "Actualizar un usuario", description = "Modifica los datos de un miembro existente. Si se envía una contraseña, será encriptada.")
     @ApiResponses(value = {
@@ -119,20 +118,20 @@ public class UserRestController {
             @RequestBody UserRequestDTO userDTO,
             @AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
 
-        // 1. Sacamos el usuario actual de la BD usando el email que viene en el token (userDetails)
+        // 1. Get the current user from the DB using the email from the token (userDetails)
         Optional<User> currentUserOpt = userRepository.findByEmail(userDetails.getUsername());
         if (currentUserOpt.isEmpty()) {
-            return ResponseEntity.status(401).build(); // Por si acaso el usuario fue borrado
+            return ResponseEntity.status(401).build(); // In case the user was deleted
         }
         User currentUser = currentUserOpt.get();
 
-        // 2. Tu lógica de permisos intacta: ¿Es admin o es su propio perfil?
+        // 2. Permission check: is the user an admin or editing their own profile?
         boolean isAdmin = currentUser.getRoles().contains("ADMIN");
         if (!currentUser.getId().equals(id) && !isAdmin) {
             return ResponseEntity.status(403).build();
         }
 
-        // 3. Buscar el usuario a modificar
+        // 3. Find the user to update
         Optional<User> existing = userRepository.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -140,7 +139,7 @@ public class UserRestController {
 
         User user = existing.get();
 
-        // 4. Actualización de datos y contraseña
+        // 4. Update data and password
         String encodedPassword = null;
         if (userDTO.password() != null && !userDTO.password().isBlank()) {
             encodedPassword = passwordEncoder.encode(userDTO.password());
@@ -153,7 +152,7 @@ public class UserRestController {
     }
 
     // ==========================================
-    // 6. ELIMINAR UN USUARIO
+    // 6. DELETE A USER
     // ==========================================
     @Operation(summary = "Eliminar un usuario", description = "Borra permanentemente la cuenta de un miembro.")
     @ApiResponses(value = {

@@ -33,7 +33,7 @@ public class DataBaseInitializer {
     @PostConstruct
     public void init() {
 
-        // --- 1. INICIALIZAR CLASES ---
+        //START CLASSES
         if (claseRepository.count() == 0) {
             ClassEntity crossfit = new ClassEntity(
                     "CrossFit",
@@ -60,7 +60,7 @@ public class DataBaseInitializer {
             claseRepository.save(zumba);
         }
 
-        // --- 2. INICIALIZAR SERVICIOS ---
+        // START SERVICES
         ServiceEntity fisio = null;
 
         if (serviceRepository.count() == 0) {
@@ -92,7 +92,7 @@ public class DataBaseInitializer {
             fisio = serviceRepository.findByName("Fisioterapia");
         }
 
-        // --- 3. INICIALIZAR USUARIOS ---
+        // START USERS
         if (userRepository.findByEmail("paco@gmail.com").isEmpty()) {
             User user1 = new User();
             user1.setFirstName("Paco");

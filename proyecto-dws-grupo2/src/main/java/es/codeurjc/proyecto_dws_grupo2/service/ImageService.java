@@ -15,25 +15,25 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    // 1. Obtener entidad
+    // 1. Get entity
     public Image getImage(long id) {
         return imageRepository.findById(id).orElseThrow(); 
     }
 
-    // 2. Crear y guardar los bytes
+    // 2. Create and save the bytes
     public Image createImage(InputStream inputStream) throws IOException {
         Image image = new Image();
         image.setImageFile(inputStream.readAllBytes()); 
         return imageRepository.save(image);
     }
 
-    // 3. Devolver los bytes para descargar
+    // 3. Give the bytes to download
     public byte[] getImageFile(long id) {
         Image image = getImage(id);
         return image.getImageFile();
     }
 
-    // 4. Borrar
+    // 4. Delete
     public void deleteImage(long id) {
         imageRepository.deleteById(id);
     }

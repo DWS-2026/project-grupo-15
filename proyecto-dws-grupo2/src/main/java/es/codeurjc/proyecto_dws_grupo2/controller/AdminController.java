@@ -436,7 +436,7 @@ public class AdminController {
         return "admin-settings";
     }
 
-    // --- MÉTODO AUXILIAR ---
+    // --- AUXILIAR METHOD ---
     private boolean hasService(User user, String serviceName) {
         return user.getEnrolledServices().stream()
                 .anyMatch(s -> s.getName().equalsIgnoreCase(serviceName));

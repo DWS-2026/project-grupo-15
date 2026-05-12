@@ -11,12 +11,12 @@ public record ServiceResponseDTO(
     boolean enrolled,
     ImageResponseDTO image
 ) {
-    // Constructor 1: Para la API (Por defecto enrolled = false)
+    // Predeterminated: enrolled false
     public ServiceResponseDTO(ServiceEntity service) {
         this(service, false); 
     }
 
-    // Constructor 2: Para la WEB (Le pasamos si está suscrito o no)
+    // Send to web if the user is suscribed or not
     public ServiceResponseDTO(ServiceEntity service, boolean enrolled) {
         this(
             service.getId(),

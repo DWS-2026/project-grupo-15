@@ -32,25 +32,19 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    /**
-     * Elimina un usuario en cascada.
-     * La anotación @Transactional asegura que si algo falla, no se borre nada.
-     * Gracias a CascadeType.ALL y @OnDelete en la entidad User, 
-     * se limpiarán roles, reviews y tablas intermedias automáticamente.
-     */
+    
    @Transactional
 public void deleteUser(Long id) {
     User user = userRepository.findById(id).orElse(null);
     if (user != null) {
-        // Limpiamos las asociaciones para romper el vínculo en las tablas intermedias
-        // sin eliminar las entidades ClassEntity, Activity o ServiceEntity
+        
         user.getEnrolledClasses().clear();
         user.getEnrolledServices().clear();
         
-        // Guardamos para que se limpien las tablas user_classes, etc.
+        
         userRepository.save(user);
         
-        // Ahora borramos el usuario. Solo se borrarán en cascada sus Reviews y Roles.
+        
         userRepository.delete(user);
     }
 }

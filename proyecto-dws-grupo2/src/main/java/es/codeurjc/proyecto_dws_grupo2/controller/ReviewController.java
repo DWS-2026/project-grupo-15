@@ -47,9 +47,9 @@ public class ReviewController {
     public String addReview(@RequestParam String about,
                             @RequestParam int rating,
                             @RequestParam String comment,
-                            Principal principal) { // Cambiamos HttpSession por Principal
+                            Principal principal) { 
 
-        // Volvemos a buscar al usuario para asignarle la review
+        
         User user = userRepository.findByEmail(principal.getName()).orElse(null);
 
         Review review = new Review();
@@ -77,7 +77,7 @@ public class ReviewController {
             }
         }
 
-        // TRUCO: Volver a la página exacta desde la que se pulsó el botón
+        
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/");
     }

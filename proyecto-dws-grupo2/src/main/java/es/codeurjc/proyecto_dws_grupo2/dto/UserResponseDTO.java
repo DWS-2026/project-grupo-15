@@ -18,7 +18,7 @@ public record UserResponseDTO(
             user.getLastName(),
             user.getEmail(),
             user.getRoles(),
-            // Si el usuario tiene imagen, creamos el DTO. Si no, devolvemos null
+            // If the user haves image, we create DTO. If not, return null
             user.getProfileImage() != null ? new ImageResponseDTO(user.getProfileImage()) : null
         );
     }

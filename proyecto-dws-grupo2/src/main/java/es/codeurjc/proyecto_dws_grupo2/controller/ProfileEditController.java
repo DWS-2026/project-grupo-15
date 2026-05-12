@@ -65,7 +65,7 @@ public class ProfileEditController {
         String email = principal.getName();
         User dbUser = userRepository.findByEmail(email).orElseThrow();
 
-        // --- 1. VALIDACIÓN ---
+        // --- 1. VALIDATION ---
         boolean hasRealErrors = false;
         for (FieldError error : bindingResult.getFieldErrors()) {
             if (error.getField().equals("password") && (updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty())) {
@@ -82,7 +82,7 @@ public class ProfileEditController {
             return "profile-edit";
         }
 
-        // --- 2. ACTUALIZAMOS DATOS ---
+        // --- 2. UPDATE DATA ---
         dbUser.setFirstName(updatedUser.getFirstName());
         dbUser.setLastName(updatedUser.getLastName());
         dbUser.setEmail(updatedUser.getEmail());
@@ -91,7 +91,7 @@ public class ProfileEditController {
             dbUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
 
-        // --- 3. LÓGICA DE IMAGEN Y DOCUMENTO ---
+        // --- 3. IMAGE AND DOCUMENT LOGIC -
         if (imageFile != null && !imageFile.isEmpty()) {
             if (dbUser.getProfileImage() != null) {
                 Long oldImageId = dbUser.getProfileImage().getId();
@@ -104,21 +104,21 @@ public class ProfileEditController {
         }
 
         if (personalDocument != null && !personalDocument.isEmpty()) {
-            // Si ya tenía documento, borramos el antiguo para no dejar huérfanos
+            // If the user already had a document, delete the old one to avoid orphan
             if (dbUser.getDocument() != null) {
                 Long oldDocId = dbUser.getDocument().getId();
                 dbUser.setDocument(null);
-                userRepository.save(dbUser); // Desvinculamos antes de borrar
+                userRepository.save(dbUser); // Unlink before deleting
                 documentService.deleteDocument(oldDocId);
             }
             Document doc = documentService.saveDocument(personalDocument);
             dbUser.setDocument(doc);
         }
 
-        // --- 4. GUARDAR ---
+        // --- 4. SAVE ---
         userRepository.save(dbUser);
 
-        // --- 5. ACTUALIZAR SESIÓN DE SPRING SECURITY ---
+        // --- 5. UPDATE SPRING SECURITY SESSION ---
         if (!email.equals(updatedUser.getEmail())) {
             Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
             Authentication newAuth = new UsernamePasswordAuthenticationToken(

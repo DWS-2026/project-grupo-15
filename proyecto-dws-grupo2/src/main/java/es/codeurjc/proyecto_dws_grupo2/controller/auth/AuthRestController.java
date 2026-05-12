@@ -23,14 +23,14 @@ public class AuthRestController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // DTO de login
+    // DTO of login
     public record LoginRequest(String username, String password) {}
     public record LoginResponse(String message, String username) {}
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
-        // 1. Autenticar usuario con Spring Security
+        // 1. Authenticate user with spring security
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginRequest.username(),
@@ -38,14 +38,14 @@ public class AuthRestController {
             )
         );
 
-        // 2. Obtener UserDetails del usuario autenticado
+        // 2. Get UserDetails from the authenticated user
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // 3. Generar tokens JWT
+        // 3. Generate JWT tokens
         String accessToken = jwtTokenProvider.generateAccessToken(userDetails);
         String refreshToken = jwtTokenProvider.generateRefreshToken(userDetails);
 
-        // 4. Guardar tokens en cookies
+        // 4. Store tokens in cookies
         Cookie accessCookie = new Cookie("accessToken", accessToken);
         accessCookie.setHttpOnly(true);
         accessCookie.setSecure(true);
@@ -65,7 +65,7 @@ public class AuthRestController {
     @PostMapping("/logout")
     public ResponseEntity<LoginResponse> logout(HttpServletResponse response) {
 
-        // Borrar las cookies poniendo maxAge a 0
+        // Delete cookies by setting maxAge to 0
         Cookie accessCookie = new Cookie("accessToken", null);
         accessCookie.setHttpOnly(true);
         accessCookie.setSecure(true);

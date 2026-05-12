@@ -54,9 +54,9 @@ public class RegisterRestController {
     public ResponseEntity<?> register(
             @Valid @RequestBody RegisterRequest request,
             BindingResult bindingResult,
-            HttpServletResponse response) {  // ← añadido
+            HttpServletResponse response) {  
 
-        // 1. Errores de validación
+        // 1. Validation errors
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
@@ -64,13 +64,13 @@ public class RegisterRestController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        // 2. Comprobar si el email ya existe
+        // 2. Check if email already exists
         if (userRepository.findByEmail(request.email()).isPresent()) {
             return ResponseEntity.badRequest().body(
                     Map.of("email", "Ya existe una cuenta con este email"));
         }
 
-        // 3. Crear el usuario
+        // 3. Create the user
         User user = new User();
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
@@ -80,7 +80,7 @@ public class RegisterRestController {
 
         User saved = userRepository.save(user);
 
-        // 4. Generar tokens y meterlos en cookies
+        // 4. Generate tokens and store them in cookies
         UserDetails userDetails = userDetailsService.loadUserByUsername(saved.getEmail());
         String accessToken = jwtTokenProvider.generateAccessToken(userDetails);
         String refreshToken = jwtTokenProvider.generateRefreshToken(userDetails);
@@ -98,7 +98,7 @@ public class RegisterRestController {
         response.addCookie(accessCookie);
         response.addCookie(refreshCookie);
 
-        // 5. Devolver respuesta
+        // 5. Return response
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).body(new UserResponseDTO(saved));
     }

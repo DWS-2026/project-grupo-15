@@ -89,7 +89,7 @@ public class ServiceEntity {
         this.price = price;
     }
 
-    // CAMBIO: Getter y Setter para la nueva entidad Image
+    
     public Image getImage() {
         return image;
     }

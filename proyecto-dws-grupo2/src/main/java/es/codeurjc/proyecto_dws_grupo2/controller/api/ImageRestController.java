@@ -37,10 +37,10 @@ public class ImageRestController {
 
     private final ImageService imageService;
     private final UserService userService;
-    private final ClassService classService; 
-    private final ServiceService serviceEntityService; 
+    private final ClassService classService;
+    private final ServiceService serviceEntityService;
 
-    public ImageRestController(ImageService imageService, UserService userService, 
+    public ImageRestController(ImageService imageService, UserService userService,
                                ClassService classService, ServiceService serviceEntityService) {
         this.imageService = imageService;
         this.userService = userService;
@@ -49,39 +49,39 @@ public class ImageRestController {
     }
 
     // ==========================================
-    // 1. SUBIR IMAGEN DE USUARIO (CON PROTECCIÓN IDOR)
+    // 1. UPLOAD USER PROFILE IMAGE (WITH IDOR PROTECTION)
     // ==========================================
     @Operation(summary = "Subir foto de perfil de usuario")
     @PostMapping(value = "/users/{userId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadProfileImage(
-            @PathVariable Long userId, 
+            @PathVariable Long userId,
             @RequestParam("imageFile") MultipartFile file,
             Principal principal) throws IOException {
-        
+
         if (principal == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        // Obtener usuario autenticado desde el token
+        // Get authenticated user from token
         Optional<User> currentUserOpt = userService.getUserByEmail(principal.getName());
         if (currentUserOpt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         User currentUser = currentUserOpt.get();
 
-        // Verificación de seguridad: Solo el dueño o el ADMIN
+        // Security check: only the owner or ADMIN
         boolean isAdmin = currentUser.getRoles().contains("ADMIN");
         if (!currentUser.getId().equals(userId) && !isAdmin) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        
-        Optional<User> targetUserOpt = userService.getUserById(userId); 
+
+        Optional<User> targetUserOpt = userService.getUserById(userId);
         if (targetUserOpt.isEmpty()) return ResponseEntity.notFound().build();
         if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
         User targetUser = targetUserOpt.get();
 
-        // Lógica de reemplazo de imagen
+        // Image replacement logic
         if (targetUser.getProfileImage() != null) {
             Long oldImageId = targetUser.getProfileImage().getId();
             targetUser.setProfileImage(null);
-            userService.saveUser(targetUser); 
+            userService.saveUser(targetUser);
             imageService.deleteImage(oldImageId);
         }
 
@@ -93,18 +93,18 @@ public class ImageRestController {
     }
 
     // ==========================================
-    // 2. SUBIR IMAGEN DE CLASE (SOLO ADMIN)
+    // 2. UPLOAD CLASS IMAGE (ADMIN ONLY)
     // ==========================================
     @Operation(summary = "Subir imagen de una clase")
     @PostMapping(value = "/classes/{classId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadClassImage(
-            @PathVariable Long classId, 
+            @PathVariable Long classId,
             @RequestParam("imageFile") MultipartFile file,
             Principal principal) throws IOException {
-        
+
         if (!checkIsAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
-        Optional<ClassEntity> classOpt = classService.findById(classId); 
+        Optional<ClassEntity> classOpt = classService.findById(classId);
         if (classOpt.isEmpty()) return ResponseEntity.notFound().build();
         if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
@@ -113,7 +113,7 @@ public class ImageRestController {
         if (classEntity.getImage() != null) {
             Long oldImageId = classEntity.getImage().getId();
             classEntity.setImage(null);
-            classService.save(classEntity); 
+            classService.save(classEntity);
             imageService.deleteImage(oldImageId);
         }
 
@@ -125,18 +125,18 @@ public class ImageRestController {
     }
 
     // ==========================================
-    // 3. SUBIR IMAGEN DE SERVICIO (SOLO ADMIN)
+    // 3. UPLOAD SERVICE IMAGE (ADMIN ONLY)
     // ==========================================
     @Operation(summary = "Subir imagen de un servicio")
     @PostMapping(value = "/services/{serviceId}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> uploadServiceImage(
-            @PathVariable Long serviceId, 
+            @PathVariable Long serviceId,
             @RequestParam("imageFile") MultipartFile file,
             Principal principal) throws IOException {
-        
+
         if (!checkIsAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
-        Optional<ServiceEntity> serviceOpt = serviceEntityService.findById(serviceId); 
+        Optional<ServiceEntity> serviceOpt = serviceEntityService.findById(serviceId);
         if (serviceOpt.isEmpty()) return ResponseEntity.notFound().build();
         if (file.isEmpty()) return ResponseEntity.badRequest().body("El archivo está vacío");
 
@@ -145,7 +145,7 @@ public class ImageRestController {
         if (service.getImage() != null) {
             Long oldImageId = service.getImage().getId();
             service.setImage(null);
-            serviceEntityService.save(service); 
+            serviceEntityService.save(service);
             imageService.deleteImage(oldImageId);
         }
 
@@ -157,7 +157,7 @@ public class ImageRestController {
     }
 
     // ==========================================
-    // 4. DESCARGAR IMAGEN
+    // 4. DOWNLOAD IMAGE
     // ==========================================
     @GetMapping("/images/{id}/media")
     public ResponseEntity<byte[]> downloadImage(@PathVariable Long id) {
@@ -165,11 +165,11 @@ public class ImageRestController {
         if (imageBytes == null) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE) 
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
                 .body(imageBytes);
     }
 
-    // --- MÉTODOS AUXILIARES ---
+    // --- HELPER METHODS ---
 
     private URI buildImageUri(Long imageId) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()

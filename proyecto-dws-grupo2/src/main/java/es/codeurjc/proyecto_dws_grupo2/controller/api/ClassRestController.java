@@ -67,7 +67,7 @@ public class ClassRestController {
     }
 
     // ==========================================
-    // POST: Crear una nueva clase
+    // POST: Create a new class
     // ==========================================
     @Operation(summary = "Crear una nueva clase", description = "Añade una nueva clase o actividad al catálogo del gimnasio.")
     @ApiResponses(value = {
@@ -90,7 +90,7 @@ public class ClassRestController {
     }
 
     // ==========================================
-    // PUT: Actualizar una clase completamente
+    // PUT: Update class
     // ==========================================
     @Operation(summary = "Actualizar una clase existente", description = "Modifica los datos completos de una clase ya registrada.")
     @ApiResponses(value = {
@@ -118,7 +118,7 @@ public class ClassRestController {
     }
 
     // ==========================================
-    // DELETE: Borrar una clase
+    // DELETE: Delete a class
     // ==========================================
     @Operation(summary = "Eliminar una clase", description = "Borra permanentemente una clase del sistema.")
     @ApiResponses(value = {
@@ -139,7 +139,7 @@ public class ClassRestController {
     }
 
     // ==========================================
-    // GET: Obtener asistentes de una clase
+    // GET: Get members of a class
     // ==========================================
     @Operation(summary = "Obtener asistentes de una clase", description = "Recupera la lista de todos los usuarios inscritos en una clase específica.")
     @ApiResponses(value = {
@@ -161,7 +161,7 @@ public class ClassRestController {
     }
 
     // ==========================================
-    // GET: Obtener reviews de una clase
+    // GET: Get reviews from a class
     // ==========================================
     @Operation(summary = "Obtener reseñas de una clase", description = "Recupera todas las valoraciones y comentarios asociados a una clase concreta.")
     @ApiResponses(value = {

@@ -21,7 +21,7 @@ public class ServiceController {
     private final UserRepository userRepository;
     private final ServiceService serviceService;
 
-    // ¡Adiós Mapper!
+    
     public ServiceController(UserRepository userRepository, ServiceService serviceService) {
         this.userRepository = userRepository;
         this.serviceService = serviceService;
@@ -31,7 +31,7 @@ public class ServiceController {
     public String showServices(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow();
 
-        // Mapeamos directamente usando el nuevo constructor del DTO
+        
         List<ServiceResponseDTO> allServices = serviceService.findAll().stream()
                 .map(s -> new ServiceResponseDTO(s, user.getEnrolledServices().contains(s)))
                 .collect(Collectors.toList());

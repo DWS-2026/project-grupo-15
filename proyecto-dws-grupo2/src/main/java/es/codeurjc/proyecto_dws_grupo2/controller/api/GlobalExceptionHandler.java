@@ -13,7 +13,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 404 - Recurso no encontrado
+    // 404 - Resource not found
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(NoResourceFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -25,31 +25,31 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // 403 - Acceso denegado
+    // 403 - Access denied
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, Object>> handleAccessDenied(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
             Map.of(
                 "status", 403,
                 "error", "Forbidden",
-                "message", "No tienes permiso para acceder a este recurso"
+                "message", "You do not have permission to access this resource"
             )
         );
     }
 
-    // 413 - Fichero demasiado grande
+    // 413 - File too large
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Map<String, Object>> handleMaxUploadSize(MaxUploadSizeExceededException ex) {
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(
             Map.of(
                 "status", 413,
                 "error", "Payload Too Large",
-                "message", "El fichero supera el tamaño máximo permitido"
+                "message", "The file exceeds the maximum allowed size"
             )
         );
     }
 
-    // 404 - Entidad no encontrada (RuntimeException)
+    // 404 - Entity not found (RuntimeException)
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // 500 - Error genérico
+    // 500 - Generic error
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
@@ -74,4 +74,4 @@ public class GlobalExceptionHandler {
     }
 }
 
-//EXAMPLE USE: GET {{baseUrl}}/api/v1/reviews/9999
+// EXAMPLE USE: GET {{baseUrl}}/api/v1/reviews/9999

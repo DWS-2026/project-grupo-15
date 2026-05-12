@@ -8,7 +8,7 @@ public record ServiceRequestDTO(
     double price,
     String serviceKey
 ) {
-    // 1. De DTO a nueva Entidad (Se usa en el POST)
+    // 1. From DTO to new entity
     public ServiceEntity toEntity() {
         ServiceEntity service = new ServiceEntity();
         service.setName(this.name);
@@ -18,7 +18,7 @@ public record ServiceRequestDTO(
         return service;
     }
 
-    // 2. Actualizar Entidad existente con datos del DTO (Se usa en el PUT)
+    // 2. Update entity with data from DTO
     public void updateEntity(ServiceEntity entity) {
         entity.setName(this.name);
         entity.setDescription(this.description);

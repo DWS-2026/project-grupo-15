@@ -8,8 +8,8 @@ public record UserRequestDTO(
         String email,
         String password
 ) {
-    // 2. De DTO a nueva Entidad (Se usa en el POST)
-    // Le pasamos la contraseña ya encriptada desde el controlador
+    // 2. From DTO to new entity
+    // We have the encrypted password
     public User toEntity(String encodedPassword) {
         User user = new User();
         user.setFirstName(this.firstName);
@@ -20,13 +20,13 @@ public record UserRequestDTO(
         return user;
     }
 
-    // 3. Actualizar Entidad existente con datos del DTO (Se usa en el PUT)
+    // 3. Update entity with data from DTO
     public void updateEntity(User user, String encodedPassword) {
         user.setFirstName(this.firstName);
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         
-        // Solo actualizamos la contraseña si nos enviaron una nueva encriptada
+        // Only update if the function sends us a encoded password
         if (encodedPassword != null) {
             user.setPassword(encodedPassword);
         }
