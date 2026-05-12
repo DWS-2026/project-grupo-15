@@ -4,6 +4,5 @@ public record ReviewRequestDTO(
     String about,
     int rating,
     String comment,
-    Long userId,
     Long classEntityId
 ) {}
