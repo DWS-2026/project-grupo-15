@@ -109,7 +109,7 @@ public class ReviewRestController {
             return ResponseEntity.notFound().build();
         }
 
-        if (!isOwnerOrAdmin(reviewOptional.get(), principal)) {
+        if (!reviewOptional.get().getUser().getEmail().equals(principal.getName())) {
             return ResponseEntity.status(403).build();
         }
 
