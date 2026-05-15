@@ -110,7 +110,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/reviews/**").hasAnyRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/**").hasAnyRole("USER", "ADMIN") 
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/classes/**").hasRole("ADMIN")
