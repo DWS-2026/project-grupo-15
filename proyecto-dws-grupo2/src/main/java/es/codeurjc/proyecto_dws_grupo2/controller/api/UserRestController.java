@@ -16,6 +16,7 @@ import es.codeurjc.proyecto_dws_grupo2.dto.UserRequestDTO;
 import es.codeurjc.proyecto_dws_grupo2.dto.UserResponseDTO;
 import es.codeurjc.proyecto_dws_grupo2.model.User;
 import es.codeurjc.proyecto_dws_grupo2.service.UserService;
+import jakarta.validation.Valid;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -91,7 +92,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "400", description = "Datos de registro inválidos", content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userDTO) {
         User user = new User();
         userDTO.updateEntity(user, passwordEncoder.encode(userDTO.password()));
         User saved = userService.saveUser(user);
