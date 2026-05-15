@@ -109,16 +109,16 @@ public class ReviewRestController {
             return ResponseEntity.notFound().build();
         }
 
-        if (!reviewOptional.get().getUser().getEmail().equals(principal.getName())) {
-            return ResponseEntity.status(403).build();
-        }
+        if (!reviewService.isOwner(reviewOptional.get(), principal.getName())) {
+        return ResponseEntity.status(403).build();
+    }
 
         Review review = new Review();
         review.setAbout(requestDTO.about());
         review.setRating(requestDTO.rating());
         review.setComment(requestDTO.comment());
 
-        Review updated = reviewService.replaceReview(id, review, principal.getName(), requestDTO.classEntityId());
+        Review updated = reviewService.replaceReview(id, review, requestDTO.classEntityId());
         return ResponseEntity.ok(toResponseDTO(updated));
     }
 

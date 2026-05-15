@@ -76,7 +76,7 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public Review replaceReview(Long id, Review updatedReview, String username, Long classEntityId) {
+    public Review replaceReview(Long id, Review updatedReview, Long classEntityId) {
 
         Review existingReview = reviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
@@ -125,5 +125,12 @@ public class ReviewService {
         review.setUser(user);
 
         reviewRepository.save(review);
+    }
+
+    public boolean isOwner(Review review, String email) {
+        if (review == null || review.getUser() == null || review.getUser().getEmail() == null) {
+            return false;
+        }
+        return review.getUser().getEmail().equals(email);
     }
 }
