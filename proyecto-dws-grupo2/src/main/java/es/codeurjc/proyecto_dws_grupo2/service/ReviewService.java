@@ -61,19 +61,22 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public Review createReviewForUser(String about, int rating, String comment, String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+    public Review createReview(Review review, String username, Long classEntityId) {
 
-        Review review = new Review();
-        review.setAbout(about);
-        review.setRating(rating);
-        review.setComment(comment);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
         review.setUser(user);
+
+        if (classEntityId != null) {
+            ClassEntity classEntity = classRepository.findById(classEntityId)
+                    .orElseThrow(() -> new RuntimeException("ClassEntity not found with id: " + classEntityId));
+            review.setClassEntity(classEntity);
+        }
 
         return reviewRepository.save(review);
     }
 
-    public Review replaceReview(Long id, Review updatedReview, Long userId, Long classEntityId) {
+    public Review replaceReview(Long id, Review updatedReview, Long classEntityId) {
 
         Review existingReview = reviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
@@ -81,12 +84,6 @@ public class ReviewService {
         existingReview.setAbout(updatedReview.getAbout());
         existingReview.setRating(updatedReview.getRating());
         existingReview.setComment(updatedReview.getComment());
-
-        if (userId != null) {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-            existingReview.setUser(user);
-        }
 
         if (classEntityId != null) {
             ClassEntity classEntity = classRepository.findById(classEntityId)
@@ -115,5 +112,25 @@ public class ReviewService {
         if (review.isPresent() && isOwnerOrAdmin(review.get(), email)) {
             reviewRepository.deleteById(id);
         }
+    }
+
+    public void createReviewForUser(String about, int rating, String comment, String username) {
+        Review review = new Review();
+        review.setAbout(about);
+        review.setRating(rating);
+        review.setComment(comment);
+
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+        review.setUser(user);
+
+        reviewRepository.save(review);
+    }
+
+    public boolean isOwner(Review review, String email) {
+        if (review == null || review.getUser() == null || review.getUser().getEmail() == null) {
+            return false;
+        }
+        return review.getUser().getEmail().equals(email);
     }
 }

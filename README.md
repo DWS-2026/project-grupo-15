@@ -262,7 +262,28 @@ Solo si han cambiado.
    cd project-grupo-15
    ```
 
-2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
+2. **Instalacion de pquetes**
+    Debes tener instalado los paquetes: Maven, Git, Java 21, MySql.
+
+3. **Creación de base de datos**   
+   Debes acceder a MySql y crear la siguiente base de datos con este comando:
+   ```bash
+   CREATE DATABASE gym_db;
+   ```
+4.**Configuración base de datos**
+    En el fichero src/main/resources/application.properties están definidos por defecto:
+    -username:root
+    -password=Password123
+    Lo podrias cambiar si es necesario
+
+5.**Compilacion y acceso**
+    Con los siguientes comnados en la terminal:
+   ```bash
+    mvn clean install
+    mvn spring-boot:run
+   ```
+  Puedes acceder ya con https://localhost:8443
+  
 
 #### **Credenciales de prueba**
 - **Usuario Admin**: usuario: `admin@titangym.com`, contraseña: `admin123`
